@@ -10,8 +10,8 @@ public class MyCharacterController : MonoBehaviour
     private float speed;
     private float jumpForce;
 
-    public bool tap, swipeLeft, swipeRight, swipeUp, swipeDown;
-    private bool tapRequested;
+    public bool swipeLeft, swipeRight, swipeUp, swipeDown;
+
     public bool isDragging;
     public Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
     private float sideRotation;
@@ -35,7 +35,8 @@ public class MyCharacterController : MonoBehaviour
     void Start()
     {
         groundCheckDistance = 2f;
-
+        swipeDelta = Vector2.zero;
+        swipeDelta2 = Vector2.zero;
         isDragging = false;
         hits = new RaycastHit2D[2];
         speedR = 80;
@@ -44,7 +45,7 @@ public class MyCharacterController : MonoBehaviour
         speed = 4;
         jumpForce = 7;
 
-        tap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
+        swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
     }
 
@@ -166,12 +167,12 @@ public class MyCharacterController : MonoBehaviour
         {
             if (IsGrounded())
             {
-          
+
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
             swipeUp = false;
         }
- 
+
         // Swipe by:  thestrandedmoose 
 
 
@@ -184,7 +185,7 @@ public class MyCharacterController : MonoBehaviour
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
-                tapRequested = true;
+
                 isDragging = true;
                 if (Input.touchCount == 1)
                 {
@@ -203,7 +204,7 @@ public class MyCharacterController : MonoBehaviour
             }
             else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
             {
-                if (tapRequested) { tap = true; }
+
                 isDragging = false;
                 Reset1();
             }
@@ -228,9 +229,9 @@ public class MyCharacterController : MonoBehaviour
                 }
                 else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
                 {
-                
-                  
-                 Reset2();
+
+
+                    Reset2();
                 }
             }
         }
@@ -238,8 +239,7 @@ public class MyCharacterController : MonoBehaviour
 
 
         //Calculate the distance
-        swipeDelta = Vector2.zero;
-        swipeDelta2 = Vector2.zero;
+
         if (isDragging)
         {
             if (Input.touchCount > 0)
@@ -252,7 +252,10 @@ public class MyCharacterController : MonoBehaviour
                     }
                     if (Input.touchCount == 2)
                     {
-                        swipeDelta = Input.touches[1].position - startTouch;
+                        if (swipeDelta == Vector2.zero)
+                        {
+                            swipeDelta = Input.touches[1].position - startTouch;
+                        }
                     }
                 }
                 if (startTouch2 != Vector2.zero)
@@ -274,9 +277,9 @@ public class MyCharacterController : MonoBehaviour
 
         // Lado esquerdo
 
-        if (swipeDelta.magnitude > 20)
+        if (swipeDelta.magnitude > 10)
         {
-            tapRequested = false;
+
             //Which direction are we swiping?
             float x = swipeDelta.x;
             float y = swipeDelta.y;
@@ -311,7 +314,7 @@ public class MyCharacterController : MonoBehaviour
 
         if (swipeDelta2.magnitude > 50)
         {
-            tapRequested = false;
+
             //Which direction are we swiping?
             float x = swipeDelta2.x;
             float y = swipeDelta2.y;
@@ -344,7 +347,7 @@ public class MyCharacterController : MonoBehaviour
 
     private void Reset1()
     {
-         startTouch = swipeDelta = Vector2.zero;
+        startTouch = swipeDelta = Vector2.zero;
         isDragging = false;
     }
 
