@@ -12,8 +12,8 @@ public class MyCharacterController : MonoBehaviour
 
     public bool tap, swipeLeft, swipeRight, swipeUp, swipeDown;
     private bool tapRequested;
-    private bool isDragging;
-    private Vector2 startTouch, swipeDelta;
+    public bool isDragging;
+    public Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
     private float sideRotation;
     private float rotationSmooth;
     private int speedR;
@@ -102,15 +102,7 @@ public class MyCharacterController : MonoBehaviour
 
 
 
-        #region Touch
-        if (tap)
-        {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
 
-
-            tap = false;
-        }
 
 
         // Andar para direita
@@ -151,7 +143,7 @@ public class MyCharacterController : MonoBehaviour
         }
         else
         {
-            if(!swipeLeft && !swipeRight)
+            if (!swipeLeft && !swipeRight)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
@@ -161,8 +153,8 @@ public class MyCharacterController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
 
-                isPressed = true;
-     
+            isPressed = true;
+
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -174,122 +166,173 @@ public class MyCharacterController : MonoBehaviour
         {
             if (IsGrounded())
             {
-                rb.velocity = new Vector2(rb.velocity.y, jumpForce);
+          
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
             swipeUp = false;
         }
-        #endregion
+ 
         // Swipe by:  thestrandedmoose 
 
-        #region Standalone Inputs
-        if (Input.GetMouseButtonDown(0))
-        {
-            tapRequested = true;
-            isDragging = true;
-            startTouch = Input.mousePosition;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if (tapRequested) { tap = true; }
-            isDragging = false;
-            Reset();
-        }
-        #endregion
+
 
 
 
         #region Mobile Inputs
         if (Input.touchCount > 0)
         {
+
             if (Input.touches[0].phase == TouchPhase.Began)
             {
                 tapRequested = true;
                 isDragging = true;
-                startTouch = Input.touches[0].position;
+                if (Input.touchCount == 1)
+                {
+
+                    if (Input.touches[0].position.x < (Screen.width / 2))
+                    {
+                        startTouch = Input.touches[0].position;
+                    }
+                    else if (Input.touches[0].position.x > (Screen.width / 2))
+                    {
+                        startTouch2 = Input.touches[0].position;
+                    }
+                }
+
+
             }
             else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
             {
                 if (tapRequested) { tap = true; }
                 isDragging = false;
-                Reset();
+                Reset1();
+            }
+
+
+            if (Input.touchCount > 1)
+            {
+                if (Input.touches[1].phase == TouchPhase.Began)
+                {
+                    if (Input.touchCount == 2)
+                    {
+
+                        if (Input.touches[1].position.x < Screen.width / 2)
+                        {
+                            startTouch = Input.touches[1].position;
+                        }
+                        if (Input.touches[1].position.x > Screen.width / 2)
+                        {
+                            startTouch2 = Input.touches[1].position;
+                        }
+                    }
+                }
+                else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
+                {
+                
+                  
+                 Reset2();
+                }
             }
         }
         #endregion
 
 
-
         //Calculate the distance
         swipeDelta = Vector2.zero;
+        swipeDelta2 = Vector2.zero;
         if (isDragging)
         {
-            if (Input.touchCount > 0) { swipeDelta = Input.touches[0].position - startTouch; }
-            else if (Input.GetMouseButton(0)) { swipeDelta = (Vector2)Input.mousePosition - startTouch; }
+            if (Input.touchCount > 0)
+            {
+                if (startTouch != Vector2.zero)
+                {
+                    if (Input.touchCount == 1)
+                    {
+                        swipeDelta = Input.touches[0].position - startTouch;
+                    }
+                    if (Input.touchCount == 2)
+                    {
+                        swipeDelta = Input.touches[1].position - startTouch;
+                    }
+                }
+                if (startTouch2 != Vector2.zero)
+                {
+                    if (Input.touchCount == 1)
+                    {
+                        swipeDelta2 = Input.touches[0].position - startTouch2;
+                    }
+                    if (Input.touchCount == 2)
+                    {
+                        swipeDelta2 = Input.touches[1].position - startTouch2;
+                    }
+                }
+            }
+
         }
+
 
 
         // Lado esquerdo
-        if (startTouch.x < Screen.width / 2)
+
+        if (swipeDelta.magnitude > 20)
         {
-            if (swipeDelta.magnitude > 20)
+            tapRequested = false;
+            //Which direction are we swiping?
+            float x = swipeDelta.x;
+            float y = swipeDelta.y;
+
+            if (Mathf.Abs(x) > Mathf.Abs(y))
             {
-                tapRequested = false;
-                //Which direction are we swiping?
-                float x = swipeDelta.x;
-                float y = swipeDelta.y;
 
-                if (Mathf.Abs(x) > Mathf.Abs(y))
+                //Left or right?
+                if (x > 0)
                 {
-
-                    //Left or right?
-                    if (x > 0)
-                    {
-                        swipeRight = true;
-                        swipeLeft = false;
-                    }
-                    else
-                    {
-                        swipeLeft = true;
-                        swipeRight = false;
-                    }
-
+                    swipeRight = true;
+                    swipeLeft = false;
+                }
+                else
+                {
+                    swipeLeft = true;
+                    swipeRight = false;
                 }
 
-                if (!isPressed)
-                {
-                    Reset();
-                }
+            }
+
+            if (!isPressed)
+            {
+                Reset1();
             }
         }
+
 
 
 
         // Lado direito
-        if (startTouch.x > Screen.width / 2)
+
+        if (swipeDelta2.magnitude > 50)
         {
-            if (swipeDelta.magnitude > 50)
+            tapRequested = false;
+            //Which direction are we swiping?
+            float x = swipeDelta2.x;
+            float y = swipeDelta2.y;
+
+            if (Mathf.Abs(x) < Mathf.Abs(y))
             {
-                tapRequested = false;
-                //Which direction are we swiping?
-                float x = swipeDelta.x;
-                float y = swipeDelta.y;
 
-                if (Mathf.Abs(x) < Mathf.Abs(y))
+                //Up or down?
+                if (y > 0)
                 {
-
-                    //Up or down?
-                    if (y > 0)
-                    {
-                        swipeUp = true;
-
-                    }
-                    else { swipeDown = true; }
+                    swipeUp = true;
 
                 }
-
-                Reset();
+                else { swipeDown = true; }
 
             }
+
+            Reset2();
+
         }
+
 
 
 
@@ -299,12 +342,17 @@ public class MyCharacterController : MonoBehaviour
 
 
 
-    private void Reset()
+    private void Reset1()
     {
-        startTouch = swipeDelta = Vector2.zero;
+         startTouch = swipeDelta = Vector2.zero;
         isDragging = false;
     }
 
+    private void Reset2()
+    {
+        startTouch2 = swipeDelta2 = Vector2.zero;
+
+    }
 
 
 
