@@ -114,10 +114,13 @@ public class MyCharacterController : MonoBehaviour
             {
 
                 rb.velocity = new Vector2(speed, rb.velocity.y);
+                GetComponent<Animator>().SetBool("WalkRight", true);
+                GetComponent<SpriteRenderer>().flipX = false;
             }
             else
             {
                 swipeRight = false;
+                GetComponent<Animator>().SetBool("WalkRight", false);
             }
 
         }
@@ -127,13 +130,16 @@ public class MyCharacterController : MonoBehaviour
 
             if (isPressed)
             {
-
+                GetComponent<Animator>().SetBool("WalkRight", true);
                 rb.velocity = new Vector2(-speed, rb.velocity.y);
+                GetComponent<SpriteRenderer>().flipX = true;
+
             }
             else
             {
-
+                GetComponent<Animator>().SetBool("WalkRight", false);
                 swipeLeft = false;
+                
             }
 
         }
@@ -167,16 +173,29 @@ public class MyCharacterController : MonoBehaviour
         {
             if (IsGrounded())
             {
-
+                GetComponent<Animator>().SetBool("Jump", true);
+                StartCoroutine(JumpOffDelay());
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
             swipeUp = false;
+
         }
+
+
 
         // Swipe by:  thestrandedmoose 
 
 
+        if (!IsGrounded())
+        {
+            GetComponent<Animator>().SetBool("InTheAir", true);
+        }
+        else
+        {
 
+            
+            GetComponent<Animator>().SetBool("InTheAir", false);
+        }
 
 
         #region Mobile Inputs
@@ -370,8 +389,16 @@ public class MyCharacterController : MonoBehaviour
 
 
 
+    private IEnumerator JumpOffDelay()
+    {
 
+       
 
+        yield return new WaitForSeconds(1.0f);
+
+        GetComponent<Animator>().SetBool("Jump", false);
+
+    }
 
     private bool IsGrounded()
     {

@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Controllers\CameraController.cs" />
+    <Compile Include="Assets\Controllers\FollowPlayer.cs" />
     <Compile Include="Assets\Controllers\MyCharacterController.cs" />
     <Reference Include="UnityEditor.CacheServer">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/UnityEditor.CacheServer.dll</HintPath>
