@@ -13,6 +13,12 @@ public class DogController : MonoBehaviour
     public LayerMask groundLayers;
     private float groundCheckDistance;
 
+    private float sideRotation;
+    private float rotationSmooth;
+    private float angle;
+    private RaycastHit2D[] hits;
+    private int h;
+    private int speedR;
 
     void Start()
     {
@@ -25,6 +31,60 @@ public class DogController : MonoBehaviour
     void FixedUpdate()
     {
 
+        // Rotacionar
+        h = Physics2D.RaycastNonAlloc(transform.position, -Vector2.up, hits); //cast downwards
+        if (h > 1)
+        { //if we hit something do stuff
+
+            sideRotation = hits[1].normal.x;
+
+            if (IsGrounded())
+            {
+                angle = Mathf.Abs(Mathf.Atan2(hits[1].normal.x, hits[1].normal.y) * Mathf.Rad2Deg); //get angle
+            }
+            else
+            {
+                angle = 0;
+            }
+
+            if (rotationSmooth <= angle)
+            {
+                rotationSmooth += Time.deltaTime * speedR;
+            }
+
+
+            if (rotationSmooth >= angle)
+            {
+                rotationSmooth -= Time.deltaTime * speedR;
+            }
+
+            if (sideRotation > 0) // Esquerdo
+            {
+
+                transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+
+
+            }
+            else if (sideRotation < 0)// Direito
+            {
+
+                transform.rotation = Quaternion.Euler(0, 0, rotationSmooth);
+
+            }
+            else // Reto
+            {
+                transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+            }
+
+        }
+
+
+
+
+
+
+
+        // Mover pra perto do Player
         if (Mathf.Round(Vector2.Distance(transform.position, target.position)) > stoppingDistance)
         {
 
@@ -39,6 +99,7 @@ public class DogController : MonoBehaviour
 
     }
 
+    // Checa se está no chão
     private bool IsGrounded()
     {
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
