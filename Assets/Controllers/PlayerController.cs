@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public static PlayerController instance { set; get; }
     private Rigidbody2D rb;
 
     private float speed;
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private float rotationSmooth;
     private int speedR;
     private bool isPressed;
-
+    public bool isJumping;
     // isGRounded
     public LayerMask groundLayers;
     private float groundCheckDistance;
@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        isJumping = false;
+        instance = this;
         groundCheckDistance = 2f;
         swipeDelta = Vector2.zero;
         swipeDelta2 = Vector2.zero;
@@ -176,6 +178,7 @@ public class PlayerController : MonoBehaviour
                 GetComponent<Animator>().SetBool("Jump", true);
                 StartCoroutine(JumpOffDelay());
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                isJumping = true;
             }
             swipeUp = false;
 
@@ -395,7 +398,7 @@ public class PlayerController : MonoBehaviour
        
 
         yield return new WaitForSeconds(1.0f);
-
+        isJumping = false;
         GetComponent<Animator>().SetBool("Jump", false);
 
     }
