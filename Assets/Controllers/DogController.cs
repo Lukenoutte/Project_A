@@ -22,15 +22,18 @@ public class DogController : MonoBehaviour
 
     void Start()
     {
+        hits = new RaycastHit2D[2];
         target = player.GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-        jumpForce = 1;
-        groundCheckDistance = 2f;
+        jumpForce = 2f;
+        groundCheckDistance = 1.5f;
+        speedR = 80;
+        Physics2D.IgnoreLayerCollision(10, 11); 
     }
 
     void FixedUpdate()
     {
-
+       
         // Rotacionar
         h = Physics2D.RaycastNonAlloc(transform.position, -Vector2.up, hits); //cast downwards
         if (h > 1)
@@ -40,6 +43,7 @@ public class DogController : MonoBehaviour
 
             if (IsGrounded())
             {
+                
                 angle = Mathf.Abs(Mathf.Atan2(hits[1].normal.x, hits[1].normal.y) * Mathf.Rad2Deg); //get angle
             }
             else
@@ -115,5 +119,9 @@ public class DogController : MonoBehaviour
             return false;
         }
     }
+
+
+
+   
 
 }
