@@ -192,7 +192,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 isJumping = true;
             }
-            swipeUp = false;
+           
 
         }
 
@@ -409,10 +409,10 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         isJumping = false;
         GetComponent<Animator>().SetBool("Jump", false);
-
+        swipeUp = false;
     }
 
     private bool IsGrounded()
