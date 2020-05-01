@@ -26,7 +26,7 @@ public class DogController : MonoBehaviour
         hits = new RaycastHit2D[2];
         target = player.GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-        jumpForce = 2f;
+        jumpForce = 2.5f;
         groundCheckDistance = 1.5f;
         speedR = 80;
         Physics2D.IgnoreLayerCollision(10, 11);
