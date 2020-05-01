@@ -19,6 +19,7 @@ public class DogController : MonoBehaviour
     private RaycastHit2D[] hits;
     private int h;
     private int speedR;
+    private RaycastHit2D hitsMain;
 
     void Start()
     {
@@ -28,56 +29,70 @@ public class DogController : MonoBehaviour
         jumpForce = 2f;
         groundCheckDistance = 1.5f;
         speedR = 80;
-        Physics2D.IgnoreLayerCollision(10, 11); 
+        Physics2D.IgnoreLayerCollision(10, 11);
     }
 
     void FixedUpdate()
     {
-       
+
         // Rotacionar
         h = Physics2D.RaycastNonAlloc(transform.position, -Vector2.up, hits); //cast downwards
         if (h > 1)
         { //if we hit something do stuff
 
-            sideRotation = hits[1].normal.x;
-
-            if (IsGrounded())
+            if (hits[0].collider.tag == "Ground")
             {
-                
-                angle = Mathf.Abs(Mathf.Atan2(hits[1].normal.x, hits[1].normal.y) * Mathf.Rad2Deg); //get angle
-            }
-            else
+                hitsMain = hits[0];
+            }  else if (hits[1].collider.tag == "Ground")
             {
-                angle = 0;
+                hitsMain = hits[1];
             }
 
-            if (rotationSmooth <= angle)
+            if (hitsMain != null)
             {
-                rotationSmooth += Time.deltaTime * speedR;
-            }
+                sideRotation = hitsMain.normal.x;
 
 
-            if (rotationSmooth >= angle)
-            {
-                rotationSmooth -= Time.deltaTime * speedR;
-            }
 
-            if (sideRotation > 0) // Esquerdo
-            {
+                if (IsGrounded())
+                {
+                    angle = Mathf.Abs(Mathf.Atan2(hitsMain.normal.x, hitsMain.normal.y) * Mathf.Rad2Deg); //get angle
+                }
+                else
+                {
 
-                transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+                    angle = 0;
+                }
+
+                if (rotationSmooth <= angle)
+                {
+                    rotationSmooth += Time.deltaTime * speedR;
+                }
 
 
-            }
-            else if (sideRotation < 0)// Direito
-            {
+                if (rotationSmooth >= angle)
+                {
+                    rotationSmooth -= Time.deltaTime * speedR;
+                }
 
-                transform.rotation = Quaternion.Euler(0, 0, rotationSmooth);
+                if (sideRotation > 0) // Esquerdo
+                {
 
-            }
-            else // Reto
-            {
-                transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+                    transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+
+
+                }
+                else if (sideRotation < 0)// Direito
+                {
+
+                    transform.rotation = Quaternion.Euler(0, 0, rotationSmooth);
+
+                }
+                else // Reto
+                {
+
+                    transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+                }
             }
 
         }
@@ -122,6 +137,6 @@ public class DogController : MonoBehaviour
 
 
 
-   
+
 
 }

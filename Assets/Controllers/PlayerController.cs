@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private RaycastHit2D[] hits;
     private int h;
 
-
+    private RaycastHit2D hitsMain;
 
 
     // Start is called before the first frame update
@@ -61,44 +61,56 @@ public class PlayerController : MonoBehaviour
         if (h > 1)
         { //if we hit something do stuff
 
-            sideRotation = hits[1].normal.x;
-
-            if (IsGrounded())
+            if (hits[0].collider.tag == "Ground")
             {
-                angle = Mathf.Abs(Mathf.Atan2(hits[1].normal.x, hits[1].normal.y) * Mathf.Rad2Deg); //get angle
+                hitsMain = hits[0];
             }
-            else
+            else if (hits[1].collider.tag == "Ground")
             {
-                angle = 0;
+                hitsMain = hits[1];
             }
 
-            if (rotationSmooth <= angle)
+            if (hitsMain != null)
             {
-                rotationSmooth += Time.deltaTime * speedR;
-            }
+                sideRotation = hitsMain.normal.x;
+
+                if (IsGrounded())
+                {
+                    angle = Mathf.Abs(Mathf.Atan2(hitsMain.normal.x, hitsMain.normal.y) * Mathf.Rad2Deg); //get angle
+                }
+                else
+                {
+                    angle = 0;
+                }
+
+                if (rotationSmooth <= angle)
+                {
+                    rotationSmooth += Time.deltaTime * speedR;
+                }
 
 
-            if (rotationSmooth >= angle)
-            {
-                rotationSmooth -= Time.deltaTime * speedR;
-            }
+                if (rotationSmooth >= angle)
+                {
+                    rotationSmooth -= Time.deltaTime * speedR;
+                }
 
-            if (sideRotation > 0) // Esquerdo
-            {
+                if (sideRotation > 0) // Esquerdo
+                {
 
-                transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+                    transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
 
 
-            }
-            else if (sideRotation < 0)// Direito
-            {
+                }
+                else if (sideRotation < 0)// Direito
+                {
 
-                transform.rotation = Quaternion.Euler(0, 0, rotationSmooth);
+                    transform.rotation = Quaternion.Euler(0, 0, rotationSmooth);
 
-            }
-            else // Reto
-            {
-                transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+                }
+                else // Reto
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
+                }
             }
 
         }
@@ -141,7 +153,7 @@ public class PlayerController : MonoBehaviour
             {
                 GetComponent<Animator>().SetBool("WalkRight", false);
                 swipeLeft = false;
-                
+
             }
 
         }
@@ -196,7 +208,7 @@ public class PlayerController : MonoBehaviour
         else
         {
 
-            
+
             GetComponent<Animator>().SetBool("InTheAir", false);
         }
 
@@ -395,7 +407,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator JumpOffDelay()
     {
 
-       
+
 
         yield return new WaitForSeconds(1.0f);
         isJumping = false;
