@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         position = character.GetComponent<Transform>().position;
-        gameObject.GetComponent<Transform>().position = new Vector3(position.x, position.y, gameObject.GetComponent<Transform>().position.z);
+        gameObject.GetComponent<Transform>().position = new Vector3(position.x, position.y+2, gameObject.GetComponent<Transform>().position.z);
         
     }
 }

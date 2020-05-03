@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: FlatPlataform
   m_EditorClassIdentifier: 
   m_Angles:
-  - m_Start: -106
-    m_End: 96
+  - m_Start: -157
+    m_End: 159
     m_Order: 0
     m_Sprites:
     - {fileID: 21300000, guid: eeca79565361e1243b485247ae723cec, type: 3}
