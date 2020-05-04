@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -848,7 +848,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 0.46666667, b: 0.15566039, a: 1}
+  m_Color: {r: 0.7921569, g: 0.28627452, b: 0, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
@@ -858,8 +858,8 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_ShadowIntensity: 0
   m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 44.11
-  m_PointLightOuterAngle: 56.95
+  m_PointLightInnerAngle: 39.379997
+  m_PointLightOuterAngle: 44.48
   m_PointLightInnerRadius: 1.3670267
   m_PointLightOuterRadius: 12.50922
   m_PointLightDistance: 3
@@ -882,7 +882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 677818542}
   m_LocalRotation: {x: 1, y: -0, z: 0, w: 0}
-  m_LocalPosition: {x: 5.4, y: 8.71, z: 0}
+  m_LocalPosition: {x: 5.53, y: 7.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1368,7 +1368,7 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.8392157, g: 0.49411765, b: 0.99215686, a: 1}
+  m_Color: {r: 0.6285447, g: 0.36912602, b: 0.745283, a: 1}
   m_Intensity: 0.86
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
@@ -1521,7 +1521,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 0.4632224, b: 0.15686274, a: 1}
+  m_Color: {r: 0.7921569, g: 0.28627452, b: 0, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
@@ -1531,9 +1531,9 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_ShadowIntensity: 0
   m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 40.89
-  m_PointLightOuterAngle: 47.72
-  m_PointLightInnerRadius: 1.3670267
+  m_PointLightInnerAngle: 54.52
+  m_PointLightOuterAngle: 71.55
+  m_PointLightInnerRadius: 4.828196
   m_PointLightOuterRadius: 12.989978
   m_PointLightDistance: 3
   m_PointLightQuality: 1

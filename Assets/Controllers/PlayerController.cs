@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private float rotationSmooth;
     private int speedR;
     private bool isPressed;
+    public bool isPressedKeys;
     public bool isJumping;
     // isGRounded
     public LayerMask groundLayers;
@@ -29,6 +30,10 @@ public class PlayerController : MonoBehaviour
     private int h;
 
     private RaycastHit2D hitsMain;
+
+    public bool upKey = false;
+    public bool rightKey = false;
+    public bool leftKey = false;
 
 
     // Start is called before the first frame update
@@ -42,7 +47,7 @@ public class PlayerController : MonoBehaviour
         isDragging = false;
         hits = new RaycastHit2D[2];
         speedR = 80;
-
+        isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
         speed = 4;
         jumpForce = 7;
@@ -55,6 +60,75 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            leftKey = true;
+            isPressedKeys = true;
+        }
+        else
+        {
+            leftKey = false;
+
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rightKey = true;
+            isPressedKeys = true;
+        }
+        else
+        {
+            rightKey = false;
+
+        }
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            upKey = true;
+            isPressedKeys = true;
+        }
+        else
+        {
+            upKey = false;
+
+        }
+
+        if (!leftKey && !rightKey && !upKey)
+        {
+            isPressedKeys = false;
+        }
+
+
+        if (rightKey)
+        {
+
+            rb.velocity = new Vector2(speed, rb.velocity.y);
+            GetComponent<Animator>().SetBool("WalkRight", true);
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            if (!leftKey)
+                GetComponent<Animator>().SetBool("WalkRight", false);
+
+        }
+
+
+        if (leftKey)
+        {
+            GetComponent<Animator>().SetBool("WalkRight", true);
+            rb.velocity = new Vector2(-speed, rb.velocity.y);
+            GetComponent<SpriteRenderer>().flipX = true;
+
+        }
+        else
+        {
+            if (!rightKey)
+                GetComponent<Animator>().SetBool("WalkRight", false);
+
+
+        }
 
 
         h = Physics2D.RaycastNonAlloc(transform.position, -Vector2.up, hits); //cast downwards
@@ -118,8 +192,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-
-
         // Andar para direita
         if (swipeRight)
         {
@@ -135,6 +207,7 @@ public class PlayerController : MonoBehaviour
             {
                 swipeRight = false;
                 GetComponent<Animator>().SetBool("WalkRight", false);
+
             }
 
         }
@@ -158,15 +231,18 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (!isPressed)
+        if (!isPressed && !isPressedKeys)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else
         {
-            if (!swipeLeft && !swipeRight)
+            if (!isPressedKeys)
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                if (!swipeLeft && !swipeRight)
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
             }
         }
 
@@ -183,7 +259,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (swipeUp)
+        if (swipeUp | upKey)
         {
             if (IsGrounded())
             {
@@ -192,7 +268,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 isJumping = true;
             }
-           
+
 
         }
 

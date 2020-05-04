@@ -1360,4 +1360,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/Zete/Downloads/apk3/projectA.apk
+  playerPath: C:/Users/Zete/Downloads/ProjectA.apk
