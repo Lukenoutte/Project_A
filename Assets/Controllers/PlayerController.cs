@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private bool isPressed;
     public bool isPressedKeys;
     public bool isJumping;
+    private bool InTheAir;
+
     // isGRounded
     public LayerMask groundLayers;
     private float groundCheckDistance;
@@ -263,15 +265,23 @@ public class PlayerController : MonoBehaviour
         {
             if (IsGrounded())
             {
-                GetComponent<Animator>().SetBool("Jump", true);
-                StartCoroutine(JumpOffDelay());
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                GetComponent<Animator>().SetBool("Jump", true);
+                StartCoroutine(JumpOffDelay());                
                 isJumping = true;
             }
 
 
         }
 
+        if (InTheAir)
+        {
+            GetComponent<Animator>().SetBool("InTheAir", true);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("InTheAir", false);
+        }
 
 
         // Swipe by:  thestrandedmoose 
@@ -279,13 +289,14 @@ public class PlayerController : MonoBehaviour
 
         if (!IsGrounded())
         {
-            GetComponent<Animator>().SetBool("InTheAir", true);
+            
+            InTheAir = true;
         }
         else
         {
 
-
-            GetComponent<Animator>().SetBool("InTheAir", false);
+            InTheAir = false;
+            
         }
 
 
@@ -485,7 +496,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         isJumping = false;
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
