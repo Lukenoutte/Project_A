@@ -831,7 +831,7 @@ ScriptsOnlyBuild:
     className: ColorLookup
   - hash:
       serializedVersion: 2
-      Hash: cee7ba7fd5059e1a240ba7cbef6059c9
+      Hash: 81f7440f07949bb31a22b98838ea5a15
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DogController
@@ -1041,7 +1041,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: 6305eb05ffaa1bacec4222d6dd04dd95
+      Hash: 89c91ab67ad556a6be28bcee7f12e9b5
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -1360,4 +1360,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/Zete/Downloads/ProjectA.apk
+  playerPath: C:/Users/Zete/Downloads/apk5/ProjectA.apk
