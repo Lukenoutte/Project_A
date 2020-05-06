@@ -20,11 +20,13 @@ public class PlayerController : MonoBehaviour
     private bool isPressed;
     public bool isPressedKeys;
     public bool isJumping;
-    private bool InTheAir;
+
 
     // isGRounded
     public LayerMask groundLayers;
     public float groundCheckDistance;
+    public bool isGroundedMain;
+    public bool isGroundedSec;
 
     //Angle
     private float angle;
@@ -61,6 +63,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+     
+        if(IsGrounded() == false && isGroundedSec == true)
+        {
+            isGroundedMain = true;
+        }
+       
 
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -150,7 +158,7 @@ public class PlayerController : MonoBehaviour
             {
                 sideRotation = hitsMain.normal.x;
 
-                if (IsGrounded())
+                if (isGroundedMain)
                 {
                     angle = Mathf.Abs(Mathf.Atan2(hitsMain.normal.x, hitsMain.normal.y) * Mathf.Rad2Deg); //get angle
                 }
@@ -263,7 +271,7 @@ public class PlayerController : MonoBehaviour
 
         if (swipeUp | upKey)
         {
-            if (IsGrounded())
+            if (isGroundedMain)
             {
                 isJumping = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -276,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (InTheAir)
+        if (!isGroundedMain)
         {
             GetComponent<Animator>().SetBool("InTheAir", true);
         }
@@ -289,17 +297,7 @@ public class PlayerController : MonoBehaviour
         // Swipe by:  thestrandedmoose 
 
 
-        if (!IsGrounded())
-        {
 
-            InTheAir = true;
-        }
-        else
-        {
-
-            InTheAir = false;
-
-        }
 
 
         #region Mobile Inputs
@@ -483,13 +481,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Enemy")
-        {
-            Debug.Log("Dead");
-        }
-    }
+
 
 
 
@@ -498,7 +490,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
@@ -514,19 +506,41 @@ public class PlayerController : MonoBehaviour
     {
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
+
+ 
+        
         if (hit)
         {
 
-            return true;
+            isGroundedMain = true;
+            
         }
         else
         {
 
-            return false;
+            isGroundedMain = false;
+        }
+        return isGroundedMain;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+      
+        if(collision.gameObject.tag == "Ground"){
+            isGroundedSec = true;
+           
         }
     }
 
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            isGroundedSec = false;
+            
+        }
+    }
 
 
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DogController : MonoBehaviour
 {
+    public static DogController instance { set; get; }
     public float jumpForce;
     public float speed;
     public GameObject player;
@@ -20,6 +21,7 @@ public class DogController : MonoBehaviour
     private int h;
     private int speedR;
     private RaycastHit2D hitsMain;
+    public bool isGrounded = false;
 
 
     Vector2 relativePoint;
@@ -29,7 +31,7 @@ public class DogController : MonoBehaviour
         hits = new RaycastHit2D[2];
         target = player.GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-     
+
         groundCheckDistance = 1.3f;
         speedR = 80;
         Physics2D.IgnoreLayerCollision(10, 11);
@@ -46,7 +48,8 @@ public class DogController : MonoBehaviour
             if (hits[0].collider.tag == "Ground")
             {
                 hitsMain = hits[0];
-            }  else if (hits[1].collider.tag == "Ground")
+            }
+            else if (hits[1].collider.tag == "Ground")
             {
                 hitsMain = hits[1];
             }
@@ -101,66 +104,74 @@ public class DogController : MonoBehaviour
         }
 
 
-
-
-
-        relativePoint = transform.InverseTransformPoint(target.position);
-
-
-        // Mover pra perto do Player
-        if (Mathf.Round(Vector2.Distance(transform.position, target.position)) > stoppingDistance)
+        if (IsGrounded())
         {
-            
-            if (Mathf.Round(relativePoint.x) < 0.0)
-            { // Right
-                rb.velocity = new Vector2(-speed, rb.velocity.y);
-              
-            }
-            else if (Mathf.Round(relativePoint.x) > 0.0)
-            { // Left
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-                
-            }else if(Mathf.Round(relativePoint.x) == 0)
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
+
+            relativePoint = transform.InverseTransformPoint(target.position);
+
+
+            // Mover pra perto do Player
+            if (Mathf.Round(Vector2.Distance(transform.position, target.position)) > stoppingDistance)
             {
 
+                if (Mathf.Round(relativePoint.x) < 0.0)
+                { // Right
+                    rb.velocity = new Vector2(-speed, rb.velocity.y);
+
+                }
+                else if (Mathf.Round(relativePoint.x) > 0.0)
+                { // Left
+                    rb.velocity = new Vector2(speed, rb.velocity.y);
+
+                }
+                else if (Mathf.Round(relativePoint.x) == 0)
+                {
+
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+
+
+
+            }
+            else
+            {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
-    
 
+            if (PlayerController.instance.isJumping)
+            {
+                if (IsGrounded())
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
 
         }
-        else
+
+        // Checa se está no chão
+        private bool IsGrounded()
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            Ray2D ray = new Ray2D(transform.position, Vector2.down);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
+            if (hit)
+            {
+
+                return true;
+            }
+            else
+            {
+
+                return false;
+            }
         }
 
-        if (PlayerController.instance.isJumping)
-        {
-            if (IsGrounded())
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        }
+
+
+
 
     }
-
-    // Checa se está no chão
-    private bool IsGrounded()
-    {
-        Ray2D ray = new Ray2D(transform.position, Vector2.down);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
-        if (hit)
-        {
-
-            return true;
-        }
-        else
-        {
-
-            return false;
-        }
-    }
-
-
-
-
-
-}
