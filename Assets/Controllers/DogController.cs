@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class DogController : MonoBehaviour
 {
-    private float jumpForce;
+    public float jumpForce;
     public float speed;
     public GameObject player;
     private Transform target;
-    public int stoppingDistance;
+    public float stoppingDistance;
     private Rigidbody2D rb;
     public LayerMask groundLayers;
-    private float groundCheckDistance;
+    public float groundCheckDistance;
 
     private float sideRotation;
     private float rotationSmooth;
@@ -29,8 +29,8 @@ public class DogController : MonoBehaviour
         hits = new RaycastHit2D[2];
         target = player.GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-        jumpForce = 3f;
-        groundCheckDistance = 1.5f;
+     
+        groundCheckDistance = 1.3f;
         speedR = 80;
         Physics2D.IgnoreLayerCollision(10, 11);
     }
@@ -110,15 +110,22 @@ public class DogController : MonoBehaviour
         // Mover pra perto do Player
         if (Mathf.Round(Vector2.Distance(transform.position, target.position)) > stoppingDistance)
         {
-
-            if (relativePoint.x < 0.0)
+            
+            if (Mathf.Round(relativePoint.x) < 0.0)
             { // Right
                 rb.velocity = new Vector2(-speed, rb.velocity.y);
+              
             }
-            else if (relativePoint.x > 0.0)
+            else if (Mathf.Round(relativePoint.x) > 0.0)
             { // Left
                 rb.velocity = new Vector2(speed, rb.velocity.y);
+                
+            }else if(Mathf.Round(relativePoint.x) == 0)
+            {
+
+                rb.velocity = new Vector2(0, rb.velocity.y);
             }
+    
 
 
         }

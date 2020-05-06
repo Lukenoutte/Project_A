@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public bool swipeLeft, swipeRight, swipeUp, swipeDown;
 
     public bool isDragging;
-    public Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
+    private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
     private float sideRotation;
     private float rotationSmooth;
     private int speedR;
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         isJumping = false;
         instance = this;
-       
+
         swipeDelta = Vector2.zero;
         swipeDelta2 = Vector2.zero;
         isDragging = false;
@@ -265,10 +265,12 @@ public class PlayerController : MonoBehaviour
         {
             if (IsGrounded())
             {
+                isJumping = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 GetComponent<Animator>().SetBool("Jump", true);
-                StartCoroutine(JumpOffDelay());                
-                isJumping = true;
+                StartCoroutine(JumpOffDelay());
+                StartCoroutine(JumpOffDelayDog());
+                
             }
 
 
@@ -289,14 +291,14 @@ public class PlayerController : MonoBehaviour
 
         if (!IsGrounded())
         {
-            
+
             InTheAir = true;
         }
         else
         {
 
             InTheAir = false;
-            
+
         }
 
 
@@ -497,9 +499,15 @@ public class PlayerController : MonoBehaviour
 
 
         yield return new WaitForSeconds(1f);
-        isJumping = false;
+
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
+    }
+    private IEnumerator JumpOffDelayDog()
+    {
+        yield return new WaitForSeconds(0.3f);
+        isJumping = false;
+
     }
 
     private bool IsGrounded()

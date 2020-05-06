@@ -147,8 +147,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123307436}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8, y: -1.1, z: 91}
-  m_LocalScale: {x: 0.3985354, y: 2.0960093, z: 1}
+  m_LocalPosition: {x: 8, y: -1.377, z: 91}
+  m_LocalScale: {x: 0.3985354, y: 1.5406046, z: 1}
   m_Children: []
   m_Father: {fileID: 1123267181}
   m_RootOrder: 3
@@ -255,8 +255,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288297121}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.23, z: 91}
-  m_LocalScale: {x: 0.3985354, y: 3.4001734, z: 1}
+  m_LocalPosition: {x: 0.5, y: -0.473, z: 91}
+  m_LocalScale: {x: 0.3985354, y: 2.9141946, z: 1}
   m_Children: []
   m_Father: {fileID: 1123267181}
   m_RootOrder: 2
@@ -492,8 +492,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433487174}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.76, y: -0.679, z: 91}
-  m_LocalScale: {x: 0.5652609, y: 1.9969952, z: 1}
+  m_LocalPosition: {x: -5.76, y: -0.783, z: 91}
+  m_LocalScale: {x: 0.5652609, y: 1.7887188, z: 1}
   m_Children: []
   m_Father: {fileID: 1123267181}
   m_RootOrder: 1
@@ -511,7 +511,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.045290723}
   m_SpriteTilingProperty:
     border: {x: 1.3399999, y: 0, z: 0.96, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -522,7 +522,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 20, y: 1}
+  m_Size: {x: 20, y: 0.9094186}
   m_EdgeRadius: 0
 --- !u!212 &433487177
 SpriteRenderer:
@@ -583,8 +583,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 521889390}
-  - component: {fileID: 521889389}
   - component: {fileID: 521889391}
+  - component: {fileID: 521889389}
   - component: {fileID: 521889388}
   - component: {fileID: 521889392}
   - component: {fileID: 521889387}
@@ -723,10 +723,6 @@ MonoBehaviour:
   swipeUp: 0
   swipeDown: 0
   isDragging: 0
-  startTouch: {x: 0, y: 0}
-  startTouch2: {x: 0, y: 0}
-  swipeDelta: {x: 0, y: 0}
-  swipeDelta2: {x: 0, y: 0}
   isPressedKeys: 0
   isJumping: 0
   groundLayers:
@@ -1580,8 +1576,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1133799231}
-  - component: {fileID: 1133799230}
   - component: {fileID: 1133799229}
+  - component: {fileID: 1133799230}
   - component: {fileID: 1133799232}
   - component: {fileID: 1133799228}
   m_Layer: 10
@@ -1629,12 +1625,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a58ad7c8187f8e34d8e67b93ec1f8edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
+  jumpForce: 4
+  speed: 4
   player: {fileID: 521889386}
-  stoppingDistance: 2
+  stoppingDistance: 1.5
   groundLayers:
     serializedVersion: 2
     m_Bits: 512
+  groundCheckDistance: 0
 --- !u!212 &1133799230
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1724,7 +1722,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &1229632447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328976945}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.72, y: 2.86, z: 92}
+  m_LocalPosition: {x: 6.92, y: 2.26, z: 92}
   m_LocalScale: {x: 1.7653637, y: 1.7653637, z: 1.7653637}
   m_Children: []
   m_Father: {fileID: 1119492526}
