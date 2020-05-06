@@ -21,12 +21,15 @@ public class DogController : MonoBehaviour
     private int speedR;
     private RaycastHit2D hitsMain;
 
+
+    Vector2 relativePoint;
+
     void Start()
     {
         hits = new RaycastHit2D[2];
         target = player.GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
-        jumpForce = 2.5f;
+        jumpForce = 3f;
         groundCheckDistance = 1.5f;
         speedR = 80;
         Physics2D.IgnoreLayerCollision(10, 11);
@@ -101,13 +104,27 @@ public class DogController : MonoBehaviour
 
 
 
+        relativePoint = transform.InverseTransformPoint(target.position);
 
 
         // Mover pra perto do Player
         if (Mathf.Round(Vector2.Distance(transform.position, target.position)) > stoppingDistance)
         {
 
-            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+            if (relativePoint.x < 0.0)
+            { // Right
+                rb.velocity = new Vector2(-speed, rb.velocity.y);
+            }
+            else if (relativePoint.x > 0.0)
+            { // Left
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+            }
+
+
+        }
+        else
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
         if (PlayerController.instance.isJumping)

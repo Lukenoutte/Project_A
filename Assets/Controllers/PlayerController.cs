@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     // isGRounded
     public LayerMask groundLayers;
-    private float groundCheckDistance;
+    public float groundCheckDistance;
 
     //Angle
     private float angle;
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         isJumping = false;
         instance = this;
-        groundCheckDistance = 2f;
+       
         swipeDelta = Vector2.zero;
         swipeDelta2 = Vector2.zero;
         isDragging = false;
