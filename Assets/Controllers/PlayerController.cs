@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
 
             rb.velocity = new Vector2(speed, rb.velocity.y);
             GetComponent<Animator>().SetBool("WalkRight", true);
-            GetComponent<SpriteRenderer>().flipX = false;
+            GetComponent<SpriteRenderer>().flipX = true;
         }
         else
         {
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<Animator>().SetBool("WalkRight", true);
             rb.velocity = new Vector2(-speed, rb.velocity.y);
-            GetComponent<SpriteRenderer>().flipX = true;
+            GetComponent<SpriteRenderer>().flipX = false;
 
         }
         else
@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviour
 
                 rb.velocity = new Vector2(speed, rb.velocity.y);
                 GetComponent<Animator>().SetBool("WalkRight", true);
-                GetComponent<SpriteRenderer>().flipX = false;
+                GetComponent<SpriteRenderer>().flipX = true;
             }
             else
             {
@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour
             {
                 GetComponent<Animator>().SetBool("WalkRight", true);
                 rb.velocity = new Vector2(-speed, rb.velocity.y);
-                GetComponent<SpriteRenderer>().flipX = true;
+                GetComponent<SpriteRenderer>().flipX = false;
 
             }
             else
