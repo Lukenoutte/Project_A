@@ -19,11 +19,11 @@ TagManager:
   - 
   - Character
   - Ground
-  - Dog
+  - NoBloom
   - Player
   - Post Processing
   - Sky
-  - 
+  - NoPostProcessing
   - 
   - 
   - 
