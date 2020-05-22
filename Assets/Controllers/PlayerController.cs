@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
         speedR = 80;
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
-        speed = 4;
-        jumpForce = 7;
+        speed = 0.5f;
+        jumpForce = 2;
 
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
 
         if (swipeUp | upKey)
         {
-            if (isGroundedMain)
+            if (isGroundedSec)
             {
                 isJumping = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (!isGroundedMain)
+        if (!isGroundedSec)
         {
             GetComponent<Animator>().SetBool("InTheAir", true);
         }
