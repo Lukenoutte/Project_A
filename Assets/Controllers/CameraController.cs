@@ -10,15 +10,15 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
+        Application.targetFrameRate = 60;
+        Screen.SetResolution(800, 400, true);
         position = character.GetComponent<Transform>().position;
 
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        
         position = character.GetComponent<Transform>().position;
         gameObject.GetComponent<Transform>().position = new Vector3(position.x, position.y+0.1f, gameObject.GetComponent<Transform>().position.z);
         

@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Controllers\CameraController.cs" />
-    <Compile Include="Assets\Controllers\DogController.cs" />
     <Compile Include="Assets\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Clipper.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\ConformingSpline.cs" />
@@ -606,6 +605,9 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.PixelPerfect.Editor">
+      <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Editor">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
     </Reference>
@@ -659,6 +661,9 @@
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.PixelPerfect">
+      <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>

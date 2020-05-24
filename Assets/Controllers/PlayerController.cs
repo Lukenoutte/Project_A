@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private int speedR;
     private bool isPressed;
     public bool isPressedKeys;
-    public bool isJumping;
+  
 
 
     // isGRounded
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        isJumping = false;
+       
         instance = this;
 
         swipeDelta = Vector2.zero;
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
         speed = 0.5f;
-        jumpForce = 2;
+        jumpForce = 1.6f;
 
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
@@ -63,12 +63,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-     
-        if(IsGrounded() == false && isGroundedSec == true)
+
+        if (IsGrounded() == false && isGroundedSec == true)
         {
             isGroundedMain = true;
         }
-       
+
 
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -271,25 +271,26 @@ public class PlayerController : MonoBehaviour
 
         if (swipeUp | upKey)
         {
-            if (isGroundedSec)
+            if (isGroundedMain)
             {
-                isJumping = true;
+            
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 GetComponent<Animator>().SetBool("Jump", true);
                 StartCoroutine(JumpOffDelay());
-                StartCoroutine(JumpOffDelayDog());
-                
+
+
             }
 
 
         }
 
-        if (!isGroundedSec)
+        if (!isGroundedMain)
         {
             GetComponent<Animator>().SetBool("InTheAir", true);
         }
         else
         {
+
             GetComponent<Animator>().SetBool("InTheAir", false);
         }
 
@@ -490,30 +491,25 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
     }
-    private IEnumerator JumpOffDelayDog()
-    {
-        yield return new WaitForSeconds(0.3f);
-        isJumping = false;
 
-    }
 
     private bool IsGrounded()
     {
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
 
- 
-        
+
+
         if (hit)
         {
 
             isGroundedMain = true;
-            
+
         }
         else
         {
@@ -525,10 +521,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-      
-        if(collision.gameObject.tag == "Ground"){
+
+        if (collision.gameObject.tag == "Ground")
+        {
             isGroundedSec = true;
-           
+
         }
     }
 
@@ -538,7 +535,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             isGroundedSec = false;
-            
+
         }
     }
 
