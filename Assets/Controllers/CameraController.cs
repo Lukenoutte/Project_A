@@ -1,26 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
     private GameObject character;
-    private Vector3 position;
+    private Vector3 positionT;
+    public float smoothTime;
+    public Vector3 offset;
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
-        Screen.SetResolution(800, 400, true);
-        position = character.GetComponent<Transform>().position;
+        Screen.SetResolution(600, 300, true);
+        positionT = character.GetComponent<Transform>().position;
 
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         
-        position = character.GetComponent<Transform>().position;
-        gameObject.GetComponent<Transform>().position = new Vector3(position.x, position.y+0.1f, gameObject.GetComponent<Transform>().position.z);
-        
+        positionT = character.GetComponent<Transform>().position;
+        Vector3 desiredPosition = positionT + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(gameObject.GetComponent<Transform>().position, desiredPosition, smoothTime);
+        gameObject.GetComponent<Transform>().position = smoothedPosition;
+
     }
 }

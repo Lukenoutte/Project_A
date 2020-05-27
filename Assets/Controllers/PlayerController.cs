@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance { set; get; }
     private Rigidbody2D rb;
 
-    private float speed;
-    private float jumpForce;
+    [SerializeField]
+    private float speed, jumpForce;
+   
 
     public bool swipeLeft, swipeRight, swipeUp, swipeDown;
 
@@ -53,8 +54,8 @@ public class PlayerController : MonoBehaviour
         speedR = 80;
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
-        speed = 0.5f;
-        jumpForce = 1.6f;
+        speed = 1f;
+        jumpForce = 2f;
 
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
