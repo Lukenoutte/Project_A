@@ -1052,17 +1052,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  jumpForce: 2
-  swipeLeft: 0
-  swipeRight: 0
-  swipeUp: 0
-  swipeDown: 0
+  jumpForce: 1.5
   isDragging: 0
   isPressedKeys: 0
-  isGroundedSec: 0
-  upKey: 0
-  rightKey: 0
-  leftKey: 0
+  firstJump: 0
+  doubleJump: 0
+  isGroundedMain: 0
 --- !u!95 &521889392
 Animator:
   serializedVersion: 3

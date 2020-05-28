@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private float speed, jumpForce;
 
 
-    public bool swipeLeft, swipeRight, swipeUp, swipeDown;
+    private bool swipeLeft, swipeRight, swipeUp, swipeDown;
 
     public bool isDragging;
     private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
@@ -20,8 +21,11 @@ public class PlayerController : MonoBehaviour
     private int speedR;
     private bool isPressed;
     public bool isPressedKeys;
-    private bool doubleJump = false;
-    private float inValueCollider;
+
+    public bool firstJump = false;
+    public bool doubleJump = false;
+
+
 
 
 
@@ -35,9 +39,9 @@ public class PlayerController : MonoBehaviour
 
     private RaycastHit2D hitsMain;
 
-    public bool upKey = false;
-    public bool rightKey = false;
-    public bool leftKey = false;
+    private bool upKey = false;
+    private bool rightKey = false;
+    private bool leftKey = false;
 
 
     // Start is called before the first frame update
@@ -54,8 +58,7 @@ public class PlayerController : MonoBehaviour
         speedR = 80;
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
-        speed = 1f;
-        jumpForce = 2f;
+
 
         swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
@@ -90,7 +93,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             upKey = true;
             isPressedKeys = true;
@@ -268,8 +271,18 @@ public class PlayerController : MonoBehaviour
 
         if (swipeUp | upKey)
         {
-            if (isGroundedMain)
+
+
+            if (!firstJump | !doubleJump)
             {
+                if (!firstJump)
+                {
+                    firstJump = true;
+                }
+                if (!doubleJump && firstJump)
+                {
+                    doubleJump = true;
+                }
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 GetComponent<Animator>().SetBool("Jump", true);
@@ -279,6 +292,9 @@ public class PlayerController : MonoBehaviour
             }
 
 
+
+            swipeUp = false;
+            upKey = false;
         }
 
         if (!isGroundedMain)
@@ -289,6 +305,8 @@ public class PlayerController : MonoBehaviour
         {
 
             GetComponent<Animator>().SetBool("InTheAir", false);
+            firstJump = false;
+            doubleJump = false;
         }
 
 
@@ -492,7 +510,11 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
+
     }
+
+
+
 
 
 
@@ -503,11 +525,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
-            
-           
+
+
             if (direction.y >= 0.4)
             {
-                
+
                 isGroundedMain = true;
             }
 
@@ -525,7 +547,7 @@ public class PlayerController : MonoBehaviour
         {
 
             isGroundedMain = false;
-           
+
 
         }
     }

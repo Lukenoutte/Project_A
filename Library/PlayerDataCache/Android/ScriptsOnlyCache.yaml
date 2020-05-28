@@ -667,7 +667,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: 30fc37930ab3272bd0e8f26118a46a33
+      Hash: f61b76a2dfe067b0f58b901a4964c287
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -848,4 +848,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/Zete/Downloads/cvddddddd/Project_A.apk
+  playerPath: "C:/Users/Zete/Downloads/l\xE7dsodfokgdfkogodfgkodf/Project_A.apk"
