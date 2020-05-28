@@ -1059,11 +1059,6 @@ MonoBehaviour:
   swipeDown: 0
   isDragging: 0
   isPressedKeys: 0
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 512
-  groundCheckDistance: 0.1
-  isGroundedMain: 0
   isGroundedSec: 0
   upKey: 0
   rightKey: 0
@@ -2065,7 +2060,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452113197}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.117, y: 1.108, z: 4}
+  m_LocalPosition: {x: -9.821, y: 1.101, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1123267181}

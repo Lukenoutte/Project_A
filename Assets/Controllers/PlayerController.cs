@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float speed, jumpForce;
-   
+
 
     public bool swipeLeft, swipeRight, swipeUp, swipeDown;
 
@@ -20,14 +20,13 @@ public class PlayerController : MonoBehaviour
     private int speedR;
     private bool isPressed;
     public bool isPressedKeys;
-  
+    private bool doubleJump = false;
+    private float inValueCollider;
 
 
-    // isGRounded
-    public LayerMask groundLayers;
-    public float groundCheckDistance;
+
+
     public bool isGroundedMain;
-    public bool isGroundedSec;
 
     //Angle
     private float angle;
@@ -44,7 +43,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
+
         instance = this;
 
         swipeDelta = Vector2.zero;
@@ -65,10 +65,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if (IsGrounded() == false && isGroundedSec == true)
-        {
-            isGroundedMain = true;
-        }
 
 
 
@@ -274,7 +270,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGroundedMain)
             {
-            
+
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 GetComponent<Animator>().SetBool("Jump", true);
                 StartCoroutine(JumpOffDelay());
@@ -492,40 +488,30 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
 
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
     }
 
 
-    private bool IsGrounded()
-    {
-        Ray2D ray = new Ray2D(transform.position, Vector2.down);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
 
-
-
-        if (hit)
-        {
-
-            isGroundedMain = true;
-
-        }
-        else
-        {
-
-            isGroundedMain = false;
-        }
-        return isGroundedMain;
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
         if (collision.gameObject.tag == "Ground")
         {
-            isGroundedSec = true;
+            Vector3 direction = transform.position - collision.gameObject.transform.position;
+            
+           
+            if (direction.y >= 0.4)
+            {
+                
+                isGroundedMain = true;
+            }
+
+
 
         }
     }
@@ -533,9 +519,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        Vector3 direction = transform.position - collision.gameObject.transform.position;
+
+        if (collision.gameObject.tag == "Ground" && direction.y >= 0.4)
         {
-            isGroundedSec = false;
+
+            isGroundedMain = false;
+           
 
         }
     }
