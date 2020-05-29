@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Enemy
   - Jump
+  - Reset
   layers:
   - Default
   - TransparentFX

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public bool tapRequested, tap;
     private bool jumpTap = false;
 
-
+    public bool blockLoop = false;
 
 
     private Vector3 lastTouch0;
@@ -278,14 +279,16 @@ public class PlayerController : MonoBehaviour
 
             if (!firstJump | !doubleJump)
             {
+                blockLoop = true;
                 if (!firstJump)
                 {
                     firstJump = true;
-                }
-                if (!doubleJump && firstJump)
+                   
+                }else if (!doubleJump && firstJump)
                 {
                     doubleJump = true;
                 }
+              
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 GetComponent<Animator>().SetBool("Jump", true);
@@ -298,6 +301,7 @@ public class PlayerController : MonoBehaviour
 
             jumpTap = false;
             upKey = false;
+            
         }
 
         if (!isGroundedMain)
@@ -308,8 +312,15 @@ public class PlayerController : MonoBehaviour
         {
 
             GetComponent<Animator>().SetBool("InTheAir", false);
-            firstJump = false;
-            doubleJump = false;
+            
+            if (!blockLoop)
+            {
+                
+                firstJump = false;
+                doubleJump = false;
+            }
+           
+          
         }
 
 
@@ -326,10 +337,10 @@ public class PlayerController : MonoBehaviour
                 hit = Physics2D.Raycast(lastTouch1, Vector2.zero);
 
             }
-            
+
             if (hit.collider != null)
             {
-                
+
                 if (hit.collider.tag == "Jump")
                 {
                     jumpTap = true;
@@ -349,7 +360,7 @@ public class PlayerController : MonoBehaviour
         #region Mobile Inputs
         if (Input.touchCount > 0)
         {
-           
+
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
@@ -390,7 +401,7 @@ public class PlayerController : MonoBehaviour
                 {
                     isDragging = true;
                     tapRequested = true;
-                    
+
                     if (Input.touchCount == 2)
                     {
 
@@ -411,7 +422,7 @@ public class PlayerController : MonoBehaviour
                         tap = true;
                         lastTouch1 = Camera.main.ScreenToWorldPoint(Input.touches[1].position);
                     }
-                    
+
                     Reset2();
                 }
             }
@@ -531,7 +542,7 @@ public class PlayerController : MonoBehaviour
 
     private void Reset1()
     {
-        
+
         startTouch = swipeDelta = Vector2.zero;
         isDragging = false;
         tapRequested = false;
@@ -539,9 +550,9 @@ public class PlayerController : MonoBehaviour
 
     private void Reset2()
     {
-        
+
         startTouch2 = swipeDelta2 = Vector2.zero;
-       
+
         tapRequested = false;
     }
 
@@ -561,6 +572,7 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<Animator>().SetBool("Jump", false);
         swipeUp = false;
+        blockLoop = false;
 
     }
 
@@ -576,8 +588,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
-
-
+            
+            
             if (direction.y >= 0.4)
             {
 
@@ -587,13 +599,19 @@ public class PlayerController : MonoBehaviour
 
 
         }
+
+
+        if (collision.gameObject.tag == "Reset")
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         Vector3 direction = transform.position - collision.gameObject.transform.position;
-
+        
         if (collision.gameObject.tag == "Ground" && direction.y >= 0.4)
         {
 

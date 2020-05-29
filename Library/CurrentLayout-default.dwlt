@@ -115,7 +115,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 342}
   m_MaxSize: {x: 12004, y: 8042}
   vertical: 0
-  controlID: 62
+  controlID: 102
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -211,8 +211,8 @@ MonoBehaviour:
     y: 0
     width: 724
     height: 357
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 14}
@@ -395,23 +395,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 745c0000
-      m_LastClickedID: 23668
-      m_ExpandedIDs: 10a7ffff26a7ffff38a7ffff44a8ffff44fbffffec3900007e5c0000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 48a2ffff5ea2ffff70a2ffff7ca3ffff4cc7ffff3edaffff54daffff66daffff72dbffff2ee1ffffcce3ffff74e4ffff42eaffff3eeeffffa6eeffff22f6ffff38f6ffff4af6ffff56f7ffff44fbffff94390000ec390000ee3d00003e3e0000423e00004a3e0000b2500000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Canvas
-        m_OriginalName: Canvas
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 23678
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -457,9 +457,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -10.20009, y: -0.7596682, z: -321.4052}
+    m_Target: {x: -10.167205, y: -0.5165964, z: -322.87445}
     speed: 2
-    m_Value: {x: -10.20009, y: -0.7596682, z: -321.4052}
+    m_Value: {x: -10.167205, y: -0.5165964, z: -322.87445}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -509,9 +509,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 0.50594205
+    m_Target: 1.6216637
     speed: 2
-    m_Value: 0.50594205
+    m_Value: 1.6216637
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -601,20 +601,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Images/PixelArt
+    - Assets/Controllers
   m_ViewMode: 1
   m_StartGridSize: 67
   m_LastFolders:
-  - Assets/Images/PixelArt
+  - Assets/Controllers
   m_LastFoldersGridSize: 67
   m_LastProjectPath: C:\Users\Zete\ProjectA
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 58}
-    m_SelectedIDs: a63b0000
-    m_LastClickedID: 15270
-    m_ExpandedIDs: 00000000783b00007a3b00007c3b00007e3b0000803b0000823b0000843b0000863b0000883b00008a3b00008c3b00008e3b0000903b0000923b0000943b0000963b0000983b0000
+    m_SelectedIDs: 7a3b0000
+    m_LastClickedID: 15226
+    m_ExpandedIDs: 00000000783b00007a3b00007c3b00007e3b0000803b0000823b0000843b0000863b0000883b00008a3b00008c3b00008e3b0000903b0000923b0000943b0000963b0000983b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -667,9 +667,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: d66a0000
+    m_LastClickedInstanceID: 27350
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000d0270000a62800000629000000000000d22c00004034000038340000aa390000262e00007e2a0000fc7b00007047000024300000ee2f00006a61000026c1ffff12530000da6d0000546f0000282a0000fe2d0000362b0000b0390000e03c00009046000092430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
