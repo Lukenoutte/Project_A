@@ -8,6 +8,7 @@ TagManager:
   - EyeButton
   - Ground
   - Enemy
+  - Jump
   layers:
   - Default
   - TransparentFX

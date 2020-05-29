@@ -38,6 +38,7 @@ ScriptsOnlyBuild:
     - UnityEngine.EventSystems.StandaloneInputModule
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
+    - UnityEngine.UI.Image
     com.unity.multiplayer-hlapi.Runtime.dll:
     - UnityEngine.Networking.NetworkCallbacks
   sceneClasses:
@@ -55,6 +56,8 @@ ScriptsOnlyBuild:
     - Class: 48
       Script: {instanceID: 0}
     - Class: 50
+      Script: {instanceID: 0}
+    - Class: 58
       Script: {instanceID: 0}
     - Class: 61
       Script: {instanceID: 0}
@@ -78,6 +81,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11358}
     - Class: 114
       Script: {instanceID: 11514}
+    - Class: 114
+      Script: {instanceID: 11692}
     - Class: 114
       Script: {instanceID: 11872}
     - Class: 114
@@ -105,6 +110,8 @@ ScriptsOnlyBuild:
     - Class: 212
       Script: {instanceID: 0}
     - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
       Script: {instanceID: 0}
     - Class: 223
       Script: {instanceID: 0}
@@ -667,7 +674,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: f61b76a2dfe067b0f58b901a4964c287
+      Hash: 6adb328c738993c300346bcea6de25a8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -848,4 +855,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: "C:/Users/Zete/Downloads/l\xE7dsodfokgdfkogodfgkodf/Project_A.apk"
+  playerPath: C:/Users/Zete/Downloads/POFDSPFSD/project_a.apk

@@ -24,11 +24,14 @@ public class PlayerController : MonoBehaviour
 
     public bool firstJump = false;
     public bool doubleJump = false;
+    public bool tapRequested, tap;
+    private bool jumpTap = false;
 
 
 
 
-
+    private Vector3 lastTouch0;
+    private Vector3 lastTouch1;
 
     public bool isGroundedMain;
 
@@ -269,7 +272,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (swipeUp | upKey)
+        if (upKey | jumpTap)
         {
 
 
@@ -293,7 +296,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-            swipeUp = false;
+            jumpTap = false;
             upKey = false;
         }
 
@@ -310,6 +313,33 @@ public class PlayerController : MonoBehaviour
         }
 
 
+
+        if (tap)
+        {
+            RaycastHit2D hit;
+            if (!isDragging)
+            {
+                hit = Physics2D.Raycast(lastTouch0, Vector2.zero);
+            }
+            else
+            {
+                hit = Physics2D.Raycast(lastTouch1, Vector2.zero);
+
+            }
+            
+            if (hit.collider != null)
+            {
+                
+                if (hit.collider.tag == "Jump")
+                {
+                    jumpTap = true;
+                }
+            }
+            tap = false;
+            lastTouch0 = Vector3.zero;
+            lastTouch1 = Vector3.zero;
+        }
+
         // Swipe by:  thestrandedmoose 
 
 
@@ -319,11 +349,13 @@ public class PlayerController : MonoBehaviour
         #region Mobile Inputs
         if (Input.touchCount > 0)
         {
+           
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
 
                 isDragging = true;
+                tapRequested = true;
                 if (Input.touchCount == 1)
                 {
 
@@ -341,7 +373,12 @@ public class PlayerController : MonoBehaviour
             }
             else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
             {
+                if (tapRequested)
+                {
+                    tap = true;
+                    lastTouch0 = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
 
+                }
                 isDragging = false;
                 Reset1();
             }
@@ -351,6 +388,9 @@ public class PlayerController : MonoBehaviour
             {
                 if (Input.touches[1].phase == TouchPhase.Began)
                 {
+                    isDragging = true;
+                    tapRequested = true;
+                    
                     if (Input.touchCount == 2)
                     {
 
@@ -366,8 +406,12 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
                 {
-
-
+                    if (tapRequested)
+                    {
+                        tap = true;
+                        lastTouch1 = Camera.main.ScreenToWorldPoint(Input.touches[1].position);
+                    }
+                    
                     Reset2();
                 }
             }
@@ -416,7 +460,10 @@ public class PlayerController : MonoBehaviour
 
         if (swipeDelta.magnitude > 10)
         {
-
+            if (Input.touchCount <= 1)
+            {
+                tapRequested = false;
+            }
             //Which direction are we swiping?
             float x = swipeDelta.x;
             float y = swipeDelta.y;
@@ -451,7 +498,7 @@ public class PlayerController : MonoBehaviour
 
         if (swipeDelta2.magnitude > 50)
         {
-
+            tapRequested = false;
             //Which direction are we swiping?
             float x = swipeDelta2.x;
             float y = swipeDelta2.y;
@@ -484,14 +531,18 @@ public class PlayerController : MonoBehaviour
 
     private void Reset1()
     {
+        
         startTouch = swipeDelta = Vector2.zero;
         isDragging = false;
+        tapRequested = false;
     }
 
     private void Reset2()
     {
+        
         startTouch2 = swipeDelta2 = Vector2.zero;
-
+       
+        tapRequested = false;
     }
 
 
