@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
 
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
-
+    public bool walkingRight, walkingLeft= false;
     public bool isDragging;
     private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
     private float sideRotation;
@@ -120,12 +120,13 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(speed, rb.velocity.y);
             GetComponent<Animator>().SetBool("WalkRight", true);
             GetComponent<SpriteRenderer>().flipX = true;
+            walkingRight = true;
         }
         else
         {
             if (!leftKey)
                 GetComponent<Animator>().SetBool("WalkRight", false);
-
+            walkingRight = false;
         }
 
 
@@ -134,13 +135,13 @@ public class PlayerController : MonoBehaviour
             GetComponent<Animator>().SetBool("WalkRight", true);
             rb.velocity = new Vector2(-speed, rb.velocity.y);
             GetComponent<SpriteRenderer>().flipX = false;
-
+            walkingLeft = true;
         }
         else
         {
             if (!rightKey)
                 GetComponent<Animator>().SetBool("WalkRight", false);
-
+                walkingLeft = false;
 
         }
 
@@ -216,12 +217,13 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(speed, rb.velocity.y);
                 GetComponent<Animator>().SetBool("WalkRight", true);
                 GetComponent<SpriteRenderer>().flipX = true;
+                walkingRight = true;
             }
             else
             {
                 swipeRight = false;
                 GetComponent<Animator>().SetBool("WalkRight", false);
-
+                walkingRight = false;
             }
 
         }
@@ -231,6 +233,7 @@ public class PlayerController : MonoBehaviour
 
             if (isPressed)
             {
+                walkingLeft = true;
                 GetComponent<Animator>().SetBool("WalkRight", true);
                 rb.velocity = new Vector2(-speed, rb.velocity.y);
                 GetComponent<SpriteRenderer>().flipX = false;
@@ -238,6 +241,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                walkingLeft = false;
                 GetComponent<Animator>().SetBool("WalkRight", false);
                 swipeLeft = false;
 
@@ -283,12 +287,13 @@ public class PlayerController : MonoBehaviour
                 if (!firstJump)
                 {
                     firstJump = true;
-                   
-                }else if (!doubleJump && firstJump)
+
+                }
+                else if (!doubleJump && firstJump)
                 {
                     doubleJump = true;
                 }
-              
+
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 GetComponent<Animator>().SetBool("Jump", true);
@@ -301,7 +306,7 @@ public class PlayerController : MonoBehaviour
 
             jumpTap = false;
             upKey = false;
-            
+
         }
 
         if (!isGroundedMain)
@@ -312,15 +317,15 @@ public class PlayerController : MonoBehaviour
         {
 
             GetComponent<Animator>().SetBool("InTheAir", false);
-            
+
             if (!blockLoop)
             {
-                
+
                 firstJump = false;
                 doubleJump = false;
             }
-           
-          
+
+
         }
 
 
@@ -588,8 +593,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
-            
-            
+
+
             if (direction.y >= 0.4)
             {
 
@@ -611,7 +616,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         Vector3 direction = transform.position - collision.gameObject.transform.position;
-        
+
         if (collision.gameObject.tag == "Ground" && direction.y >= 0.4)
         {
 

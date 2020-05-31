@@ -42,23 +42,29 @@ SpriteAtlas:
       enableTightPacking: 1
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: 4ce7ca2bdd4630d4ea6ed77e9fe2b3c3, type: 3}
+    - {fileID: 2800000, guid: a30f6af6b22f6db47b4e9754bd65243f, type: 3}
+    - {fileID: 2800000, guid: 24753063f2435f448a6183c73c66e647, type: 3}
     - {fileID: 2800000, guid: 23f93c770d075a448a5e344ce19f648b, type: 3}
     - {fileID: 2800000, guid: 55207887dfc306044b96b0f785a24024, type: 3}
-    - {fileID: 2800000, guid: f4f97e9e41bc10f409963c36800c035a, type: 3}
-    - {fileID: 2800000, guid: e1db8a60557f03b42bbb09859b94954e, type: 3}
-    - {fileID: 2800000, guid: 1042364c196ae654ebb1ef173411b294, type: 3}
     - {fileID: 2800000, guid: f34c19737e386284588e367b056c8b3c, type: 3}
     - {fileID: 2800000, guid: 9faa4f6dd0ec74b4cbfdbb7f023ed104, type: 3}
-    - {fileID: 2800000, guid: 4ce7ca2bdd4630d4ea6ed77e9fe2b3c3, type: 3}
-    - {fileID: 2800000, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
+    - {fileID: 2800000, guid: 10d613e27e3e7274f8200d43d3fa7c88, type: 3}
     - {fileID: 2800000, guid: 24e9db6ee161ce44983feae2858acabb, type: 3}
-    totalSpriteSurfaceArea: 113850
+    - {fileID: 2800000, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
+    - {fileID: 2800000, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
+    totalSpriteSurfaceArea: 90750
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: e1db8a60557f03b42bbb09859b94954e, type: 3}
+  - {fileID: 3681288579414874549, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
+  - {fileID: -6665334439285243106, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
+  - {fileID: 5659002432092287471, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
+  - {fileID: 7651787296019861252, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
+  - {fileID: -3730459097738142952, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
+  - {fileID: 21300000, guid: 10d613e27e3e7274f8200d43d3fa7c88, type: 3}
+  - {fileID: 21300000, guid: 24753063f2435f448a6183c73c66e647, type: 3}
   - {fileID: 21300000, guid: f34c19737e386284588e367b056c8b3c, type: 3}
+  - {fileID: 21300000, guid: a30f6af6b22f6db47b4e9754bd65243f, type: 3}
   - {fileID: 21300000, guid: 23f93c770d075a448a5e344ce19f648b, type: 3}
   - {fileID: 681732326576013063, guid: 55207887dfc306044b96b0f785a24024, type: 3}
   - {fileID: -4016913265584012078, guid: 55207887dfc306044b96b0f785a24024, type: 3}
@@ -68,14 +74,18 @@ SpriteAtlas:
   - {fileID: -2727994123502978971, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
   - {fileID: 3027108297294817801, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
   - {fileID: -8932597784596107805, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
-  - {fileID: 21300000, guid: 4ce7ca2bdd4630d4ea6ed77e9fe2b3c3, type: 3}
-  - {fileID: 21300000, guid: 1042364c196ae654ebb1ef173411b294, type: 3}
   - {fileID: 21300000, guid: 9faa4f6dd0ec74b4cbfdbb7f023ed104, type: 3}
   - {fileID: 21300000, guid: 24e9db6ee161ce44983feae2858acabb, type: 3}
-  - {fileID: 21300000, guid: f4f97e9e41bc10f409963c36800c035a, type: 3}
   m_PackedSpriteNamesToIndex:
-  - casa4
+  - spriteMolhado_3
+  - spriteMolhado_2
+  - spriteMolhado_1
+  - spriteMolhado_0
+  - spriteMolhado_4
+  - Ground2
+  - arvere
   - Fio
+  - arrow
   - bg1
   - buraco_0
   - buraco_1
@@ -85,10 +95,7 @@ SpriteAtlas:
   - spriteGrama_2
   - spriteGrama_1
   - spriteGrama_0
-  - pixelMj
-  - city
   - Ground
   - poste
-  - Casa2
   m_Tag: Atlas
   m_IsVariant: 0
