@@ -44,7 +44,6 @@ SpriteAtlas:
     packables:
     - {fileID: 2800000, guid: a30f6af6b22f6db47b4e9754bd65243f, type: 3}
     - {fileID: 2800000, guid: 24753063f2435f448a6183c73c66e647, type: 3}
-    - {fileID: 2800000, guid: 23f93c770d075a448a5e344ce19f648b, type: 3}
     - {fileID: 2800000, guid: 55207887dfc306044b96b0f785a24024, type: 3}
     - {fileID: 2800000, guid: f34c19737e386284588e367b056c8b3c, type: 3}
     - {fileID: 2800000, guid: 9faa4f6dd0ec74b4cbfdbb7f023ed104, type: 3}
@@ -52,7 +51,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 24e9db6ee161ce44983feae2858acabb, type: 3}
     - {fileID: 2800000, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
     - {fileID: 2800000, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
-    totalSpriteSurfaceArea: 90750
+    totalSpriteSurfaceArea: 75750
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -65,7 +64,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 24753063f2435f448a6183c73c66e647, type: 3}
   - {fileID: 21300000, guid: f34c19737e386284588e367b056c8b3c, type: 3}
   - {fileID: 21300000, guid: a30f6af6b22f6db47b4e9754bd65243f, type: 3}
-  - {fileID: 21300000, guid: 23f93c770d075a448a5e344ce19f648b, type: 3}
   - {fileID: 681732326576013063, guid: 55207887dfc306044b96b0f785a24024, type: 3}
   - {fileID: -4016913265584012078, guid: 55207887dfc306044b96b0f785a24024, type: 3}
   - {fileID: -3945013053167035688, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
@@ -86,7 +84,6 @@ SpriteAtlas:
   - arvere
   - Fio
   - arrow
-  - bg1
   - buraco_0
   - buraco_1
   - spriteGrama_5

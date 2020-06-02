@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed, jumpForce;
 
-
+    public GameObject seta;
+    private float directionYValue;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
     public bool walkingRight, walkingLeft= false;
     public bool isDragging;
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
 
-
+        directionYValue = 0.5f;
         instance = this;
 
         swipeDelta = Vector2.zero;
@@ -72,7 +73,35 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        if (walkingRight)
+        {
+            seta.GetComponent<Animator>().SetBool("WalkingRight", true);
+        }
+        else
+        {
+            seta.GetComponent<Animator>().SetBool("WalkingRight", false);
+        }
 
+        if (walkingLeft)
+        {
+            seta.GetComponent<Animator>().SetBool("WalkingLeft", true);
+        }
+        else
+        {
+            seta.GetComponent<Animator>().SetBool("WalkingLeft", false);
+        }
+
+        if(walkingLeft | walkingRight)
+        {
+            seta.SetActive(true);
+            if(startTouch != Vector2.zero) { 
+            seta.GetComponent<Transform>().position = startTouch;
+            }
+        }
+        else
+        {
+            seta.SetActive(false);
+        }
 
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -593,9 +622,9 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
+            
 
-
-            if (direction.y >= 0.4)
+            if (direction.y >= directionYValue)
             {
 
                 isGroundedMain = true;
@@ -616,8 +645,8 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         Vector3 direction = transform.position - collision.gameObject.transform.position;
-
-        if (collision.gameObject.tag == "Ground" && direction.y >= 0.4)
+        
+        if (collision.gameObject.tag == "Ground" && direction.y >= directionYValue)
         {
 
             isGroundedMain = false;
