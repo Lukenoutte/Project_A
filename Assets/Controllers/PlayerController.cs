@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
     public bool walkingRight, walkingLeft = false;
     public bool isDragging;
-    private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
+    private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2 = Vector2.zero;
     private float sideRotation;
     private float rotationSmooth;
     private int speedR;
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public bool doubleJump = false;
     public bool tapRequested, tap;
     public bool jumpTap = false;
-
+    public bool rightSideScreen = false;
     public bool blockLoop = false;
 
 
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
             seta.SetActive(true);
             if (startTouch != Vector2.zero)
             {
-                print(startTouch);
+                
                 setaTrans = seta.GetComponent<Transform>();
                 setaTrans.position = new Vector3(startTouch.x, startTouch.y, setaTrans.position.z);
 
@@ -361,6 +361,15 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        if (tap && rightSideScreen)
+        {
+            jumpTap = true;
+            tap = false;
+            rightSideScreen = false;
+        }else if (tap && !rightSideScreen)
+        {
+            tap = false;
+        }
 
        
         //if (tap)
@@ -411,10 +420,13 @@ public class PlayerController : MonoBehaviour
                     if (Input.touches[0].position.x < (Screen.width / 2))
                     {
                         startTouch = Input.touches[0].position;
+                       
                     }
                     else if (Input.touches[0].position.x > (Screen.width / 2))
                     {
                         startTouch2 = Input.touches[0].position;
+                        rightSideScreen = true;
+                      
                     }
                 }
 
@@ -439,6 +451,7 @@ public class PlayerController : MonoBehaviour
                 {
                     isDragging = true;
                     tapRequested = true;
+                   
 
                     if (Input.touchCount == 2)
                     {
@@ -450,6 +463,7 @@ public class PlayerController : MonoBehaviour
                         if (Input.touches[1].position.x > Screen.width / 2)
                         {
                             startTouch2 = Input.touches[1].position;
+                            rightSideScreen = true;
                         }
                     }
                 }
