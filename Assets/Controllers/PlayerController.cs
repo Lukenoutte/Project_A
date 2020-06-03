@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public GameObject seta;
     private float directionYValue;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
-    public bool walkingRight, walkingLeft= false;
+    public bool walkingRight, walkingLeft = false;
     public bool isDragging;
     private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2;
     private float sideRotation;
@@ -23,11 +23,11 @@ public class PlayerController : MonoBehaviour
     private int speedR;
     private bool isPressed;
     public bool isPressedKeys;
-
+    private Transform setaTrans;
     public bool firstJump = false;
     public bool doubleJump = false;
     public bool tapRequested, tap;
-    private bool jumpTap = false;
+    public bool jumpTap = false;
 
     public bool blockLoop = false;
 
@@ -91,11 +91,15 @@ public class PlayerController : MonoBehaviour
             seta.GetComponent<Animator>().SetBool("WalkingLeft", false);
         }
 
-        if(walkingLeft | walkingRight)
+        if (walkingLeft | walkingRight)
         {
             seta.SetActive(true);
-            if(startTouch != Vector2.zero) { 
-            seta.GetComponent<Transform>().position = startTouch;
+            if (startTouch != Vector2.zero)
+            {
+                print(startTouch);
+                setaTrans = seta.GetComponent<Transform>();
+                setaTrans.position = new Vector3(startTouch.x, startTouch.y, setaTrans.position.z);
+
             }
         }
         else
@@ -170,7 +174,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!rightKey)
                 GetComponent<Animator>().SetBool("WalkRight", false);
-                walkingLeft = false;
+            walkingLeft = false;
 
         }
 
@@ -358,33 +362,33 @@ public class PlayerController : MonoBehaviour
         }
 
 
+       
+        //if (tap)
+        //{
+        //    RaycastHit2D hit;
+        //    if (!isDragging)
+        //    {
+        //        hit = Physics2D.Raycast(lastTouch0, Vector2.zero);
+        //    }
+        //    else
+        //    {
+        //        hit = Physics2D.Raycast(lastTouch1, Vector2.zero);
 
-        if (tap)
-        {
-            RaycastHit2D hit;
-            if (!isDragging)
-            {
-                hit = Physics2D.Raycast(lastTouch0, Vector2.zero);
-            }
-            else
-            {
-                hit = Physics2D.Raycast(lastTouch1, Vector2.zero);
+        //    }
 
-            }
-
-            if (hit.collider != null)
-            {
-
-                if (hit.collider.tag == "Jump")
-                {
-                    jumpTap = true;
-                }
-            }
-            tap = false;
-            lastTouch0 = Vector3.zero;
-            lastTouch1 = Vector3.zero;
-        }
-
+        //    if (hit.collider != null)
+        //    {
+              
+        //        if (hit.collider.tag == "Jump")
+        //        {
+        //            jumpTap = true;
+        //        }
+        //    }
+        //    tap = false;
+        //    lastTouch0 = Vector3.zero;
+        //    lastTouch1 = Vector3.zero;
+        //}
+        
         // Swipe by:  thestrandedmoose 
 
 
@@ -622,7 +626,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
-            
+
 
             if (direction.y >= directionYValue)
             {
@@ -645,7 +649,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         Vector3 direction = transform.position - collision.gameObject.transform.position;
-        
+
         if (collision.gameObject.tag == "Ground" && direction.y >= directionYValue)
         {
 

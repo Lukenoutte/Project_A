@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Controllers\CameraController.cs" />
+    <Compile Include="Assets\Controllers\JumpScript.cs" />
     <Compile Include="Assets\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Controllers\ScrollScript.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Clipper.cs" />

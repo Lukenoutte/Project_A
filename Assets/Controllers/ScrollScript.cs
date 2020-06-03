@@ -9,12 +9,13 @@ public class ScrollScript : MonoBehaviour
     private float aux = 0;
     private Vector2 offset;
     private MeshRenderer mesh;
-    
+
 
     private void Start()
     {
         mesh = GetComponent<MeshRenderer>();
-      
+        offset = Vector2.zero;
+        mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
     }
 
     // Update is called once per frame
@@ -23,27 +24,27 @@ public class ScrollScript : MonoBehaviour
         if (PlayerController.instance.walkingLeft)
         {
             aux -= Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
-       
-              
-                offset = new Vector2(aux, 0);
-                
-                mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
-               
-         
+
+
+            offset = new Vector2(aux, 0);
+
+            mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
+
+
         }
 
         if (PlayerController.instance.walkingRight)
         {
             aux += Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
-     
-                
-                print("atual: " + aux);
-                offset = new Vector2(aux, 0);
-                
-                mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
-               
-               
-         
+
+
+
+            offset = new Vector2(aux, 0);
+
+            mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
+
+
+
         }
 
     }
