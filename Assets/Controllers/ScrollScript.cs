@@ -9,10 +9,11 @@ public class ScrollScript : MonoBehaviour
     private float aux = 0;
     private Vector2 offset;
     private MeshRenderer mesh;
-
+    private PlayerController player;
 
     private void Start()
     {
+        player = PlayerController.instance;
         mesh = GetComponent<MeshRenderer>();
         offset = Vector2.zero;
         mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
@@ -21,39 +22,35 @@ public class ScrollScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (PlayerController.instance.walkingLeft)
+        if (!player.fakeWalk)
         {
-            aux -= Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
+            if (player.walkingLeft)
+            {
+                aux -= Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
 
+                offset = new Vector2(aux, 0);
 
-            offset = new Vector2(aux, 0);
+                mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
 
-            mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
+            }
 
+            if (player.walkingRight)
+            {
+                aux += Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
 
-        }
+                offset = new Vector2(aux, 0);
 
-        if (PlayerController.instance.walkingRight)
-        {
-            aux += Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
+                mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
 
-
-
-            offset = new Vector2(aux, 0);
-
-            mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
-
-
+            }
 
         }
 
     }
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
