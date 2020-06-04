@@ -16,26 +16,27 @@ public class PlayerController : MonoBehaviour
     private float directionYValue;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown;
     public bool walkingRight, walkingLeft = false;
-    public bool isDragging;
+    private bool isDragging;
     private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2 = Vector2.zero;
     private float sideRotation;
     private float rotationSmooth;
     private int speedR;
     private bool isPressed;
-    public bool isPressedKeys;
+    private bool isPressedKeys;
     private Transform setaTrans;
-    public bool firstJump = false;
-    public bool doubleJump = false;
-    public bool tapRequested, tap;
-    public bool jumpTap = false;
-    public bool rightSideScreen = false;
-    public bool blockLoop = false;
+    private bool firstJump = false;
+    private bool doubleJump = false;
+    private bool tapRequested, tap;
+    private bool jumpTap = false;
+    private bool rightSideScreen = false;
+    private bool blockLoop = false;
 
+    private float oldPosition = 0;
+    public bool fakeWalk = false;
+    //private Vector3 lastTouch0;
+    //private Vector3 lastTouch1;
 
-    private Vector3 lastTouch0;
-    private Vector3 lastTouch1;
-
-    public bool isGroundedMain;
+    private bool isGroundedMain;
 
     //Angle
     private float angle;
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
 
-        directionYValue = 0.5f;
+        directionYValue = 0.55f;
         instance = this;
 
         swipeDelta = Vector2.zero;
@@ -93,6 +94,16 @@ public class PlayerController : MonoBehaviour
 
         if (walkingLeft | walkingRight)
         {
+            StartCoroutine(OldPositionDelay());
+            if(GetComponent<Transform>().position.x == oldPosition)
+            {
+                fakeWalk = true;
+            }
+            else
+            {
+                fakeWalk = false;
+            }
+
             seta.SetActive(true);
             if (startTouch != Vector2.zero)
             {
@@ -107,6 +118,15 @@ public class PlayerController : MonoBehaviour
             seta.SetActive(false);
         }
 
+
+        if (fakeWalk)
+        {
+            GetComponent<Animator>().SetBool("FakeWalk", true);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("FakeWalk", false);
+        }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -437,7 +457,7 @@ public class PlayerController : MonoBehaviour
                 if (tapRequested)
                 {
                     tap = true;
-                    lastTouch0 = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+                   // lastTouch0 = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
 
                 }
                 isDragging = false;
@@ -472,7 +492,7 @@ public class PlayerController : MonoBehaviour
                     if (tapRequested)
                     {
                         tap = true;
-                        lastTouch1 = Camera.main.ScreenToWorldPoint(Input.touches[1].position);
+                        // lastTouch1 = Camera.main.ScreenToWorldPoint(Input.touches[1].position);
                     }
 
                     Reset2();
@@ -610,11 +630,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-
-
-
-
-
     private IEnumerator JumpOffDelay()
     {
 
@@ -629,6 +644,16 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private IEnumerator OldPositionDelay()
+    {
+
+
+
+        yield return new WaitForSeconds(0.3f);
+
+        oldPosition = GetComponent<Transform>().position.x;
+
+    }
 
 
 
@@ -641,7 +666,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
 
-
+          
             if (direction.y >= directionYValue)
             {
 
