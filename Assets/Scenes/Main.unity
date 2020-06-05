@@ -840,7 +840,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 0.74802065
+  orthographic size: 0.75
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
@@ -911,7 +911,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 0.74802065
+  orthographic size: 0.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -957,7 +957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 521889386}
   smoothTime: 0.1
-  offset: {x: 0, y: 0, z: -10}
+  offset: {x: 0.3, y: 0, z: -10}
 --- !u!114 &394429963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,11 +970,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AssetsPPU: 200
-  m_RefResolutionX: 500
-  m_RefResolutionY: 250
+  m_AssetsPPU: 300
+  m_RefResolutionX: 800
+  m_RefResolutionY: 400
   m_UpscaleRT: 0
-  m_PixelSnapping: 1
+  m_PixelSnapping: 0
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
@@ -1372,6 +1372,79 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &627837995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 627837998}
+  - component: {fileID: 627837997}
+  - component: {fileID: 627837996}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [PIXELADE Atlas Material + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &627837996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627837995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 1.88
+  m_canvasRenderer: {fileID: 627837997}
+  m_TextComponent: {fileID: 1280329289}
+  m_materialReferenceIndex: 1
+--- !u!222 &627837997
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627837995}
+  m_CullTransparentMesh: 0
+--- !u!224 &627837998
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627837995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1280329288}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 1, y: 1}
 --- !u!1 &655252034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,8 +1907,8 @@ GameObject:
   - component: {fileID: 1280329288}
   - component: {fileID: 1280329292}
   - component: {fileID: 1280329290}
-  - component: {fileID: 1280329289}
   - component: {fileID: 1280329291}
+  - component: {fileID: 1280329289}
   m_Layer: 5
   m_Name: DialogText
   m_TagString: Untagged
@@ -1853,14 +1926,15 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 627837998}
   m_Father: {fileID: 1842142028}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 486, y: 66}
-  m_SizeDelta: {x: 474, y: 51}
+  m_AnchoredPosition: {x: 500, y: 57}
+  m_SizeDelta: {x: 493, y: 78}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1280329289
 MonoBehaviour:
@@ -1881,10 +1955,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '-'
+  m_text: Oi, Tudo bem?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 867221e3725c7c64c890c4258ee1b15e, type: 2}
-  m_sharedMaterial: {fileID: -8949791430692838236, guid: 867221e3725c7c64c890c4258ee1b15e,
+  m_fontAsset: {fileID: 11400000, guid: 30de578d5f543b44f880ef1e376c940a, type: 2}
+  m_sharedMaterial: {fileID: -4206158844829968142, guid: 30de578d5f543b44f880ef1e376c940a,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1910,12 +1984,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 62.32
   m_fontStyle: 0
   m_textAlignment: 257
   m_characterSpacing: 0
@@ -1948,24 +2022,24 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 4.6090674, y: 3.6860287, z: 11.409928, w: 10.639542}
+  m_margin: {x: 10.08399, y: 0.48945308, z: 0, w: -8.441395}
   m_textInfo:
     textComponent: {fileID: 1280329289}
-    characterCount: 1
+    characterCount: 13
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 1
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 1
+    materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 627837996}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -2138,8 +2212,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 96}
-  m_SizeDelta: {x: 35, y: 35}
+  m_AnchoredPosition: {x: 112, y: 112}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!95 &1314887494
 Animator:
@@ -2877,7 +2951,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 0.7514162
+  orthographic size: 0.75
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -3133,7 +3207,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 200
-  m_ReferenceResolution: {x: 500, y: 250}
+  m_ReferenceResolution: {x: 800, y: 400}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 1
@@ -3152,7 +3226,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 394429960}
   m_PlaneDistance: 5
-  m_PixelPerfect: 1
+  m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

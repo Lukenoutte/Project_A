@@ -26,9 +26,12 @@ public class DialogManager : MonoBehaviour
 
     void Update()
     {
-        if(sentences[index] == textDisplay.text)
+        if (textDisplay != null)
         {
-            allowedContinue = true;
+            if (sentences[index] == textDisplay.text)
+            {
+                allowedContinue = true;
+            }
         }
 
         if (continueButton && allowedContinue)

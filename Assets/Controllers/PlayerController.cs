@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         if (walkingLeft | walkingRight)
         {
             StartCoroutine(OldPositionDelay());
-            if(GetComponent<Transform>().position.x == oldPosition)
+            if (GetComponent<Transform>().position.x == oldPosition)
             {
                 fakeWalk = true;
             }
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             seta.SetActive(true);
             if (startTouch != Vector2.zero)
             {
-                
+
                 setaTrans = seta.GetComponent<Transform>();
                 setaTrans.position = new Vector3(startTouch.x, startTouch.y, setaTrans.position.z);
 
@@ -177,9 +177,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (!leftKey)
-                GetComponent<Animator>().SetBool("WalkRight", false);
-            walkingRight = false;
+            if (!isPressed)
+            {
+                if (!leftKey)
+                    GetComponent<Animator>().SetBool("WalkRight", false);
+                walkingRight = false;
+            }
         }
 
 
@@ -192,9 +195,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (!rightKey)
-                GetComponent<Animator>().SetBool("WalkRight", false);
-            walkingLeft = false;
+            if (!isPressed)
+            {
+                if (!rightKey)
+                    GetComponent<Animator>().SetBool("WalkRight", false);
+                walkingLeft = false;
+
+
+            }
 
         }
 
@@ -386,12 +394,13 @@ public class PlayerController : MonoBehaviour
             jumpTap = true;
             tap = false;
             rightSideScreen = false;
-        }else if (tap && !rightSideScreen)
+        }
+        else if (tap && !rightSideScreen)
         {
             tap = false;
         }
 
-       
+
         //if (tap)
         //{
         //    RaycastHit2D hit;
@@ -407,7 +416,7 @@ public class PlayerController : MonoBehaviour
 
         //    if (hit.collider != null)
         //    {
-              
+
         //        if (hit.collider.tag == "Jump")
         //        {
         //            jumpTap = true;
@@ -417,7 +426,7 @@ public class PlayerController : MonoBehaviour
         //    lastTouch0 = Vector3.zero;
         //    lastTouch1 = Vector3.zero;
         //}
-        
+
         // Swipe by:  thestrandedmoose 
 
 
@@ -440,13 +449,13 @@ public class PlayerController : MonoBehaviour
                     if (Input.touches[0].position.x < (Screen.width / 2))
                     {
                         startTouch = Input.touches[0].position;
-                       
+
                     }
                     else if (Input.touches[0].position.x > (Screen.width / 2))
                     {
                         startTouch2 = Input.touches[0].position;
                         rightSideScreen = true;
-                      
+
                     }
                 }
 
@@ -457,7 +466,7 @@ public class PlayerController : MonoBehaviour
                 if (tapRequested)
                 {
                     tap = true;
-                   // lastTouch0 = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
+                    // lastTouch0 = Camera.main.ScreenToWorldPoint(Input.touches[0].position);
 
                 }
                 isDragging = false;
@@ -471,7 +480,7 @@ public class PlayerController : MonoBehaviour
                 {
                     isDragging = true;
                     tapRequested = true;
-                   
+
 
                     if (Input.touchCount == 2)
                     {
@@ -666,7 +675,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 direction = transform.position - collision.gameObject.transform.position;
 
-          
+
             if (direction.y >= directionYValue)
             {
 
