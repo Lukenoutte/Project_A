@@ -284,11 +284,17 @@ public class PlayerController : MonoBehaviour
             {
                 swipeRight = false;
                 GetComponent<Animator>().SetBool("WalkRight", false);
-                walkingRight = false;
+             
             }
 
         }
         else
+        {
+            walkingRight = false;
+        }
+        
+
+
         if (swipeLeft)
         {
 
@@ -302,12 +308,16 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                walkingLeft = false;
+                
                 GetComponent<Animator>().SetBool("WalkRight", false);
                 swipeLeft = false;
 
             }
 
+        }
+        else
+        {
+            walkingLeft = false;
         }
 
         if (!isPressed && !isPressedKeys)

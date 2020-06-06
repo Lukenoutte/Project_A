@@ -11,6 +11,15 @@ TextureImporter:
   - first:
       213: -2423331559850404618
     second: setaSpreet_2
+  - first:
+      213: -8014176027398768545
+    second: setaSpreet_0
+  - first:
+      213: -8212596946241972741
+    second: setaSpreet_1
+  - first:
+      213: -8162852286552576099
+    second: setaSpreet_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
