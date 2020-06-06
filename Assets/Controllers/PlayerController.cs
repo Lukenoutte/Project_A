@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
             {
 
                 setaTrans = seta.GetComponent<Transform>();
-                setaTrans.position = new Vector3(startTouch.x, startTouch.y, setaTrans.position.z);
+                setaTrans.position = new Vector3(startTouch.x, startTouch.y+0.1f, setaTrans.position.z);
 
             }
         }
@@ -177,12 +177,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (!isPressed)
-            {
+       
                 if (!leftKey)
                     GetComponent<Animator>().SetBool("WalkRight", false);
                 walkingRight = false;
-            }
+            
         }
 
 
@@ -195,14 +194,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (!isPressed)
-            {
+           
                 if (!rightKey)
                     GetComponent<Animator>().SetBool("WalkRight", false);
                 walkingLeft = false;
-
-
-            }
 
         }
 
@@ -290,7 +285,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            walkingRight = false;
+            if (!isPressedKeys)
+            {
+                walkingRight = false;
+            }
         }
         
 
@@ -317,7 +315,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            walkingLeft = false;
+            if (!isPressedKeys)
+            {
+                walkingLeft = false;
+            }
         }
 
         if (!isPressed && !isPressedKeys)

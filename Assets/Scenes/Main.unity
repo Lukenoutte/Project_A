@@ -973,8 +973,8 @@ MonoBehaviour:
   m_AssetsPPU: 300
   m_RefResolutionX: 800
   m_RefResolutionY: 400
-  m_UpscaleRT: 0
-  m_PixelSnapping: 0
+  m_UpscaleRT: 1
+  m_PixelSnapping: 1
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
@@ -1925,7 +1925,7 @@ RectTransform:
   m_GameObject: {fileID: 1280329287}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children:
   - {fileID: 627837998}
   m_Father: {fileID: 1842142028}
@@ -1933,8 +1933,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 656, y: 63}
-  m_SizeDelta: {x: 1293.3612, y: 122.29924}
+  m_AnchoredPosition: {x: 522, y: 52}
+  m_SizeDelta: {x: 1533.2944, y: 125.04172}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1280329289
 MonoBehaviour:
