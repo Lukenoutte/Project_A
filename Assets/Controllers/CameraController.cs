@@ -7,23 +7,25 @@ public class CameraController : MonoBehaviour
     private GameObject character;
     private Vector3 positionT;
     public float smoothTime;
+    private Transform cameraTransform, characterTransform;
     public Vector3 offset;
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
-        Screen.SetResolution(800, 400, true);
+        Screen.SetResolution(960, 480, true);
         positionT = character.GetComponent<Transform>().position;
-
+        cameraTransform = GetComponent<Transform>();
+        characterTransform = character.GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void FixedUpdate() {
         
-        positionT = character.GetComponent<Transform>().position;
+        positionT = characterTransform.position;
         Vector3 desiredPosition = positionT + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(gameObject.GetComponent<Transform>().position, desiredPosition, smoothTime);
-        gameObject.GetComponent<Transform>().position = smoothedPosition;
+        Vector3 smoothedPosition = Vector3.Lerp(cameraTransform.position, desiredPosition, smoothTime);
+        cameraTransform.position = smoothedPosition;
 
     }
 }

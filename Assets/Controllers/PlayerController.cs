@@ -13,47 +13,42 @@ public class PlayerController : MonoBehaviour
     private float speed, jumpForce;
 
     public GameObject seta;
-    private float directionYValue;
-    private bool swipeLeft, swipeRight, swipeUp, swipeDown;
-    public bool walkingRight, walkingLeft = false;
-    private bool isDragging;
-    private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2 = Vector2.zero;
-    private float sideRotation;
-    private float rotationSmooth;
-    private int speedR;
-    private bool isPressed;
-    private bool isPressedKeys;
-    private Transform setaTrans;
-    private bool firstJump = false;
-    private bool doubleJump = false;
-    private bool tapRequested, tap;
-    private bool jumpTap = false;
-    private bool rightSideScreen = false;
-    private bool blockLoop = false;
+    
+    private bool swipeLeft, swipeRight, swipeUp, swipeDown, isGroundedMain, isDragging,
+        isPressed, isPressedKeys, tapRequested, tap;
 
-    private float oldPosition = 0;
-    public bool fakeWalk = false;
+    private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2 = Vector2.zero;
+    private float sideRotation, rotationSmooth, angle;
+
+    private int speedR, h;
+
+
+    public bool fakeWalk, walkingRight, walkingLeft;
+
+    private bool jumpTap, rightSideScreen, blockLoop,
+        upKey, rightKey, leftKey, firstJump, doubleJump = false;
+
+    private float oldPosition, directionYValue = 0;
+
     //private Vector3 lastTouch0;
     //private Vector3 lastTouch1;
 
-    private bool isGroundedMain;
-
-    //Angle
-    private float angle;
     private RaycastHit2D[] hits;
-    private int h;
-
+    
     private RaycastHit2D hitsMain;
-
-    private bool upKey = false;
-    private bool rightKey = false;
-    private bool leftKey = false;
-
+  
+    private Animator setaAnimator, playerAnimator;
+    private SpriteRenderer playerSpriteRender;
+    private Transform playerTransform, setaTrans;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        playerTransform = GetComponent<Transform>();
+        playerSpriteRender = GetComponent<SpriteRenderer>();
+        setaAnimator = seta.GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
+        setaTrans = seta.GetComponent<Transform>();
         directionYValue = 0.55f;
         instance = this;
 
@@ -76,40 +71,42 @@ public class PlayerController : MonoBehaviour
 
         if (walkingRight)
         {
-            seta.GetComponent<Animator>().SetBool("WalkingRight", true);
+            setaAnimator.SetBool("WalkingRight", true);
         }
         else
         {
-            seta.GetComponent<Animator>().SetBool("WalkingRight", false);
+            setaAnimator.SetBool("WalkingRight", false);
         }
 
         if (walkingLeft)
         {
-            seta.GetComponent<Animator>().SetBool("WalkingLeft", true);
+            setaAnimator.SetBool("WalkingLeft", true);
         }
         else
         {
-            seta.GetComponent<Animator>().SetBool("WalkingLeft", false);
+            setaAnimator.SetBool("WalkingLeft", false);
         }
 
         if (walkingLeft | walkingRight)
         {
             StartCoroutine(OldPositionDelay());
-            if (GetComponent<Transform>().position.x == oldPosition)
+            if (playerTransform.position.x == oldPosition)
             {
                 fakeWalk = true;
+              
             }
             else
             {
                 fakeWalk = false;
+                oldPosition = 0;
             }
 
             seta.SetActive(true);
             if (startTouch != Vector2.zero)
             {
 
-                setaTrans = seta.GetComponent<Transform>();
-                setaTrans.position = new Vector3(startTouch.x, startTouch.y+0.1f, setaTrans.position.z);
+                
+                setaTrans.position = new Vector3(startTouch.x, startTouch.y + 0.6f, setaTrans.position.z);
 
             }
         }
@@ -121,11 +118,11 @@ public class PlayerController : MonoBehaviour
 
         if (fakeWalk)
         {
-            GetComponent<Animator>().SetBool("FakeWalk", true);
+            playerAnimator.SetBool("FakeWalk", true);
         }
         else
         {
-            GetComponent<Animator>().SetBool("FakeWalk", false);
+            playerAnimator.SetBool("FakeWalk", false);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -171,32 +168,35 @@ public class PlayerController : MonoBehaviour
         {
 
             rb.velocity = new Vector2(speed, rb.velocity.y);
-            GetComponent<Animator>().SetBool("WalkRight", true);
-            GetComponent<SpriteRenderer>().flipX = true;
+            playerAnimator.SetBool("WalkRight", true);
+            playerSpriteRender.flipX = true;
             walkingRight = true;
         }
         else
         {
-       
-                if (!leftKey)
-                    GetComponent<Animator>().SetBool("WalkRight", false);
-                walkingRight = false;
-            
+
+            if (!leftKey)
+                playerAnimator.SetBool("WalkRight", false);
+            if(!isDragging)
+            walkingRight = false;
+
         }
 
 
         if (leftKey)
         {
-            GetComponent<Animator>().SetBool("WalkRight", true);
+            playerAnimator.SetBool("WalkRight", true);
             rb.velocity = new Vector2(-speed, rb.velocity.y);
-            GetComponent<SpriteRenderer>().flipX = false;
+            playerSpriteRender.flipX = false;
             walkingLeft = true;
         }
         else
         {
-           
-                if (!rightKey)
-                    GetComponent<Animator>().SetBool("WalkRight", false);
+
+            if (!rightKey)
+                playerAnimator.SetBool("WalkRight", false);
+
+            if (!isDragging)
                 walkingLeft = false;
 
         }
@@ -271,15 +271,15 @@ public class PlayerController : MonoBehaviour
             {
 
                 rb.velocity = new Vector2(speed, rb.velocity.y);
-                GetComponent<Animator>().SetBool("WalkRight", true);
-                GetComponent<SpriteRenderer>().flipX = true;
+                playerAnimator.SetBool("WalkRight", true);
+                playerSpriteRender.flipX = true;
                 walkingRight = true;
             }
             else
             {
                 swipeRight = false;
-                GetComponent<Animator>().SetBool("WalkRight", false);
-             
+                playerAnimator.SetBool("WalkRight", false);
+
             }
 
         }
@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour
                 walkingRight = false;
             }
         }
-        
+
 
 
         if (swipeLeft)
@@ -299,15 +299,15 @@ public class PlayerController : MonoBehaviour
             if (isPressed)
             {
                 walkingLeft = true;
-                GetComponent<Animator>().SetBool("WalkRight", true);
+                playerAnimator.SetBool("WalkRight", true);
                 rb.velocity = new Vector2(-speed, rb.velocity.y);
-                GetComponent<SpriteRenderer>().flipX = false;
+                playerSpriteRender.flipX = false;
 
             }
             else
             {
-                
-                GetComponent<Animator>().SetBool("WalkRight", false);
+
+                playerAnimator.SetBool("WalkRight", false);
                 swipeLeft = false;
 
             }
@@ -368,7 +368,7 @@ public class PlayerController : MonoBehaviour
 
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                GetComponent<Animator>().SetBool("Jump", true);
+                playerAnimator.SetBool("Jump", true);
                 StartCoroutine(JumpOffDelay());
 
 
@@ -383,12 +383,12 @@ public class PlayerController : MonoBehaviour
 
         if (!isGroundedMain)
         {
-            GetComponent<Animator>().SetBool("InTheAir", true);
+            playerAnimator.SetBool("InTheAir", true);
         }
         else
         {
 
-            GetComponent<Animator>().SetBool("InTheAir", false);
+            playerAnimator.SetBool("InTheAir", false);
 
             if (!blockLoop)
             {
@@ -657,7 +657,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        GetComponent<Animator>().SetBool("Jump", false);
+        playerAnimator.SetBool("Jump", false);
         swipeUp = false;
         blockLoop = false;
 
@@ -669,9 +669,9 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(2.3f);
 
-        oldPosition = GetComponent<Transform>().position.x;
+        oldPosition = playerTransform.position.x;
 
     }
 
