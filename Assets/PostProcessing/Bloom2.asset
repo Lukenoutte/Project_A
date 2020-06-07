@@ -56,16 +56,16 @@ MonoBehaviour:
     value: 50
   tint:
     overrideState: 0
-    value: 0
+    value: -100
   colorFilter:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    overrideState: 1
+    value: {r: 0.52793527, g: 0.41233534, b: 0.7735849, a: 1}
   hueShift:
     overrideState: 0
-    value: 0
+    value: 180
   saturation:
     overrideState: 0
-    value: 0
+    value: -98
   brightness:
     overrideState: 0
     value: 0
@@ -74,16 +74,16 @@ MonoBehaviour:
     value: 0
   contrast:
     overrideState: 0
-    value: 0
+    value: -64
   mixerRedOutRedIn:
     overrideState: 0
-    value: 100
+    value: 27
   mixerRedOutGreenIn:
     overrideState: 0
     value: 0
   mixerRedOutBlueIn:
     overrideState: 0
-    value: 0
+    value: 14
   mixerGreenOutRedIn:
     overrideState: 0
     value: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
     value: {x: 1, y: 1, z: 1, w: 0}
   gain:
     overrideState: 0
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 0.96157193, y: 0.100723684, z: 1, w: 1}
   masterCurve:
     overrideState: 0
     value:
@@ -1329,13 +1329,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 73
+    value: 68
   threshold:
     overrideState: 1
     value: 1
   softKnee:
     overrideState: 1
-    value: 0.02
+    value: 0.03
   clamp:
     overrideState: 0
     value: 65472

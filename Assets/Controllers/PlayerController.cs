@@ -669,7 +669,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(2.3f);
+        yield return new WaitForSeconds(2f);
 
         oldPosition = playerTransform.position.x;
 

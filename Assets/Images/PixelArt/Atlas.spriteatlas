@@ -43,7 +43,6 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: a30f6af6b22f6db47b4e9754bd65243f, type: 3}
-    - {fileID: 2800000, guid: 24753063f2435f448a6183c73c66e647, type: 3}
     - {fileID: 2800000, guid: 55207887dfc306044b96b0f785a24024, type: 3}
     - {fileID: 2800000, guid: f34c19737e386284588e367b056c8b3c, type: 3}
     - {fileID: 2800000, guid: 9faa4f6dd0ec74b4cbfdbb7f023ed104, type: 3}
@@ -52,7 +51,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 5761550961594fd4386fba77f280a6b5, type: 3}
     - {fileID: 2800000, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
     - {fileID: 2800000, guid: 4af029e330e33424cafed6b1bd08a7b3, type: 3}
-    totalSpriteSurfaceArea: 104550
+    totalSpriteSurfaceArea: 100550
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -62,7 +61,6 @@ SpriteAtlas:
   - {fileID: 7651787296019861252, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
   - {fileID: -3730459097738142952, guid: a75e40e04f4c0cb40a9a2fbddcabb58f, type: 3}
   - {fileID: 21300000, guid: 10d613e27e3e7274f8200d43d3fa7c88, type: 3}
-  - {fileID: 21300000, guid: 24753063f2435f448a6183c73c66e647, type: 3}
   - {fileID: 21300000, guid: f34c19737e386284588e367b056c8b3c, type: 3}
   - {fileID: -6882553692638192943, guid: 4af029e330e33424cafed6b1bd08a7b3, type: 3}
   - {fileID: -860365085266633373, guid: 4af029e330e33424cafed6b1bd08a7b3, type: 3}
@@ -86,7 +84,6 @@ SpriteAtlas:
   - spriteMolhado_0
   - spriteMolhado_4
   - Ground2
-  - arvere
   - Fio
   - spreetHouses_0
   - spreetHouses_1
