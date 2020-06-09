@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float speed, jumpForce;
 
     public GameObject seta;
+    private int countCollision=0;
     
     private bool swipeLeft, swipeRight, swipeUp, swipeDown, isGroundedMain, isDragging,
         isPressed, isPressedKeys, tapRequested, tap;
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour
         setaAnimator = seta.GetComponent<Animator>();
         playerAnimator = GetComponent<Animator>();
         setaTrans = seta.GetComponent<Transform>();
-        directionYValue = 0.55f;
+        directionYValue = 0.54f;
         instance = this;
 
         swipeDelta = Vector2.zero;
@@ -90,7 +91,7 @@ public class PlayerController : MonoBehaviour
         if (walkingLeft | walkingRight)
         {
             StartCoroutine(OldPositionDelay());
-            if (playerTransform.position.x == oldPosition)
+            if (playerTransform.position.x == oldPosition && countCollision > 1)
             {
                 fakeWalk = true;
               
@@ -669,7 +670,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         oldPosition = playerTransform.position.x;
 
@@ -681,16 +682,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
+        countCollision++;
         if (collision.gameObject.tag == "Ground")
         {
+            
             Vector3 direction = transform.position - collision.gameObject.transform.position;
 
-
+            
             if (direction.y >= directionYValue)
             {
 
                 isGroundedMain = true;
+                
             }
 
 
@@ -708,10 +711,10 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         Vector3 direction = transform.position - collision.gameObject.transform.position;
-
+        countCollision--;
         if (collision.gameObject.tag == "Ground" && direction.y >= directionYValue)
         {
-
+            
             isGroundedMain = false;
 
 

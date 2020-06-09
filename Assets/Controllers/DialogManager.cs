@@ -13,7 +13,7 @@ public class DialogManager : MonoBehaviour
     private int index;
     private float speed;
     public bool continueButton = false;
-    private bool allowedContinue = false;
+    public bool allowedContinue = false;
 
     void Start()
     {
@@ -38,6 +38,7 @@ public class DialogManager : MonoBehaviour
         {
             NextSentence();
             continueButton = false;
+            allowedContinue = false;
         }
     }
 
