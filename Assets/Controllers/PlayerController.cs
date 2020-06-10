@@ -11,23 +11,23 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float speed, jumpForce;
-
+    private Vector3 directionGround = Vector3.zero;
     public GameObject seta;
-    private int countCollision=0;
-    
-    private bool swipeLeft, swipeRight, swipeUp, swipeDown, isGroundedMain, isDragging,
+    private int countCollision = 0;
+    public bool isGroundedMain, firstJump, doubleJump;
+    private bool swipeLeft, swipeRight, swipeUp, swipeDown, isDragging,
         isPressed, isPressedKeys, tapRequested, tap;
 
     private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2 = Vector2.zero;
-    private float sideRotation, rotationSmooth, angle;
 
-    private int speedR, h;
 
+    public LayerMask groundLayers;
+    public float groundCheckDistance;
 
     public bool fakeWalk, walkingRight, walkingLeft;
 
     private bool jumpTap, rightSideScreen, blockLoop,
-        upKey, rightKey, leftKey, firstJump, doubleJump = false;
+        upKey, rightKey, leftKey = false;
 
     private float oldPosition, directionYValue = 0;
 
@@ -35,9 +35,9 @@ public class PlayerController : MonoBehaviour
     //private Vector3 lastTouch1;
 
     private RaycastHit2D[] hits;
-    
+
     private RaycastHit2D hitsMain;
-  
+
     private Animator setaAnimator, playerAnimator;
     private SpriteRenderer playerSpriteRender;
     private Transform playerTransform, setaTrans;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         swipeDelta2 = Vector2.zero;
         isDragging = false;
         hits = new RaycastHit2D[2];
-        speedR = 80;
+        
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
 
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+        ComfirmIfIsGrounded();
         if (walkingRight)
         {
             setaAnimator.SetBool("WalkingRight", true);
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
             if (playerTransform.position.x == oldPosition && countCollision > 1)
             {
                 fakeWalk = true;
-              
+
             }
             else
             {
@@ -106,8 +106,8 @@ public class PlayerController : MonoBehaviour
             if (startTouch != Vector2.zero)
             {
 
-                
-                setaTrans.position = new Vector3(startTouch.x, startTouch.y + 0.6f, setaTrans.position.z);
+
+                setaTrans.position = new Vector3(startTouch.x, startTouch.y + 7f, setaTrans.position.z);
 
             }
         }
@@ -178,8 +178,8 @@ public class PlayerController : MonoBehaviour
 
             if (!leftKey)
                 playerAnimator.SetBool("WalkRight", false);
-            if(!isDragging)
-            walkingRight = false;
+            if (!isDragging)
+                walkingRight = false;
 
         }
 
@@ -203,63 +203,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        h = Physics2D.RaycastNonAlloc(transform.position, -Vector2.up, hits); //cast downwards
-        if (h > 1)
-        { //if we hit something do stuff
-
-            if (hits[0].collider.tag == "Ground")
-            {
-                hitsMain = hits[0];
-            }
-            else if (hits[1].collider.tag == "Ground")
-            {
-                hitsMain = hits[1];
-            }
-
-            if (hitsMain != null)
-            {
-                sideRotation = hitsMain.normal.x;
-
-                if (isGroundedMain)
-                {
-                    angle = Mathf.Abs(Mathf.Atan2(hitsMain.normal.x, hitsMain.normal.y) * Mathf.Rad2Deg); //get angle
-                }
-                else
-                {
-                    angle = 0;
-                }
-
-                if (rotationSmooth <= angle)
-                {
-                    rotationSmooth += Time.deltaTime * speedR;
-                }
-
-
-                if (rotationSmooth >= angle)
-                {
-                    rotationSmooth -= Time.deltaTime * speedR;
-                }
-
-                if (sideRotation > 0) // Esquerdo
-                {
-
-                    transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
-
-
-                }
-                else if (sideRotation < 0)// Direito
-                {
-
-                    transform.rotation = Quaternion.Euler(0, 0, rotationSmooth);
-
-                }
-                else // Reto
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, -rotationSmooth);
-                }
-            }
-
-        }
 
 
 
@@ -497,7 +440,7 @@ public class PlayerController : MonoBehaviour
                     if (Input.touchCount == 2)
                     {
 
-                        if (Input.touches[1].position.x < Screen.width / 2)
+                        if (Input.touches[1].position.x < Screen.width / 2 && !isDragging)
                         {
                             startTouch = Input.touches[1].position;
                         }
@@ -685,15 +628,15 @@ public class PlayerController : MonoBehaviour
         countCollision++;
         if (collision.gameObject.tag == "Ground")
         {
-            
-            Vector3 direction = transform.position - collision.gameObject.transform.position;
 
-            
-            if (direction.y >= directionYValue)
+            directionGround = transform.position - collision.gameObject.transform.position;
+
+
+            if (directionGround.y >= directionYValue)
             {
 
                 isGroundedMain = true;
-                
+
             }
 
 
@@ -710,11 +653,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        Vector3 direction = transform.position - collision.gameObject.transform.position;
+        directionGround = transform.position - collision.gameObject.transform.position;
         countCollision--;
-        if (collision.gameObject.tag == "Ground" && direction.y >= directionYValue)
+
+        if (collision.gameObject.tag == "Ground" && directionGround.y >= directionYValue)
         {
-            
+
             isGroundedMain = false;
 
 
@@ -722,5 +666,25 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private void ComfirmIfIsGrounded()
+    {
+        
+        Ray2D ray = new Ray2D(transform.position, Vector2.down);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
+
+    
+        if (countCollision <= 1)
+        {
+            if (hit)
+            {
+                if (!isGroundedMain)
+                {
+                    isGroundedMain = true;
+                }
+
+            }
+     
+        }
+    }
 
 }
