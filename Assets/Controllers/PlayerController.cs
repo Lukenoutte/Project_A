@@ -15,11 +15,11 @@ public class PlayerController : MonoBehaviour
     public GameObject seta;
     private int countCollision = 0;
     public bool isGroundedMain, firstJump, doubleJump, isDragging1, tapRequested1, isDragging2,
-        tapRequested2, tap1, tap2, rightSideScreen, leftSideScreen;
+        tapRequested2, tap1, tap2, rightSideScreen, leftSideScreen, leftFrist, rightFirst;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown,
         isPressed, isPressedKeys = false;
 
-    private Vector2 startTouch, startTouch2, swipeDelta, swipeDelta2 = Vector2.zero;
+    private Vector2 startTouch, startTouch2 = Vector2.zero;
 
     public bool confirmGrounded;
     public LayerMask groundLayers;
@@ -53,10 +53,8 @@ public class PlayerController : MonoBehaviour
         directionYValue = 0.54f;
         instance = this;
 
-        swipeDelta = Vector2.zero;
-        swipeDelta2 = Vector2.zero;
 
-        
+
 
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
@@ -69,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
+
         ComfirmIfIsGrounded();
         if (walkingRight)
         {
@@ -228,7 +226,8 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             isPressed = false;
-
+            walkingLeft = false;
+            walkingRight = false;
         }
 
         if (upKey | jumpTap)
@@ -329,6 +328,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isDragging1)
             {
+                walkingLeft = false;
                 walkingRight = true;
                 rb.velocity = new Vector2(speed, rb.velocity.y);
                 playerAnimator.SetBool("WalkRight", true);
@@ -336,16 +336,19 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                walkingRight = false;
                 playerAnimator.SetBool("WalkRight", false);
-                
+
             }
-            
+
         }
-        else if(startTouch.x < setaPosition && leftSideScreen)
+
+
+
+        if (startTouch.x < setaPosition && leftSideScreen)
         {
             if (isDragging1)
             {
+                walkingRight = false;
                 walkingLeft = true;
                 playerAnimator.SetBool("WalkRight", true);
                 rb.velocity = new Vector2(-speed, rb.velocity.y);
@@ -353,9 +356,9 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                walkingLeft = false;
+
                 playerAnimator.SetBool("WalkRight", false);
-                
+
             }
         }
 
@@ -377,11 +380,14 @@ public class PlayerController : MonoBehaviour
                     {
                         startTouch = Input.touches[0].position;
                         leftSideScreen = true;
+                        leftFrist = true;
+
                     }
                     else if (Input.touches[0].position.x > (Screen.width / 2))
                     {
                         startTouch2 = Input.touches[0].position;
                         rightSideScreen = true;
+                        rightFirst = true;
 
                     }
                 }
@@ -412,10 +418,15 @@ public class PlayerController : MonoBehaviour
                     if (Input.touchCount == 2)
                     {
 
-                        if (Input.touches[1].position.x < Screen.width / 2 && !isDragging1)
+                        if (Input.touches[1].position.x < Screen.width / 2)
                         {
-                            startTouch = Input.touches[1].position;
                             leftSideScreen = true;
+                            if (leftSideScreen && rightSideScreen)
+                            {
+                                startTouch = Input.touches[1].position;
+                                
+                            }
+                            
                         }
                         if (Input.touches[1].position.x > Screen.width / 2)
                         {
@@ -440,7 +451,22 @@ public class PlayerController : MonoBehaviour
         #endregion
 
 
+        if (isDragging1)
+        {
+            if (Input.touchCount > 0)
+            {
+                if (startTouch != Vector2.zero && leftSideScreen && leftFrist)
+                {
+                    startTouch = Input.touches[0].position;
 
+                }
+                else if (startTouch != Vector2.zero && leftSideScreen && rightFirst)
+                {
+                    if(Input.touchCount > 1) 
+                    startTouch = Input.touches[1].position;
+                }
+            }
+        }
 
 
 
@@ -452,18 +478,16 @@ public class PlayerController : MonoBehaviour
     private void Reset1()
     {
 
-        startTouch = swipeDelta = Vector2.zero;
-        isDragging1 = false;
-        tapRequested1 = false;
-        leftSideScreen = false;
+        startTouch = Vector2.zero;
+        isDragging1 = tapRequested1 = leftSideScreen = rightFirst = leftFrist = false;
     }
 
     private void Reset2()
     {
 
-        startTouch2 = swipeDelta2 = Vector2.zero;
-        isDragging2 = false;
-        tapRequested2 = false;
+        startTouch2 = Vector2.zero;
+        isDragging2 = tapRequested2 = false;
+
     }
 
 

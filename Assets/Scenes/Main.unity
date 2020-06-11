@@ -1279,11 +1279,13 @@ MonoBehaviour:
   tap2: 0
   rightSideScreen: 0
   leftSideScreen: 0
+  leftFrist: 0
+  rightFirst: 0
   confirmGrounded: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 512
-  groundCheckDistance: 0.14
+  groundCheckDistance: 0.15
   fakeWalk: 0
   walkingRight: 0
   walkingLeft: 0
