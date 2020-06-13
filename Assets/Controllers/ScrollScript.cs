@@ -22,28 +22,36 @@ public class ScrollScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!player.fakeWalk)
+        if (player != null)
         {
-            if (player.walkingLeft)
+            if (!player.fakeWalk)
             {
-                aux -= Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
+                if (player.walkingLeft)
+                {
+                    aux -= Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
 
-                offset = new Vector2(aux, 0);
+                    offset = new Vector2(aux, 0);
 
-                mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
+                    mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
+
+                }
+
+                if (player.walkingRight)
+                {
+                    aux += Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
+
+                    offset = new Vector2(aux, 0);
+
+                    mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
+
+                }
 
             }
-
-            if (player.walkingRight)
-            {
-                aux += Convert.ToSingle(Math.Round(Time.deltaTime * speed, 5));
-
-                offset = new Vector2(aux, 0);
-
-                mesh.sharedMaterial.SetTextureOffset("_MainTex", offset);
-
-            }
-
+        }
+        else
+        {
+            player = PlayerController.instance;
+            
         }
 
     }
