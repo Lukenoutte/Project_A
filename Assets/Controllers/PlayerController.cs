@@ -68,6 +68,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        // Death
+        if(playerTransform.position.y < -1.5f)
+        {
+            SceneManager.LoadScene(0);
+        }
+
         ComfirmIfIsGrounded();
         if (walkingRight)
         {
@@ -97,8 +103,15 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                fakeWalk = false;
-                oldPosition = 0;
+                if (playerTransform.position.x == oldPosition && !isGroundedMain)
+                {
+                    fakeWalk = true;
+                }
+                else
+                {
+                    fakeWalk = false;
+                    oldPosition = 0;
+                }
             }
 
 
@@ -534,7 +547,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
 
         oldPosition = playerTransform.position.x;
 
@@ -565,10 +578,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (collision.gameObject.tag == "Reset")
-        {
-            SceneManager.LoadScene(0);
-        }
     }
 
 

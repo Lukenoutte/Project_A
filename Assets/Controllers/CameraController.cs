@@ -23,6 +23,10 @@ public class CameraController : MonoBehaviour
     void FixedUpdate() {
         
         positionT = characterTransform.position;
+        if(positionT.y < -0.67f)
+        {
+            positionT.y = -0.67f;
+        }
         Vector3 desiredPosition = positionT + offset;
         Vector3 smoothedPosition = Vector3.Lerp(cameraTransform.position, desiredPosition, smoothTime);
         cameraTransform.position = smoothedPosition;

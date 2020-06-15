@@ -917,6 +917,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: a1527141015f9884848f274120dd2ffa
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BeforeController
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
