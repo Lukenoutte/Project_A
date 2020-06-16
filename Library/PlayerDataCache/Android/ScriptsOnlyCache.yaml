@@ -145,7 +145,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14266}
     - Class: 114
-      Script: {instanceID: 14338}
+      Script: {instanceID: 14340}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -865,6 +865,12 @@ ScriptsOnlyBuild:
     className: TMP_SubMesh
   - hash:
       serializedVersion: 2
+      Hash: a1527141015f9884848f274120dd2ffa
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BeforeController
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestRunner.Utils
@@ -917,12 +923,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: a1527141015f9884848f274120dd2ffa
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: BeforeController
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity

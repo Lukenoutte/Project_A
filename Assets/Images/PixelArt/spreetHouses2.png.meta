@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: -7594917907240202609
     second: spreetHouses2_2
+  - first:
+      213: 4599377426251957722
+    second: spreetHouses2_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -111,7 +114,7 @@ TextureImporter:
       name: spreetHouses2_0
       rect:
         serializedVersion: 2
-        x: 80
+        x: 0
         y: 0
         width: 80
         height: 90
@@ -132,7 +135,7 @@ TextureImporter:
       name: spreetHouses2_1
       rect:
         serializedVersion: 2
-        x: 160
+        x: 80
         y: 0
         width: 80
         height: 90
@@ -153,7 +156,7 @@ TextureImporter:
       name: spreetHouses2_2
       rect:
         serializedVersion: 2
-        x: 240
+        x: 160
         y: 0
         width: 80
         height: 90
@@ -166,6 +169,27 @@ TextureImporter:
       bones: []
       spriteID: f8ec1b8276e699690800000000000000
       internalID: -7594917907240202609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spreetHouses2_3
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 80
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad5c2bf866544df30800000000000000
+      internalID: 4599377426251957722
       vertices: []
       indices: 
       edges: []
