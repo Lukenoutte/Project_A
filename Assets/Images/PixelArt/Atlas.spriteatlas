@@ -47,9 +47,6 @@ SpriteAtlas:
     - {fileID: 2800000, guid: a1887ca2c41cb114b87b94046c3303c9, type: 3}
     - {fileID: 2800000, guid: d05fc4edee7dcf944b76884b251173c7, type: 3}
     - {fileID: 2800000, guid: a41689cee5cbedc4a9ca7f8916e6e57d, type: 3}
-    - {fileID: 2800000, guid: c78bade00ed41e842baba3412c48c378, type: 3}
-    - {fileID: 2800000, guid: 5024bcd1edb556e41b7222c9a6642496, type: 3}
-    - {fileID: 2800000, guid: 5e6914ba5960e064084f20f5f08297e6, type: 3}
     - {fileID: 2800000, guid: b47768165d54e0d41ad04804702aa9f4, type: 3}
     - {fileID: 2800000, guid: b48bc8db63727314c952322b2687c898, type: 3}
     - {fileID: 2800000, guid: 679417c988d20ab4db34203a68a57651, type: 3}
@@ -62,12 +59,10 @@ SpriteAtlas:
     - {fileID: 2800000, guid: b9cc593afe74b6b41b499d6796a75057, type: 3}
     - {fileID: 2800000, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
     - {fileID: 2800000, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
-    totalSpriteSurfaceArea: 221212
+    totalSpriteSurfaceArea: 146212
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: c78bade00ed41e842baba3412c48c378, type: 3}
-  - {fileID: 21300000, guid: 5024bcd1edb556e41b7222c9a6642496, type: 3}
   - {fileID: 21300000, guid: a1887ca2c41cb114b87b94046c3303c9, type: 3}
   - {fileID: 21300000, guid: 50edd7c2c2896fd42b96a0831fe01718, type: 3}
   - {fileID: 21300000, guid: d62668232ea34c04a86dd6d5b7bacca3, type: 3}
@@ -84,7 +79,6 @@ SpriteAtlas:
   - {fileID: 4599377426251957722, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
   - {fileID: 21300000, guid: b9cc593afe74b6b41b499d6796a75057, type: 3}
   - {fileID: 21300000, guid: cd4a2d4a862905945b6b38eebc7d461d, type: 3}
-  - {fileID: 21300000, guid: 5e6914ba5960e064084f20f5f08297e6, type: 3}
   - {fileID: 21300000, guid: b48bc8db63727314c952322b2687c898, type: 3}
   - {fileID: 21300000, guid: 5052e80dd1c941c4dbb8c9846181173b, type: 3}
   - {fileID: 21300000, guid: d05fc4edee7dcf944b76884b251173c7, type: 3}
@@ -93,8 +87,6 @@ SpriteAtlas:
   - {fileID: -6850200361853512993, guid: a41689cee5cbedc4a9ca7f8916e6e57d, type: 3}
   - {fileID: 21300000, guid: d17a4c0f04c6e9d428956b6074d074cd, type: 3}
   m_PackedSpriteNamesToIndex:
-  - city1
-  - city2
   - arvere3
   - arvere
   - arvere2
@@ -111,7 +103,6 @@ SpriteAtlas:
   - spreetHouses2_3
   - posteV2
   - poste2
-  - city3
   - gramaNova2
   - Ground3New2
   - bg2

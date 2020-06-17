@@ -154,6 +154,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 196
       Script: {instanceID: 0}
+    - Class: 198
+      Script: {instanceID: 0}
+    - Class: 199
+      Script: {instanceID: 0}
     - Class: 212
       Script: {instanceID: 0}
     - Class: 213
@@ -739,7 +743,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: acd85feadf13ca50de465f111f074d3b
+      Hash: 916bf1b86f946e54e9b9681808d810f9
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController

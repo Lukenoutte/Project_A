@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance { set; get; }
     private Rigidbody2D rb;
-
+    public ParticleSystem dust;
     [SerializeField]
     private float speed, jumpForce;
     private Vector3 directionGround = Vector3.zero;
@@ -255,6 +255,12 @@ public class PlayerController : MonoBehaviour
                 blockLoop = true;
                 if (!firstJump)
                 {
+
+                    if (isGroundedMain)
+                    {
+                        dust.Play();
+                    }  
+                  
                     firstJump = true;
 
                 }
@@ -263,7 +269,7 @@ public class PlayerController : MonoBehaviour
                     doubleJump = true;
                 }
 
-
+               
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 playerAnimator.SetBool("Jump", true);
                 StartCoroutine(JumpOffDelay());
@@ -568,7 +574,7 @@ public class PlayerController : MonoBehaviour
 
             if (directionGround.y >= directionYValue)
             {
-
+                dust.Play();
                 isGroundedMain = true;
 
             }
