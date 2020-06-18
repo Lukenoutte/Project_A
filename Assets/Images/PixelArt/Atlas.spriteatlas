@@ -58,8 +58,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: cd4a2d4a862905945b6b38eebc7d461d, type: 3}
     - {fileID: 2800000, guid: b9cc593afe74b6b41b499d6796a75057, type: 3}
     - {fileID: 2800000, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
-    - {fileID: 2800000, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
-    totalSpriteSurfaceArea: 146212
+    totalSpriteSurfaceArea: 117412
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -73,10 +72,6 @@ SpriteAtlas:
   - {fileID: 2668557502131563437, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
   - {fileID: -4835120993822786502, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
   - {fileID: 21300000, guid: 679417c988d20ab4db34203a68a57651, type: 3}
-  - {fileID: -1853769667415509668, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
-  - {fileID: 4954868068606625235, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
-  - {fileID: -7594917907240202609, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
-  - {fileID: 4599377426251957722, guid: 650f111a15ecc9b48a63d6aa07c929aa, type: 3}
   - {fileID: 21300000, guid: b9cc593afe74b6b41b499d6796a75057, type: 3}
   - {fileID: 21300000, guid: cd4a2d4a862905945b6b38eebc7d461d, type: 3}
   - {fileID: 21300000, guid: b48bc8db63727314c952322b2687c898, type: 3}
@@ -97,10 +92,6 @@ SpriteAtlas:
   - setaSpreet_0
   - setaSpreet_1
   - Ground2NewTwoSides
-  - spreetHouses2_0
-  - spreetHouses2_1
-  - spreetHouses2_2
-  - spreetHouses2_3
   - posteV2
   - poste2
   - gramaNova2
