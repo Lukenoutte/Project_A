@@ -49,16 +49,12 @@ SpriteAtlas:
     - {fileID: 2800000, guid: a41689cee5cbedc4a9ca7f8916e6e57d, type: 3}
     - {fileID: 2800000, guid: b47768165d54e0d41ad04804702aa9f4, type: 3}
     - {fileID: 2800000, guid: b48bc8db63727314c952322b2687c898, type: 3}
-    - {fileID: 2800000, guid: 679417c988d20ab4db34203a68a57651, type: 3}
-    - {fileID: 2800000, guid: 5052e80dd1c941c4dbb8c9846181173b, type: 3}
-    - {fileID: 2800000, guid: 074256b4a94e21544bd1e01788a8a38d, type: 3}
-    - {fileID: 2800000, guid: d17a4c0f04c6e9d428956b6074d074cd, type: 3}
     - {fileID: 2800000, guid: 55de8c9352812124a9e67b1ac0e7e093, type: 3}
     - {fileID: 2800000, guid: 24e9db6ee161ce44983feae2858acabb, type: 3}
     - {fileID: 2800000, guid: cd4a2d4a862905945b6b38eebc7d461d, type: 3}
     - {fileID: 2800000, guid: b9cc593afe74b6b41b499d6796a75057, type: 3}
     - {fileID: 2800000, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
-    totalSpriteSurfaceArea: 117412
+    totalSpriteSurfaceArea: 56412
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -66,40 +62,32 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 50edd7c2c2896fd42b96a0831fe01718, type: 3}
   - {fileID: 21300000, guid: d62668232ea34c04a86dd6d5b7bacca3, type: 3}
   - {fileID: 21300000, guid: 55de8c9352812124a9e67b1ac0e7e093, type: 3}
-  - {fileID: 21300000, guid: 074256b4a94e21544bd1e01788a8a38d, type: 3}
   - {fileID: 21300000, guid: b47768165d54e0d41ad04804702aa9f4, type: 3}
   - {fileID: -2423331559850404618, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
   - {fileID: 2668557502131563437, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
   - {fileID: -4835120993822786502, guid: 8f0227e63aa715f49b6b72efa55ccc5c, type: 3}
-  - {fileID: 21300000, guid: 679417c988d20ab4db34203a68a57651, type: 3}
   - {fileID: 21300000, guid: b9cc593afe74b6b41b499d6796a75057, type: 3}
   - {fileID: 21300000, guid: cd4a2d4a862905945b6b38eebc7d461d, type: 3}
   - {fileID: 21300000, guid: b48bc8db63727314c952322b2687c898, type: 3}
-  - {fileID: 21300000, guid: 5052e80dd1c941c4dbb8c9846181173b, type: 3}
   - {fileID: 21300000, guid: d05fc4edee7dcf944b76884b251173c7, type: 3}
   - {fileID: 21300000, guid: 24e9db6ee161ce44983feae2858acabb, type: 3}
   - {fileID: -5114806638957918057, guid: a41689cee5cbedc4a9ca7f8916e6e57d, type: 3}
   - {fileID: -6850200361853512993, guid: a41689cee5cbedc4a9ca7f8916e6e57d, type: 3}
-  - {fileID: 21300000, guid: d17a4c0f04c6e9d428956b6074d074cd, type: 3}
   m_PackedSpriteNamesToIndex:
   - arvere3
   - arvere
   - arvere2
   - Lixeiro2
-  - Ground3New3
   - gramaNova
   - setaSpreet_2
   - setaSpreet_0
   - setaSpreet_1
-  - Ground2NewTwoSides
   - posteV2
   - poste2
   - gramaNova2
-  - Ground3New2
   - bg2
   - poste
   - buraco2_0
   - buraco2_1
-  - GroundNew1
   m_Tag: Atlas
   m_IsVariant: 0

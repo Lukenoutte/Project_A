@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
     {
 
         // Death
-        if(playerTransform.position.y < -1.5f)
+        if (playerTransform.position.y < -1.5f)
         {
             SceneManager.LoadScene(0);
         }
@@ -234,7 +234,7 @@ public class PlayerController : MonoBehaviour
         {
 
             isPressed = true;
-            
+
 
         }
         else if (Input.GetMouseButtonUp(0))
@@ -258,9 +258,12 @@ public class PlayerController : MonoBehaviour
 
                     if (isGroundedMain)
                     {
+
+
                         dust.Play();
-                    }  
-                  
+
+                    }
+
                     firstJump = true;
 
                 }
@@ -269,7 +272,7 @@ public class PlayerController : MonoBehaviour
                     doubleJump = true;
                 }
 
-               
+
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 playerAnimator.SetBool("Jump", true);
                 StartCoroutine(JumpOffDelay());
@@ -412,13 +415,14 @@ public class PlayerController : MonoBehaviour
                         rightFirst = true;
 
                     }
-                }else if (Input.touchCount == 2 && rightFirst)
+                }
+                else if (Input.touchCount == 2 && rightFirst)
                 {
                     if (Input.touches[0].position.x > (Screen.width / 2))
                     {
                         startTouchRight = Input.touches[0].position;
                         rightSideScreen = true;
-                        
+
                     }
                 }
 
@@ -455,7 +459,8 @@ public class PlayerController : MonoBehaviour
                             {
                                 startTouchLeft = Input.touches[1].position;
 
-                            }else if(leftSideScreen && !rightSideScreen)
+                            }
+                            else if (leftSideScreen && !rightSideScreen)
                             {
                                 startTouchLeft = Input.touches[1].position;
                             }
@@ -517,8 +522,8 @@ public class PlayerController : MonoBehaviour
     private void Reset1()
     {
 
-        
-        isDragging1Click = tapRequested1Click  = false;
+
+        isDragging1Click = tapRequested1Click = false;
         if (!isDragging2Click)
             leftSideScreen = rightFirst = leftFrist = false;
 
@@ -574,7 +579,9 @@ public class PlayerController : MonoBehaviour
 
             if (directionGround.y >= directionYValue)
             {
+
                 dust.Play();
+
                 isGroundedMain = true;
 
             }
