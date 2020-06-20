@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private float speed, jumpForce;
     private Vector3 directionGround = Vector3.zero;
     public GameObject seta;
-    private int countCollision = 0;
+    public int countCollision = 0;
     public bool isGroundedMain, firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click,
         tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen, leftFrist, rightFirst;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown,
@@ -575,7 +575,7 @@ public class PlayerController : MonoBehaviour
         {
 
             directionGround = transform.position - collision.gameObject.transform.position;
-
+           
 
             if (directionGround.y >= directionYValue)
             {
@@ -598,8 +598,8 @@ public class PlayerController : MonoBehaviour
     {
         directionGround = transform.position - collision.gameObject.transform.position;
         countCollision--;
-
-        if (collision.gameObject.tag == "Ground" && directionGround.y >= directionYValue)
+       
+        if (collision.gameObject.tag == "Ground" && countCollision == 0)
         {
 
             isGroundedMain = false;
@@ -616,20 +616,21 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
 
 
-        if (countCollision <= 1)
+        if (countCollision == 0)
         {
             if (hit)
             {
                 confirmGrounded = true;
                 if (!isGroundedMain)
                 {
-                    isGroundedMain = true;
+                    if(firstJump && doubleJump)
+                        firstJump = doubleJump = false;
                 }
 
             }
             else
             {
-                confirmGrounded = false;
+               confirmGrounded = false;
             }
 
         }
