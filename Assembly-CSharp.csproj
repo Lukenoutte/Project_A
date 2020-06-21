@@ -69,7 +69,6 @@
     <Compile Include="Assets\Controllers\DialogText.cs" />
     <Compile Include="Assets\Controllers\Lux.cs" />
     <Compile Include="Assets\Controllers\PlayerController.cs" />
-    <Compile Include="Assets\Controllers\PostProcessing.cs" />
     <Compile Include="Assets\Controllers\ScrollScript.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Clipper.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\ConformingSpline.cs" />
@@ -656,9 +655,6 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="com.unity.multiplayer-weaver.Editor">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
     </Reference>
@@ -679,9 +675,6 @@
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
 
-   
+
 
 
 
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
         playerSpriteRender = GetComponent<SpriteRenderer>();
         setaAnimator = seta.GetComponent<Animator>();
         playerAnimator = GetComponent<Animator>();
-        setaPosition = 134;
+        setaPosition = 91;
         directionYValue = 0.54f;
         instance = this;
 
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     {
 
         // Death
-        if (playerTransform.position.y < -1.5f)
+        if (playerTransform.position.y < -2f)
         {
             SceneManager.LoadScene(0);
         }
@@ -249,47 +249,55 @@ public class PlayerController : MonoBehaviour
             }
             #endregion
 
-            // Mobile and PC Jump
-            if (upKey | jumpTap)
+            if (!Lux.instance.uIClick)
             {
-
-
-                if (!firstJump | !doubleJump)
+                // Mobile and PC Jump
+                if (upKey | jumpTap)
                 {
-                    blockLoop = true;
-                    if (!firstJump)
-                    {
 
-                        if (isGroundedMain)
+
+                    if (!firstJump | !doubleJump)
+                    {
+                        blockLoop = true;
+                        if (!firstJump)
                         {
 
+                            if (isGroundedMain)
+                            {
 
-                            dust.Play();
+
+                                dust.Play();
+
+                            }
+
+                            firstJump = true;
 
                         }
+                        else if (!doubleJump && firstJump)
+                        {
+                            doubleJump = true;
+                        }
 
-                        firstJump = true;
+
+                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                        playerAnimator.SetBool("Jump", true);
+                        StartCoroutine(JumpOffDelay());
+
 
                     }
-                    else if (!doubleJump && firstJump)
-                    {
-                        doubleJump = true;
-                    }
-
-
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                    playerAnimator.SetBool("Jump", true);
-                    StartCoroutine(JumpOffDelay());
-
-
+                    jumpTap = false;
+                    upKey = false;
                 }
-
-
-
-                jumpTap = false;
-                upKey = false;
+                
 
             }
+            else
+            {
+                Lux.instance.uIClick = false;
+            }
+
+
+
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             playerAnimator.SetFloat("Velocity", 1f);
 
@@ -376,7 +384,7 @@ public class PlayerController : MonoBehaviour
 
             tap1 = false;
             tap2 = false;
-        
+
             rightSideScreen = false;
         }
 
@@ -433,7 +441,7 @@ public class PlayerController : MonoBehaviour
                 {
                     tap1 = true;
 
-                    
+
                     tapRequested1Click = false;
 
                 }
@@ -483,7 +491,7 @@ public class PlayerController : MonoBehaviour
                         tapRequested2Click = false;
                         isDragging2Click = false;
 
-                        
+
                     }
 
                     Reset2();

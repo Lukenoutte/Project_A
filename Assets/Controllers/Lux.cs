@@ -6,6 +6,7 @@ using UnityEngine;
 public class Lux : MonoBehaviour
 {
     public bool luxMode;
+    public bool uIClick;
     public static Lux instance { set; get; }
     void Start()
     {
@@ -20,6 +21,7 @@ public class Lux : MonoBehaviour
 
     public void LuxMode()
     {
+        uIClick = true;
         if (!luxMode)
         {
             luxMode = true;
