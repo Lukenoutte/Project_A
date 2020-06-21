@@ -28,12 +28,12 @@ public class PlayerController : MonoBehaviour
     public bool fakeWalk, walkingRight, walkingLeft;
 
     private bool jumpTap, blockLoop,
-        upKey, rightKey, leftKey = false;
+        upKey, rightKey, leftKey, wasLuxMode = false;
 
-    private float oldPosition, directionYValue, setaPosition;
+    private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
 
-    //private Vector3 lastTouch0;
-    //private Vector3 lastTouch1;
+   
+
 
 
 
@@ -52,9 +52,6 @@ public class PlayerController : MonoBehaviour
         setaPosition = 134;
         directionYValue = 0.54f;
         instance = this;
-
-
-
 
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
@@ -117,8 +114,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
-
+        // Está andando e esbarrando em algo
         if (fakeWalk)
         {
             playerAnimator.SetBool("FakeWalk", true);
@@ -128,106 +124,204 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("FakeWalk", false);
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (!Lux.instance.luxMode)
         {
-            leftKey = true;
-            isPressedKeys = true;
+
+
+            // Movimento usando teclas (PC)
+            #region PC Moviments
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                leftKey = true;
+                isPressedKeys = true;
+            }
+            else
+            {
+                leftKey = false;
+
+            }
+
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rightKey = true;
+                isPressedKeys = true;
+            }
+            else
+            {
+                rightKey = false;
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                upKey = true;
+                isPressedKeys = true;
+            }
+            else
+            {
+                upKey = false;
+
+            }
+
+            if (!leftKey && !rightKey && !upKey)
+            {
+                isPressedKeys = false;
+            }
+
+
+            if (rightKey)
+            {
+
+                rb.velocity = new Vector2(speed, rb.velocity.y);
+                playerAnimator.SetBool("WalkRight", true);
+                playerSpriteRender.flipX = true;
+                walkingRight = true;
+            }
+            else
+            {
+
+                if (!leftKey)
+                    playerAnimator.SetBool("WalkRight", false);
+                if (!isDragging1Click)
+                    walkingRight = false;
+
+            }
+
+
+            if (leftKey)
+            {
+                playerAnimator.SetBool("WalkRight", true);
+                rb.velocity = new Vector2(-speed, rb.velocity.y);
+                playerSpriteRender.flipX = false;
+                walkingLeft = true;
+            }
+            else
+            {
+
+                if (!rightKey)
+                    playerAnimator.SetBool("WalkRight", false);
+
+                if (!isDragging1Click)
+                    walkingLeft = false;
+
+            }
+            #endregion
+
+            #region Mobile Moviments
+            if (startTouchLeft.x > setaPosition && leftSideScreen)
+            {
+                if (isDragging1Click | isDragging2Click)
+                {
+
+                    walkingLeft = false;
+                    walkingRight = true;
+                    rb.velocity = new Vector2(speed, rb.velocity.y);
+                    playerAnimator.SetBool("WalkRight", true);
+                    playerSpriteRender.flipX = true;
+                }
+                else
+                {
+                    playerAnimator.SetBool("WalkRight", false);
+
+                }
+
+            }
+
+
+
+            if (startTouchLeft.x < setaPosition && leftSideScreen)
+            {
+                if (isDragging1Click | isDragging2Click)
+                {
+
+                    walkingRight = false;
+                    walkingLeft = true;
+                    playerAnimator.SetBool("WalkRight", true);
+                    rb.velocity = new Vector2(-speed, rb.velocity.y);
+                    playerSpriteRender.flipX = false;
+                }
+                else
+                {
+
+                    playerAnimator.SetBool("WalkRight", false);
+
+                }
+            }
+            #endregion
+
+            // Mobile and PC Jump
+            if (upKey | jumpTap)
+            {
+
+
+                if (!firstJump | !doubleJump)
+                {
+                    blockLoop = true;
+                    if (!firstJump)
+                    {
+
+                        if (isGroundedMain)
+                        {
+
+
+                            dust.Play();
+
+                        }
+
+                        firstJump = true;
+
+                    }
+                    else if (!doubleJump && firstJump)
+                    {
+                        doubleJump = true;
+                    }
+
+
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    playerAnimator.SetBool("Jump", true);
+                    StartCoroutine(JumpOffDelay());
+
+
+                }
+
+
+
+                jumpTap = false;
+                upKey = false;
+
+            }
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            playerAnimator.SetFloat("Velocity", 1f);
+
+            if (wasLuxMode)
+            {
+                rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
+                wasLuxMode = false;
+                fakeWalk = false;
+                oldVelocityX = oldVelocityY = 0;
+
+            }
         }
         else
         {
-            leftKey = false;
+            fakeWalk = true;
+            if (oldVelocityX == 0 && oldVelocityY == 0)
+            {
+                oldVelocityX = rb.velocity.x;
+                oldVelocityY = rb.velocity.y;
+            }
 
+            wasLuxMode = true;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            playerAnimator.SetFloat("Velocity", 0f);
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rightKey = true;
-            isPressedKeys = true;
-        }
-        else
-        {
-            rightKey = false;
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            upKey = true;
-            isPressedKeys = true;
-        }
-        else
-        {
-            upKey = false;
-
-        }
-
-        if (!leftKey && !rightKey && !upKey)
-        {
-            isPressedKeys = false;
-        }
-
-
-        if (rightKey)
-        {
-
-            rb.velocity = new Vector2(speed, rb.velocity.y);
-            playerAnimator.SetBool("WalkRight", true);
-            playerSpriteRender.flipX = true;
-            walkingRight = true;
-        }
-        else
-        {
-
-            if (!leftKey)
-                playerAnimator.SetBool("WalkRight", false);
-            if (!isDragging1Click)
-                walkingRight = false;
-
-        }
-
-
-        if (leftKey)
-        {
-            playerAnimator.SetBool("WalkRight", true);
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
-            playerSpriteRender.flipX = false;
-            walkingLeft = true;
-        }
-        else
-        {
-
-            if (!rightKey)
-                playerAnimator.SetBool("WalkRight", false);
-
-            if (!isDragging1Click)
-                walkingLeft = false;
-
-        }
-
-
-
-
-
-
-        // Andar para direita
-
-
-
-
+        // Evitar que o personagem deslize
         if (!isPressed && !isPressedKeys)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
-        else
-        {
-            if (!isPressedKeys)
-            {
-                if (!swipeLeft && !swipeRight)
-                {
-                    rb.velocity = new Vector2(0, rb.velocity.y);
-                }
-            }
-        }
+
 
         // Está precionado?
         if (Input.GetMouseButtonDown(0))
@@ -244,48 +338,10 @@ public class PlayerController : MonoBehaviour
             walkingRight = false;
             isDragging2Click = tapRequested2Click = false;
             startTouchRight = Vector2.zero;
-        }
-
-        if (upKey | jumpTap)
-        {
-
-
-            if (!firstJump | !doubleJump)
-            {
-                blockLoop = true;
-                if (!firstJump)
-                {
-
-                    if (isGroundedMain)
-                    {
-
-
-                        dust.Play();
-
-                    }
-
-                    firstJump = true;
-
-                }
-                else if (!doubleJump && firstJump)
-                {
-                    doubleJump = true;
-                }
-
-
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                playerAnimator.SetBool("Jump", true);
-                StartCoroutine(JumpOffDelay());
-
-
-            }
-
-
-
-            jumpTap = false;
-            upKey = false;
 
         }
+
+
 
         if (!isGroundedMain)
         {
@@ -308,84 +364,26 @@ public class PlayerController : MonoBehaviour
 
         if (tap2 | tap1)
         {
+
+
+
             if (rightSideScreen)
             {
                 jumpTap = true;
 
                 rightSideScreen = false;
             }
+
             tap1 = false;
             tap2 = false;
+        
+            rightSideScreen = false;
         }
 
 
 
-        //if (tap)
-        //{
-        //    RaycastHit2D hit;
-        //    if (!isDragging)
-        //    {
-        //        hit = Physics2D.Raycast(lastTouch0, Vector2.zero);
-        //    }
-        //    else
-        //    {
-        //        hit = Physics2D.Raycast(lastTouch1, Vector2.zero);
-
-        //    }
-
-        //    if (hit.collider != null)
-        //    {
-
-        //        if (hit.collider.tag == "Jump")
-        //        {
-        //            jumpTap = true;
-        //        }
-        //    }
-        //    tap = false;
-        //    lastTouch0 = Vector3.zero;
-        //    lastTouch1 = Vector3.zero;
-        //}
-
-        // Swipe by:  thestrandedmoose 
 
 
-        if (startTouchLeft.x > setaPosition && leftSideScreen)
-        {
-            if (isDragging1Click | isDragging2Click)
-            {
-                walkingLeft = false;
-                walkingRight = true;
-                rb.velocity = new Vector2(speed, rb.velocity.y);
-                playerAnimator.SetBool("WalkRight", true);
-                playerSpriteRender.flipX = true;
-            }
-            else
-            {
-                playerAnimator.SetBool("WalkRight", false);
-
-            }
-
-        }
-
-
-
-        if (startTouchLeft.x < setaPosition && leftSideScreen)
-        {
-            if (isDragging1Click | isDragging2Click)
-            {
-                walkingRight = false;
-                walkingLeft = true;
-                playerAnimator.SetBool("WalkRight", true);
-                rb.velocity = new Vector2(-speed, rb.velocity.y);
-                playerSpriteRender.flipX = false;
-            }
-            else
-            {
-
-                playerAnimator.SetBool("WalkRight", false);
-
-            }
-        }
 
 
         #region Mobile Inputs
@@ -414,6 +412,7 @@ public class PlayerController : MonoBehaviour
                         rightSideScreen = true;
                         rightFirst = true;
 
+
                     }
                 }
                 else if (Input.touchCount == 2 && rightFirst)
@@ -434,7 +433,9 @@ public class PlayerController : MonoBehaviour
                 {
                     tap1 = true;
 
+                    
                     tapRequested1Click = false;
+
                 }
                 isDragging1Click = false;
                 Reset1();
@@ -470,6 +471,7 @@ public class PlayerController : MonoBehaviour
                         {
                             startTouchRight = Input.touches[1].position;
                             rightSideScreen = true;
+
                         }
                     }
                 }
@@ -480,6 +482,8 @@ public class PlayerController : MonoBehaviour
                         tap2 = true;
                         tapRequested2Click = false;
                         isDragging2Click = false;
+
+                        
                     }
 
                     Reset2();
@@ -533,7 +537,6 @@ public class PlayerController : MonoBehaviour
     {
 
         startTouchRight = Vector2.zero;
-        isDragging2Click = tapRequested2Click = false;
 
     }
 
@@ -575,7 +578,7 @@ public class PlayerController : MonoBehaviour
         {
 
             directionGround = transform.position - collision.gameObject.transform.position;
-           
+
 
             if (directionGround.y >= directionYValue)
             {
@@ -598,7 +601,7 @@ public class PlayerController : MonoBehaviour
     {
         directionGround = transform.position - collision.gameObject.transform.position;
         countCollision--;
-       
+
         if (collision.gameObject.tag == "Ground" && countCollision == 0)
         {
 
@@ -623,14 +626,14 @@ public class PlayerController : MonoBehaviour
                 confirmGrounded = true;
                 if (!isGroundedMain)
                 {
-                    if(firstJump && doubleJump)
+                    if (firstJump && doubleJump)
                         firstJump = doubleJump = false;
                 }
 
             }
             else
             {
-               confirmGrounded = false;
+                confirmGrounded = false;
             }
 
         }

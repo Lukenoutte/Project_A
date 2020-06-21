@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Jump
   - Reset
+  - UI
   layers:
   - Default
   - TransparentFX
