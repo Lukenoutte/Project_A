@@ -4,9 +4,9 @@ ScriptsOnlyBuild:
     - CameraController
     - DialogManager
     - DialogText
-    - Lux
     - PlayerController
     - ScrollScript
+    - UIController
     Unity.2D.PixelPerfect.dll:
     - UnityEngine.U2D.PixelPerfectCamera
     Unity.Rider.Editor.dll:
@@ -21,8 +21,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -98,8 +100,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12450}
     - Class: 114
-      Script: {instanceID: 12728}
-    - Class: 114
       Script: {instanceID: 13158}
     - Class: 114
       Script: {instanceID: 13236}
@@ -117,6 +117,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14092}
     - Class: 114
       Script: {instanceID: 14164}
+    - Class: 114
+      Script: {instanceID: 26316}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -802,6 +804,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: a362b07700acbb02a07e6a9b8c6aa4f7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: UIController
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity

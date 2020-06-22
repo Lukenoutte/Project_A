@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         upKey, rightKey, leftKey, wasLuxMode = false;
 
     private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
-    private Lux luxInstance;
+
 
 
 
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        luxInstance = Lux.instance;
+
         luxTransform = lux.GetComponent<Transform>();
         playerTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
@@ -68,10 +68,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (luxInstance == null)
-        {
-            luxInstance = Lux.instance;
-        }
+
 
         // Death
         if (playerTransform.position.y < -2f)
@@ -132,10 +129,10 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("FakeWalk", false);
         }
 
-        if (!luxInstance.luxMode)
+
+
+        if (!UIController.instance.luxMode)
         {
-
-
             // Movimento usando teclas (PC)
             #region PC Moviments
             if (Input.GetKey(KeyCode.LeftArrow))
@@ -381,8 +378,8 @@ public class PlayerController : MonoBehaviour
 
             if (rightSideScreen)
             {
-                if (!luxInstance.uIClick)
-                    jumpTap = true;
+                if (!UIController.instance.uIClick)
+                jumpTap = true;
 
                 rightSideScreen = false;
             }
@@ -393,15 +390,10 @@ public class PlayerController : MonoBehaviour
             rightSideScreen = false;
         }
 
-        if (!luxInstance.uIClick && luxInstance.luxMode)
+        if (touchPositionLux != Vector2.zero)
         {
-            if (touchPositionLux != Vector2.zero)
-            {
-                Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
-                luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
-                lux.SetActive(true);
-                touchPositionLux = Vector2.zero;
-            }
+                StartCoroutine(CreateLuxDelay());
+
         }
 
 
@@ -438,12 +430,12 @@ public class PlayerController : MonoBehaviour
                     }
 
 
-                    if (luxInstance.luxMode)
+                    if (UIController.instance.luxMode && !UIController.instance.uIClick)
                     {
                         touchPositionLux = Input.touches[0].position;
                     }
 
-                   
+
 
                 }
                 else if (Input.touchCount == 2 && rightFirst)
@@ -586,7 +578,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
- 
+
 
 
 
@@ -600,7 +592,22 @@ public class PlayerController : MonoBehaviour
         oldPosition = playerTransform.position.x;
 
     }
+    private IEnumerator CreateLuxDelay()
+    {
 
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        if (!UIController.instance.uIClick && touchPositionLux != Vector2.zero && UIController.instance.luxMode )
+        {
+            Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
+            luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
+            lux.SetActive(true);
+            touchPositionLux = Vector2.zero;
+        }
+
+    }
 
 
 
@@ -633,7 +640,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Lux"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(rb.velocity.x, 2.5f);
             collision.gameObject.SetActive(false);
         }
 

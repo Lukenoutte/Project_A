@@ -12,6 +12,7 @@ TagManager:
   - Reset
   - UI
   - Lux
+  - NotUi
   layers:
   - Default
   - TransparentFX
