@@ -61,6 +61,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 50
       Script: {instanceID: 0}
+    - Class: 58
+      Script: {instanceID: 0}
     - Class: 61
       Script: {instanceID: 0}
     - Class: 62
@@ -78,43 +80,43 @@ ScriptsOnlyBuild:
     - Class: 109
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11380}
+      Script: {instanceID: 11374}
     - Class: 114
-      Script: {instanceID: 11714}
+      Script: {instanceID: 11686}
     - Class: 114
-      Script: {instanceID: 11996}
+      Script: {instanceID: 11938}
     - Class: 114
-      Script: {instanceID: 12068}
+      Script: {instanceID: 12010}
     - Class: 114
-      Script: {instanceID: 12074}
+      Script: {instanceID: 12016}
     - Class: 114
-      Script: {instanceID: 12368}
+      Script: {instanceID: 12298}
     - Class: 114
-      Script: {instanceID: 12422}
+      Script: {instanceID: 12350}
     - Class: 114
-      Script: {instanceID: 12426}
+      Script: {instanceID: 12354}
     - Class: 114
-      Script: {instanceID: 12524}
+      Script: {instanceID: 12450}
     - Class: 114
-      Script: {instanceID: 12830}
+      Script: {instanceID: 12728}
     - Class: 114
-      Script: {instanceID: 13286}
+      Script: {instanceID: 13158}
     - Class: 114
-      Script: {instanceID: 13366}
+      Script: {instanceID: 13236}
     - Class: 114
-      Script: {instanceID: 13384}
+      Script: {instanceID: 13254}
     - Class: 114
-      Script: {instanceID: 13680}
+      Script: {instanceID: 13536}
     - Class: 114
-      Script: {instanceID: 13758}
+      Script: {instanceID: 13606}
     - Class: 114
-      Script: {instanceID: 13774}
+      Script: {instanceID: 13622}
     - Class: 114
-      Script: {instanceID: 14010}
+      Script: {instanceID: 13848}
     - Class: 114
-      Script: {instanceID: 14270}
+      Script: {instanceID: 14092}
     - Class: 114
-      Script: {instanceID: 14344}
+      Script: {instanceID: 14164}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -634,7 +636,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: 329d02ae19e33d84682b271a178aa718
+      Hash: b36e016d337510ecca7abc075efd5efb
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController

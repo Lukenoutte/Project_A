@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject lux;
     public static PlayerController instance { set; get; }
     private Rigidbody2D rb;
     public ParticleSystem dust;
@@ -19,9 +22,9 @@ public class PlayerController : MonoBehaviour
     private bool swipeLeft, swipeRight, swipeUp, swipeDown,
         isPressed, isPressedKeys = false;
 
-    public Vector2 startTouchLeft, startTouchRight = Vector2.zero;
+    public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
-    public bool confirmGrounded;
+    public bool confirmGrounded, isUiClick;
     public LayerMask groundLayers;
     public float groundCheckDistance;
 
@@ -31,7 +34,7 @@ public class PlayerController : MonoBehaviour
         upKey, rightKey, leftKey, wasLuxMode = false;
 
     private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
-
+    private Lux luxInstance;
 
 
 
@@ -39,17 +42,18 @@ public class PlayerController : MonoBehaviour
 
     private Animator setaAnimator, playerAnimator;
     private SpriteRenderer playerSpriteRender;
-    private Transform playerTransform;
+    private Transform playerTransform, luxTransform;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        luxInstance = Lux.instance;
+        luxTransform = lux.GetComponent<Transform>();
         playerTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
         setaAnimator = seta.GetComponent<Animator>();
         playerAnimator = GetComponent<Animator>();
-        setaPosition = 91;
+        setaPosition = 87;
         directionYValue = 0.54f;
         instance = this;
 
@@ -64,6 +68,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (luxInstance == null)
+        {
+            luxInstance = Lux.instance;
+        }
 
         // Death
         if (playerTransform.position.y < -2f)
@@ -124,7 +132,7 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("FakeWalk", false);
         }
 
-        if (!Lux.instance.luxMode)
+        if (!luxInstance.luxMode)
         {
 
 
@@ -249,52 +257,48 @@ public class PlayerController : MonoBehaviour
             }
             #endregion
 
-            if (!Lux.instance.uIClick)
+
+            // Mobile and PC Jump
+            if (upKey | jumpTap)
             {
-                // Mobile and PC Jump
-                if (upKey | jumpTap)
+
+
+                if (!firstJump | !doubleJump)
                 {
-
-
-                    if (!firstJump | !doubleJump)
+                    blockLoop = true;
+                    if (!firstJump)
                     {
-                        blockLoop = true;
-                        if (!firstJump)
+
+                        if (isGroundedMain)
                         {
 
-                            if (isGroundedMain)
-                            {
 
-
-                                dust.Play();
-
-                            }
-
-                            firstJump = true;
+                            dust.Play();
 
                         }
-                        else if (!doubleJump && firstJump)
-                        {
-                            doubleJump = true;
-                        }
 
-
-                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                        playerAnimator.SetBool("Jump", true);
-                        StartCoroutine(JumpOffDelay());
-
+                        firstJump = true;
 
                     }
-                    jumpTap = false;
-                    upKey = false;
-                }
-                
+                    else if (!doubleJump && firstJump)
+                    {
+                        doubleJump = true;
+                    }
 
+
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    playerAnimator.SetBool("Jump", true);
+                    StartCoroutine(JumpOffDelay());
+
+
+                }
+                jumpTap = false;
+                upKey = false;
             }
-            else
-            {
-                Lux.instance.uIClick = false;
-            }
+
+
+
+
 
 
 
@@ -377,7 +381,8 @@ public class PlayerController : MonoBehaviour
 
             if (rightSideScreen)
             {
-                jumpTap = true;
+                if (!luxInstance.uIClick)
+                    jumpTap = true;
 
                 rightSideScreen = false;
             }
@@ -388,7 +393,16 @@ public class PlayerController : MonoBehaviour
             rightSideScreen = false;
         }
 
-
+        if (!luxInstance.uIClick && luxInstance.luxMode)
+        {
+            if (touchPositionLux != Vector2.zero)
+            {
+                Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
+                luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
+                lux.SetActive(true);
+                touchPositionLux = Vector2.zero;
+            }
+        }
 
 
 
@@ -422,6 +436,15 @@ public class PlayerController : MonoBehaviour
 
 
                     }
+
+
+                    if (luxInstance.luxMode)
+                    {
+                        touchPositionLux = Input.touches[0].position;
+                    }
+
+                   
+
                 }
                 else if (Input.touchCount == 2 && rightFirst)
                 {
@@ -563,6 +586,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+ 
+
+
 
     private IEnumerator OldPositionDelay()
     {
@@ -601,9 +627,17 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Lux"))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            collision.gameObject.SetActive(false);
+        }
+
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
