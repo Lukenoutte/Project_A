@@ -21,10 +21,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -92,33 +90,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12016}
     - Class: 114
-      Script: {instanceID: 12298}
+      Script: {instanceID: 12188}
     - Class: 114
-      Script: {instanceID: 12350}
+      Script: {instanceID: 12300}
     - Class: 114
-      Script: {instanceID: 12354}
+      Script: {instanceID: 12352}
     - Class: 114
-      Script: {instanceID: 12450}
+      Script: {instanceID: 12356}
     - Class: 114
-      Script: {instanceID: 13158}
+      Script: {instanceID: 12452}
     - Class: 114
-      Script: {instanceID: 13236}
+      Script: {instanceID: 13160}
     - Class: 114
-      Script: {instanceID: 13254}
+      Script: {instanceID: 13238}
     - Class: 114
-      Script: {instanceID: 13536}
+      Script: {instanceID: 13256}
     - Class: 114
-      Script: {instanceID: 13606}
+      Script: {instanceID: 13538}
     - Class: 114
-      Script: {instanceID: 13622}
+      Script: {instanceID: 13608}
     - Class: 114
-      Script: {instanceID: 13848}
+      Script: {instanceID: 13624}
     - Class: 114
-      Script: {instanceID: 14092}
+      Script: {instanceID: 13850}
     - Class: 114
-      Script: {instanceID: 14164}
+      Script: {instanceID: 14094}
     - Class: 114
-      Script: {instanceID: 26316}
+      Script: {instanceID: 14166}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -372,6 +370,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Shadow
+  - hash:
+      serializedVersion: 2
+      Hash: a362b07700acbb02a07e6a9b8c6aa4f7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: UIController
   - hash:
       serializedVersion: 2
       Hash: 303ad70ce203ad874efe2965d0fbcff9
@@ -804,12 +808,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: a362b07700acbb02a07e6a9b8c6aa4f7
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UIController
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity

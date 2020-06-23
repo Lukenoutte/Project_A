@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,7 +38,9 @@ public class PlayerController : MonoBehaviour
 
 
 
-
+    // Hold
+    private float holdTime = 0.3f; //or whatever
+    private float acumTime = 0;
 
 
     private Animator setaAnimator, playerAnimator;
@@ -379,7 +382,7 @@ public class PlayerController : MonoBehaviour
             if (rightSideScreen)
             {
                 if (!UIController.instance.uIClick)
-                jumpTap = true;
+                    jumpTap = true;
 
                 rightSideScreen = false;
             }
@@ -392,7 +395,13 @@ public class PlayerController : MonoBehaviour
 
         if (touchPositionLux != Vector2.zero)
         {
-                StartCoroutine(CreateLuxDelay());
+            if (!UIController.instance.uIClick && touchPositionLux != Vector2.zero && UIController.instance.luxMode)
+            {
+                Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
+                luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
+                lux.SetActive(true);
+                touchPositionLux = Vector2.zero;
+            }
 
         }
 
@@ -428,14 +437,6 @@ public class PlayerController : MonoBehaviour
 
 
                     }
-
-
-                    if (UIController.instance.luxMode && !UIController.instance.uIClick)
-                    {
-                        touchPositionLux = Input.touches[0].position;
-                    }
-
-
 
                 }
                 else if (Input.touchCount == 2 && rightFirst)
@@ -512,7 +513,28 @@ public class PlayerController : MonoBehaviour
                     Reset2();
                 }
             }
-        }
+
+
+
+            if (UIController.instance.luxMode)
+            {
+                
+                acumTime += Input.touches[0].deltaTime;
+
+                if (acumTime >= holdTime)
+                {
+                    touchPositionLux = Input.touches[0].position;
+                }
+
+                if (Input.touches[0].phase == TouchPhase.Ended)
+                {
+                    acumTime = 0;
+                }
+
+
+
+            }
+        }// end if Touch > 0
         #endregion
 
 
@@ -592,22 +614,7 @@ public class PlayerController : MonoBehaviour
         oldPosition = playerTransform.position.x;
 
     }
-    private IEnumerator CreateLuxDelay()
-    {
 
-
-
-        yield return new WaitForSeconds(0.1f);
-
-        if (!UIController.instance.uIClick && touchPositionLux != Vector2.zero && UIController.instance.luxMode )
-        {
-            Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
-            luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
-            lux.SetActive(true);
-            touchPositionLux = Vector2.zero;
-        }
-
-    }
 
 
 
