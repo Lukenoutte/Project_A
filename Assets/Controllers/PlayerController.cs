@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
-    public bool confirmGrounded, isUiClick;
+    public bool confirmGrounded;
     public LayerMask groundLayers;
     public float groundCheckDistance;
 
@@ -296,12 +296,6 @@ public class PlayerController : MonoBehaviour
                 upKey = false;
             }
 
-
-
-
-
-
-
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             playerAnimator.SetFloat("Velocity", 1f);
 
@@ -395,12 +389,12 @@ public class PlayerController : MonoBehaviour
 
         if (touchPositionLux != Vector2.zero)
         {
-            if (!UIController.instance.uIClick && touchPositionLux != Vector2.zero && UIController.instance.luxMode)
-            {
-                Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
+            Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
+            if (!UIController.instance.uIClick && UIController.instance.luxMode)
+            {       
                 luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
-                lux.SetActive(true);
                 touchPositionLux = Vector2.zero;
+                StartCoroutine(ShowLuxDelay());
             }
 
         }
@@ -416,6 +410,12 @@ public class PlayerController : MonoBehaviour
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
+                if (UIController.instance.luxMode && !UIController.instance.uIClick)
+                {
+
+                    touchPositionLux = Input.touches[0].position;
+
+                }
 
                 isDragging1Click = true;
                 tapRequested1Click = true;
@@ -468,6 +468,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.touchCount > 1)
             {
+
                 if (Input.touches[1].phase == TouchPhase.Began)
                 {
                     isDragging2Click = true;
@@ -516,24 +517,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-            if (UIController.instance.luxMode)
-            {
-                
-                acumTime += Input.touches[0].deltaTime;
 
-                if (acumTime >= holdTime)
-                {
-                    touchPositionLux = Input.touches[0].position;
-                }
-
-                if (Input.touches[0].phase == TouchPhase.Ended)
-                {
-                    acumTime = 0;
-                }
-
-
-
-            }
         }// end if Touch > 0
         #endregion
 
@@ -542,7 +526,12 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.touchCount > 0)
             {
-                if (startTouchLeft != Vector2.zero && leftSideScreen && leftFrist)
+                if (UIController.instance.luxMode && !UIController.instance.uIClick)
+                {
+                    touchPositionLux = Input.touches[0].position;
+                }
+
+                    if (startTouchLeft != Vector2.zero && leftSideScreen && leftFrist)
                 {
                     startTouchLeft = Input.touches[0].position;
 
@@ -615,6 +604,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private IEnumerator ShowLuxDelay()
+    {
+
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        lux.SetActive(true);
+
+    }
 
 
 
@@ -647,7 +646,11 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Lux"))
         {
-            rb.velocity = new Vector2(rb.velocity.x, 2.5f);
+            if (!UIController.instance.luxMode)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 2.5f);
+            }
+
             collision.gameObject.SetActive(false);
         }
 
