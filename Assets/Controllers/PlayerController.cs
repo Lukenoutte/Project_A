@@ -9,16 +9,17 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject lux;
+    private GameObject lux, buttonLeft, buttonRight;
+
     public static PlayerController instance { set; get; }
     private Rigidbody2D rb;
     public ParticleSystem dust;
     [SerializeField]
     private float speed, jumpForce;
     private Vector3 directionGround = Vector3.zero;
-    public GameObject seta;
+    public GameObject setaOld;
     public int countCollision = 0;
-    public bool isGroundedMain, firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click,
+    public bool isGroundedMain, firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
         tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen, leftFrist, rightFirst;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown,
         isPressed, isPressedKeys = false;
@@ -42,23 +43,29 @@ public class PlayerController : MonoBehaviour
     private float holdTime = 0.3f; //or whatever
     private float acumTime = 0;
 
-
-    private Animator setaAnimator, playerAnimator;
+    
+    private Animator setaOldAnimator, playerAnimator, buttonWalkLeftAnimator, buttonWalkRightAnimator;
     private SpriteRenderer playerSpriteRender;
     private Transform playerTransform, luxTransform;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        buttonWalkLeftAnimator = buttonLeft.GetComponent<Animator>();
+        buttonWalkRightAnimator = buttonRight.GetComponent<Animator>();
         luxTransform = lux.GetComponent<Transform>();
         playerTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
-        setaAnimator = seta.GetComponent<Animator>();
+
         playerAnimator = GetComponent<Animator>();
-        setaPosition = 87;
+        setaPosition = 102;
         directionYValue = 0.54f;
         instance = this;
+
+        if (setaOld != null)
+        {
+            setaOldAnimator = setaOld.GetComponent<Animator>();
+        }
 
         isPressedKeys = false;
         rb = GetComponent<Rigidbody2D>();
@@ -80,23 +87,50 @@ public class PlayerController : MonoBehaviour
         }
 
         ComfirmIfIsGrounded();
-        if (walkingRight)
+        if (setaOld != null)
         {
-            setaAnimator.SetBool("WalkingRight", true);
-        }
-        else
-        {
-            setaAnimator.SetBool("WalkingRight", false);
+            if (walkingRight)
+            {
+                setaOldAnimator.SetBool("WalkingRight", true);
+            }
+            else
+            {
+                setaOldAnimator.SetBool("WalkingRight", false);
+            }
+
+            if (walkingLeft)
+            {
+                setaOldAnimator.SetBool("WalkingLeft", true);
+            }
+            else
+            {
+                setaOldAnimator.SetBool("WalkingLeft", false);
+            }
         }
 
-        if (walkingLeft)
+
+        if(buttonLeft != null && buttonRight != null)
         {
-            setaAnimator.SetBool("WalkingLeft", true);
+            if (walkingRight)
+            {
+                buttonWalkRightAnimator.SetBool("Press", true);
+            }
+            else
+            {
+                buttonWalkRightAnimator.SetBool("Press", false);
+            }
+
+            if (walkingLeft)
+            {
+                buttonWalkLeftAnimator.SetBool("Press", true);
+            }
+            else
+            {
+                buttonWalkLeftAnimator.SetBool("Press", false);
+            }
+
         }
-        else
-        {
-            setaAnimator.SetBool("WalkingLeft", false);
-        }
+
 
         if (walkingLeft | walkingRight)
         {
@@ -391,7 +425,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
             if (!UIController.instance.uIClick && UIController.instance.luxMode)
-            {       
+            {
                 luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
                 touchPositionLux = Vector2.zero;
                 StartCoroutine(ShowLuxDelay());
@@ -410,11 +444,15 @@ public class PlayerController : MonoBehaviour
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
-                if (UIController.instance.luxMode && !UIController.instance.uIClick)
+                if (UIController.instance.luxMode && !UIController.instance.uIClick && Input.touchCount == 1)
                 {
 
                     touchPositionLux = Input.touches[0].position;
 
+                }
+                if (!UIController.instance.luxMode)
+                {
+                    isDragging1BeforeLux = true;
                 }
 
                 isDragging1Click = true;
@@ -462,6 +500,7 @@ public class PlayerController : MonoBehaviour
 
                 }
                 isDragging1Click = false;
+                isDragging1BeforeLux = false;
                 Reset1();
             }
 
@@ -469,8 +508,18 @@ public class PlayerController : MonoBehaviour
             if (Input.touchCount > 1)
             {
 
+
+
+
                 if (Input.touches[1].phase == TouchPhase.Began)
                 {
+                    if (UIController.instance.luxMode && !UIController.instance.uIClick)
+                    {
+
+                        touchPositionLux = Input.touches[1].position;
+
+                    }
+
                     isDragging2Click = true;
                     tapRequested2Click = true;
 
@@ -528,10 +577,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (UIController.instance.luxMode && !UIController.instance.uIClick)
                 {
-                    touchPositionLux = Input.touches[0].position;
+                    if (Input.touchCount == 1 && !isDragging1BeforeLux)
+                        touchPositionLux = Input.touches[0].position;
+
+                    if (Input.touchCount == 2 && isDragging1BeforeLux)
+                        touchPositionLux = Input.touches[1].position;
                 }
 
-                    if (startTouchLeft != Vector2.zero && leftSideScreen && leftFrist)
+                if (startTouchLeft != Vector2.zero && leftSideScreen && leftFrist)
                 {
                     startTouchLeft = Input.touches[0].position;
 

@@ -21,8 +21,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -90,33 +92,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12016}
     - Class: 114
-      Script: {instanceID: 12188}
+      Script: {instanceID: 12190}
     - Class: 114
-      Script: {instanceID: 12300}
+      Script: {instanceID: 12302}
     - Class: 114
-      Script: {instanceID: 12352}
+      Script: {instanceID: 12354}
     - Class: 114
-      Script: {instanceID: 12356}
+      Script: {instanceID: 12358}
     - Class: 114
-      Script: {instanceID: 12452}
+      Script: {instanceID: 12454}
     - Class: 114
-      Script: {instanceID: 13160}
+      Script: {instanceID: 13162}
     - Class: 114
-      Script: {instanceID: 13238}
+      Script: {instanceID: 13240}
     - Class: 114
-      Script: {instanceID: 13256}
+      Script: {instanceID: 13258}
     - Class: 114
-      Script: {instanceID: 13538}
+      Script: {instanceID: 13540}
     - Class: 114
-      Script: {instanceID: 13608}
+      Script: {instanceID: 13610}
     - Class: 114
-      Script: {instanceID: 13624}
+      Script: {instanceID: 13626}
     - Class: 114
-      Script: {instanceID: 13850}
+      Script: {instanceID: 13852}
     - Class: 114
-      Script: {instanceID: 14094}
+      Script: {instanceID: 14096}
     - Class: 114
-      Script: {instanceID: 14166}
+      Script: {instanceID: 14168}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -642,7 +644,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: 77f1b7e8520529c1268d16f5296855b0
+      Hash: bd8ebc3f2baf9065f9022a3b729a3421
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
