@@ -339,11 +339,16 @@ public class PlayerController : MonoBehaviour
                 wasLuxMode = false;
                 fakeWalk = false;
                 oldVelocityX = oldVelocityY = 0;
+                dust.playbackSpeed = 1;
+                playerAnimator.SetBool("IsLuxMode", false);
 
             }
+  
         }
         else
         {
+            playerAnimator.SetBool("IsLuxMode", true);
+            dust.playbackSpeed = 0;
             fakeWalk = true;
             if (oldVelocityX == 0 && oldVelocityY == 0)
             {
