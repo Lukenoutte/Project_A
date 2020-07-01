@@ -1630,14 +1630,18 @@ MonoBehaviour:
   jumpForce: 1.7
   setaOld: {fileID: 0}
   confirmGrounded: 0
+  wasGoingToLeft: 0
+  wasGoingToRight: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 512
   groundCheckDistance: 0.248
+  valueOfIncreace: 0.8
   fakeWalk: 0
   walkingRight: 0
   walkingLeft: 0
-  m_DistanceZ: 1
+  increaceSpeedLeft: 0
+  increaceSpeedRight: 0
 --- !u!95 &521889392
 Animator:
   serializedVersion: 3
