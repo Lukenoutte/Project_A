@@ -480,7 +480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 103.70001, y: 105.2}
+  m_AnchoredPosition: {x: 103.700195, y: 105.19995}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!95 &196299819
@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 387135878}
   m_Layer: 0
   m_Name: CameraBg
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -931,10 +931,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 60
   orthographic: 1
-  orthographic size: 0.75
+  orthographic size: 0.70976067
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
@@ -1002,10 +1002,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 60
   orthographic: 1
-  orthographic size: 0.75
+  orthographic size: 0.9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1029,7 +1029,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394429958}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -33.355, y: -0.81, z: -1}
+  m_LocalPosition: {x: -33.355, y: -0.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 387135877}
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394429958}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
@@ -1629,24 +1629,6 @@ MonoBehaviour:
   speed: 1
   jumpForce: 1.7
   setaOld: {fileID: 0}
-  countCollision: 0
-  isGroundedMain: 0
-  firstJump: 0
-  doubleJump: 0
-  isDragging1Click: 0
-  tapRequested1Click: 0
-  isDragging2Click: 0
-  isDragging1BeforeLux: 0
-  tapRequested2Click: 0
-  tap1: 0
-  tap2: 0
-  rightSideScreen: 0
-  leftSideScreen: 0
-  leftFrist: 0
-  rightFirst: 0
-  startTouchLeft: {x: 0, y: 0}
-  startTouchRight: {x: 0, y: 0}
-  touchPositionLux: {x: 0, y: 0}
   confirmGrounded: 0
   groundLayers:
     serializedVersion: 2
@@ -1655,6 +1637,7 @@ MonoBehaviour:
   fakeWalk: 0
   walkingRight: 0
   walkingLeft: 0
+  m_DistanceZ: 1
 --- !u!95 &521889392
 Animator:
   serializedVersion: 3
@@ -3732,7 +3715,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 102.79999, y: 68}
+  m_AnchoredPosition: {x: 102.799805, y: 68}
   m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 1, y: 1}
 --- !u!95 &1314887494
@@ -4197,7 +4180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495903017}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -36.035, y: 1.466, z: -5}
+  m_LocalPosition: {x: -36.035, y: 1.466, z: -10}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 1119492526}

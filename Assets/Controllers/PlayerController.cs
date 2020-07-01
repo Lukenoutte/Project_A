@@ -18,13 +18,13 @@ public class PlayerController : MonoBehaviour
     private float speed, jumpForce;
     private Vector3 directionGround = Vector3.zero;
     public GameObject setaOld;
-    public int countCollision = 0;
-    public bool isGroundedMain, firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
+    private int countCollision = 0;
+    private bool isGroundedMain, firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
         tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen, leftFrist, rightFirst;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown,
         isPressed, isPressedKeys = false;
 
-    public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
+    private Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
     public bool confirmGrounded;
     public LayerMask groundLayers;
@@ -37,7 +37,10 @@ public class PlayerController : MonoBehaviour
 
     private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
 
-
+    //Raycast Plane
+    public float m_DistanceZ;
+    Plane m_Plane;
+    Vector3 m_DistanceFromCamera;
 
     // Hold
     private float holdTime = 0.3f; //or whatever
@@ -51,6 +54,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_DistanceFromCamera = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z - m_DistanceZ);
+        m_Plane = new Plane(Vector3.forward, m_DistanceFromCamera);
+
         buttonWalkLeftAnimator = buttonLeft.GetComponent<Animator>();
         buttonWalkRightAnimator = buttonRight.GetComponent<Animator>();
         luxTransform = lux.GetComponent<Transform>();
@@ -371,10 +377,10 @@ public class PlayerController : MonoBehaviour
         // Está precionado?
         if (Input.GetMouseButtonDown(0))
         {
-
+            
+           
             isPressed = true;
-
-
+       
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -428,13 +434,17 @@ public class PlayerController : MonoBehaviour
 
         if (touchPositionLux != Vector2.zero)
         {
-            Vector2 convertToCameraPosition = Camera.main.ScreenToWorldPoint(touchPositionLux);
+            float zPositionFromCamera = GetDistanceToPlane(Camera.main, lux.transform);
+            
+            Vector3 Vec3position = new Vector3(touchPositionLux.x, touchPositionLux.y, zPositionFromCamera);
+            Vector3 auxLux = Camera.main.ScreenToWorldPoint(Vec3position);
+            Debug.DrawRay(touchPositionLux, Camera.main.transform.forward, Color.green);
             if (!UIController.instance.uIClick && UIController.instance.luxMode)
             {
-                luxTransform.position = new Vector3(convertToCameraPosition.x, convertToCameraPosition.y, luxTransform.position.z);
+                luxTransform.position = new Vector3(auxLux.x, auxLux.y, luxTransform.position.z);
                 touchPositionLux = Vector2.zero;
                 StartCoroutine(ShowLuxDelay());
-            }
+            } 
 
         }
 
@@ -451,10 +461,13 @@ public class PlayerController : MonoBehaviour
             {
                 if (UIController.instance.luxMode && !UIController.instance.uIClick && Input.touchCount == 1)
                 {
-
+                    
+                    
                     touchPositionLux = Input.touches[0].position;
 
+
                 }
+
                 if (!UIController.instance.luxMode)
                 {
                     isDragging1BeforeLux = true;
@@ -583,8 +596,10 @@ public class PlayerController : MonoBehaviour
                 if (UIController.instance.luxMode && !UIController.instance.uIClick)
                 {
                     if (Input.touchCount == 1 && !isDragging1BeforeLux)
-                        touchPositionLux = Input.touches[0].position;
+                    {
 
+                        touchPositionLux = Input.touches[0].position;
+                    }
                     if (Input.touchCount == 2 && isDragging1BeforeLux)
                         touchPositionLux = Input.touches[1].position;
                 }
@@ -699,6 +714,12 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    public float GetDistanceToPlane(Camera camera, Transform objPosition)
+    {
+        Transform cameraTransform = camera.transform;
+        Vector3 heading = objPosition.position - cameraTransform.position;
+        return Vector3.Dot(heading, cameraTransform.forward);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -755,5 +776,8 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
+
+
 
 }
