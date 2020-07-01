@@ -342,6 +342,7 @@ public class PlayerController : MonoBehaviour
             if (wasLuxMode)
             {
                 rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
+               
                 wasLuxMode = false;
                 fakeWalk = false;
                 oldVelocityX = oldVelocityY = 0;
@@ -360,6 +361,7 @@ public class PlayerController : MonoBehaviour
             {
                 oldVelocityX = rb.velocity.x;
                 oldVelocityY = rb.velocity.y;
+                
             }
 
             wasLuxMode = true;
@@ -370,7 +372,8 @@ public class PlayerController : MonoBehaviour
         // Evitar que o personagem deslize
         if (!isPressed && !isPressedKeys)
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            if(isGroundedMain)
+           rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
 
@@ -434,10 +437,8 @@ public class PlayerController : MonoBehaviour
 
         if (touchPositionLux != Vector2.zero)
         {
-            float zPositionFromCamera = GetDistanceToPlane(Camera.main, lux.transform);
-            
-            Vector3 Vec3position = new Vector3(touchPositionLux.x, touchPositionLux.y, zPositionFromCamera);
-            Vector3 auxLux = Camera.main.ScreenToWorldPoint(Vec3position);
+
+            Vector3 auxLux = Camera.main.ScreenToWorldPoint(touchPositionLux);
             Debug.DrawRay(touchPositionLux, Camera.main.transform.forward, Color.green);
             if (!UIController.instance.uIClick && UIController.instance.luxMode)
             {
@@ -714,12 +715,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    public float GetDistanceToPlane(Camera camera, Transform objPosition)
-    {
-        Transform cameraTransform = camera.transform;
-        Vector3 heading = objPosition.position - cameraTransform.position;
-        return Vector3.Dot(heading, cameraTransform.forward);
-    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -774,6 +770,17 @@ public class PlayerController : MonoBehaviour
                 confirmGrounded = false;
             }
 
+        }else if(countCollision == 1)
+        {
+            if (hit)
+            {
+                confirmGrounded = true;
+                if (!isGroundedMain)
+                {
+                    isGroundedMain = true;
+                }
+
+            }
         }
     }
 
