@@ -9,6 +9,7 @@ public class UIController : MonoBehaviour
     public bool uIClick;
     private GraphicRaycaster canvasRaycaster;
     public bool luxMode;
+    public bool luxButton1, luxButton2;
 
     public static UIController instance { set; get; }
 
@@ -16,7 +17,6 @@ public class UIController : MonoBehaviour
     {
         instance = this;
     }
-
 
 
     public void UiClick(BaseEventData data)
@@ -34,13 +34,24 @@ public class UIController : MonoBehaviour
         foreach (RaycastResult result in results)
         {
 
-            if (result.gameObject.name == "LuxButton")
+            if (result.gameObject.name == "LuxModeButton")
             {
                 uIClick = true;
                 LuxMode();
             }
 
-            if(result.gameObject.name == "teclaRight" | result.gameObject.name == "teclaLeft")
+            if (result.gameObject.name == "Lux1Button")
+            {
+                luxButton1 = true;
+                uIClick = true;
+            }
+            if (result.gameObject.name == "Lux2Button")
+            {
+                luxButton2 = true;
+                uIClick = true;
+            }
+
+            if (result.gameObject.name == "teclaRight" | result.gameObject.name == "teclaLeft")
             {
                 uIClick = true;
 

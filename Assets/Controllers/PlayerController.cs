@@ -9,7 +9,9 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject lux, buttonLeft, buttonRight;
+    private GameObject lux1, lux2, buttonLeft, buttonRight, buttonLux1, buttonLux2;
+
+    private GameObject LuxMain;
 
     public static PlayerController instance { set; get; }
     private Rigidbody2D rb;
@@ -19,33 +21,33 @@ public class PlayerController : MonoBehaviour
     private Vector3 directionGround = Vector3.zero;
     public GameObject setaOld;
     private int countCollision = 0;
-    private bool isGroundedMain, firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
+    private bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
         tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen, leftFrist, rightFirst;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown,
         isPressed, isPressedKeys = false;
 
     private Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
-    public bool confirmGrounded, wasGoingToLeft, wasGoingToRight;
+    public bool confirmGrounded, fakeWalk, walkingRight, walkingLeft, isGroundedMain;
     public LayerMask groundLayers;
-    public float groundCheckDistance, valueOfIncreace;
+    public float groundCheckDistance, groundCheckDistance2, valueOfIncreace;
 
-    public bool fakeWalk, walkingRight, walkingLeft;
+    public bool wasGoingToLeft, wasGoingToRight;
 
     private bool jumpTap, blockLoop,
         upKey, rightKey, leftKey, wasLuxMode = false;
 
     private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
 
-    //Raycast Plane
-    public float  increaceSpeedLeft, increaceSpeedRight;
+
+    public float increaceSpeedLeft, increaceSpeedRight;
 
 
     // Hold
     private float holdTime = 0.3f; //or whatever
     private float acumTime = 0;
 
-    
+
     private Animator setaOldAnimator, playerAnimator, buttonWalkLeftAnimator, buttonWalkRightAnimator;
     private SpriteRenderer playerSpriteRender;
     private Transform playerTransform, luxTransform;
@@ -54,10 +56,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
 
-
+        LuxMain = lux1;
         buttonWalkLeftAnimator = buttonLeft.GetComponent<Animator>();
         buttonWalkRightAnimator = buttonRight.GetComponent<Animator>();
-        luxTransform = lux.GetComponent<Transform>();
+
         playerTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
 
@@ -82,6 +84,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (UIController.instance != null)
+        {
+            if (UIController.instance.luxButton1)
+            {
+                LuxMain = lux1;
+                UIController.instance.luxButton1 = false;
+
+            }
+
+            if (UIController.instance.luxButton2)
+            {
+                LuxMain = lux2;
+                UIController.instance.luxButton2 = false;
+            }
+        }
 
 
         // Death
@@ -113,7 +130,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if(buttonLeft != null && buttonRight != null)
+        if (buttonLeft != null && buttonRight != null)
         {
             if (walkingRight)
             {
@@ -213,7 +230,7 @@ public class PlayerController : MonoBehaviour
             {
                 isPressedKeys = false;
             }
-            
+
 
 
             if (rightKey)
@@ -221,28 +238,23 @@ public class PlayerController : MonoBehaviour
                 if (isGroundedMain)
                 {
                     rb.velocity = new Vector2(speed, rb.velocity.y);
-                    wasGoingToLeft = false;
+
                     increaceSpeedRight = 0;
                 }
                 else
                 {
-                    wasGoingToRight = true;
-                    if (wasGoingToLeft)
+
+                    if (increaceSpeedRight == 0)
                     {
-                        if (increaceSpeedRight == 0)
-                        {
-                            increaceSpeedRight = rb.velocity.x;
-                        }
-                        if (increaceSpeedRight <= speed)
-                        {
-                            increaceSpeedRight += Time.deltaTime * valueOfIncreace;
-                        }
+                        increaceSpeedRight = rb.velocity.x;
+                    }
+                    if (increaceSpeedRight < speed)
+                    {
+                        increaceSpeedRight += Time.deltaTime * valueOfIncreace;
                         rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
                     }
-                    else
-                    {
-                        rb.velocity = new Vector2(speed, rb.velocity.y);
-                    }
+                    
+
                 }
                 playerAnimator.SetBool("WalkRight", true);
                 playerSpriteRender.flipX = true;
@@ -262,33 +274,27 @@ public class PlayerController : MonoBehaviour
 
             if (leftKey)
             {
-                
+
                 if (isGroundedMain)
                 {
                     rb.velocity = new Vector2(-speed, rb.velocity.y);
-                    wasGoingToRight = false;
+
                     increaceSpeedLeft = 0;
                 }
                 else
                 {
-                    wasGoingToLeft = true;
-                    if (wasGoingToRight)
+
+                    if (increaceSpeedLeft == 0)
                     {
-                        if(increaceSpeedLeft == 0)
-                        {
-                            increaceSpeedLeft = rb.velocity.x;
-                        }
-                        if (increaceSpeedLeft >= -speed)
-                        {
-                            increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
-                        }
+                        increaceSpeedLeft = rb.velocity.x;
+                    }
+                    if (increaceSpeedLeft > -speed)
+                    {
+                        increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
                         rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
-                        
                     }
-                    else
-                    {
-                        rb.velocity = new Vector2(-speed, rb.velocity.y);
-                    }
+                    
+
                 }
                 playerAnimator.SetBool("WalkRight", true);
                 playerSpriteRender.flipX = false;
@@ -315,29 +321,27 @@ public class PlayerController : MonoBehaviour
                     if (isGroundedMain)
                     {
                         rb.velocity = new Vector2(speed, rb.velocity.y);
-                        wasGoingToLeft = false;
+
                         increaceSpeedRight = 0;
                     }
                     else
                     {
-                        wasGoingToRight = true;
-                        if (wasGoingToLeft)
+
+                        if (increaceSpeedRight == 0)
                         {
-                            if (increaceSpeedRight == 0)
-                            {
-                                increaceSpeedRight = rb.velocity.x;
-                            }
-                            if (increaceSpeedRight <= speed)
-                            {
-                                increaceSpeedRight += Time.deltaTime * valueOfIncreace;
-                            }
+                            increaceSpeedRight = rb.velocity.x;
+                        }
+                        if (increaceSpeedRight < speed)
+                        {
+
+                            increaceSpeedRight += Time.deltaTime * valueOfIncreace;
                             rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
                         }
-                        else
-                        {
-                            rb.velocity = new Vector2(speed, rb.velocity.y);
-                        }
+
+
+
                     }
+
                     walkingLeft = false;
                     walkingRight = true;
                     playerAnimator.SetBool("WalkRight", true);
@@ -360,30 +364,27 @@ public class PlayerController : MonoBehaviour
                     if (isGroundedMain)
                     {
                         rb.velocity = new Vector2(-speed, rb.velocity.y);
-                        wasGoingToRight = false;
+
                         increaceSpeedLeft = 0;
                     }
                     else
                     {
-                        wasGoingToLeft = true;
-                        if (wasGoingToRight)
-                        {
-                            if (increaceSpeedLeft == 0)
-                            {
-                                increaceSpeedLeft = rb.velocity.x;
-                            }
-                            if (increaceSpeedLeft >= -speed)
-                            {
-                                increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
-                            }
-                            rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
 
-                        }
-                        else
+
+                        if (increaceSpeedLeft == 0)
                         {
-                            rb.velocity = new Vector2(-speed, rb.velocity.y);
+                            increaceSpeedLeft = rb.velocity.x;
                         }
+                        if (increaceSpeedLeft > -speed)
+                        {
+                            increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
+                            rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
+                        }
+                        
+
+
                     }
+
                     walkingRight = false;
                     walkingLeft = true;
                     playerAnimator.SetBool("WalkRight", true);
@@ -435,7 +436,7 @@ public class PlayerController : MonoBehaviour
                 }
                 jumpTap = false;
                 upKey = false;
-                
+
             }
 
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -444,18 +445,22 @@ public class PlayerController : MonoBehaviour
             if (wasLuxMode)
             {
                 rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
-               
+
                 wasLuxMode = false;
                 fakeWalk = false;
                 oldVelocityX = oldVelocityY = 0;
                 dust.playbackSpeed = 1;
                 playerAnimator.SetBool("IsLuxMode", false);
+                buttonLux1.SetActive(false);
+                buttonLux2.SetActive(false);
 
             }
-  
+
         }
         else
         {
+            buttonLux1.SetActive(true);
+            buttonLux2.SetActive(true);
             playerAnimator.SetBool("IsLuxMode", true);
             dust.playbackSpeed = 0;
             fakeWalk = true;
@@ -463,7 +468,7 @@ public class PlayerController : MonoBehaviour
             {
                 oldVelocityX = rb.velocity.x;
                 oldVelocityY = rb.velocity.y;
-                
+
             }
 
             wasLuxMode = true;
@@ -474,18 +479,18 @@ public class PlayerController : MonoBehaviour
         // Evitar que o personagem deslize
         if (!isPressed && !isPressedKeys)
         {
-            if(isGroundedMain)
-           rb.velocity = new Vector2(0, rb.velocity.y);
+            if (isGroundedMain)
+                rb.velocity = new Vector2(0, rb.velocity.y);
         }
 
 
         // Está precionado?
         if (Input.GetMouseButtonDown(0))
         {
-            
-           
+
+
             isPressed = true;
-       
+
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -544,15 +549,25 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(touchPositionLux, Camera.main.transform.forward, Color.green);
             if (!UIController.instance.uIClick && UIController.instance.luxMode)
             {
+                luxTransform = LuxMain.GetComponent<Transform>();
                 luxTransform.position = new Vector3(auxLux.x, auxLux.y, luxTransform.position.z);
                 touchPositionLux = Vector2.zero;
                 StartCoroutine(ShowLuxDelay());
-            } 
+            }
 
         }
 
 
 
+        // Create Lux if mouse
+        if (UIController.instance.luxMode && !UIController.instance.uIClick)
+        {
+            if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
+            {
+
+                touchPositionLux = Input.mousePosition;
+            }
+        }
 
 
         #region Mobile Inputs
@@ -564,8 +579,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (UIController.instance.luxMode && !UIController.instance.uIClick && Input.touchCount == 1)
                 {
-                    
-                    
+
+
                     touchPositionLux = Input.touches[0].position;
 
 
@@ -787,7 +802,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        lux.SetActive(true);
+        LuxMain.SetActive(true);
 
     }
 
@@ -821,11 +836,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Lux"))
+        if (collision.gameObject.CompareTag("Lux1"))
         {
             if (!UIController.instance.luxMode)
             {
                 rb.velocity = new Vector2(rb.velocity.x, 2.5f);
+            }
+
+            collision.gameObject.SetActive(false);
+        }
+
+        if (collision.gameObject.CompareTag("Lux2"))
+        {
+            if (!UIController.instance.luxMode)
+            {
+                rb.velocity = new Vector2(2.5f, rb.velocity.y);
             }
 
             collision.gameObject.SetActive(false);
@@ -853,13 +878,13 @@ public class PlayerController : MonoBehaviour
 
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
-
+        RaycastHit2D hit2 = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance2, groundLayers);
 
         if (countCollision == 0)
         {
             if (hit)
             {
-                confirmGrounded = true;
+
                 if (!isGroundedMain)
                 {
                     if (firstJump && doubleJump)
@@ -867,23 +892,24 @@ public class PlayerController : MonoBehaviour
                 }
 
             }
-            else
-            {
-                confirmGrounded = false;
-            }
 
-        }else if(countCollision == 1)
-        {
-            if (hit)
-            {
-                confirmGrounded = true;
-                if (!isGroundedMain)
-                {
-                    isGroundedMain = true;
-                }
 
-            }
         }
+
+        if (hit2)
+        {
+            confirmGrounded = true;
+            if (!isGroundedMain)
+            {
+                isGroundedMain = true;
+            }
+
+        }
+        else
+        {
+            confirmGrounded = false;
+        }
+
     }
 
 
