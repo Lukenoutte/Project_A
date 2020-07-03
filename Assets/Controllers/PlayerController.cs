@@ -237,12 +237,9 @@ public class PlayerController : MonoBehaviour
             {
                 if (isGroundedMain)
                 {
-                    rb.velocity = new Vector2(speed, rb.velocity.y);
-
-                    increaceSpeedRight = 0;
+                  increaceSpeedRight = 0;
                 }
-                else
-                {
+          
 
                     if (increaceSpeedRight == 0 && rb.velocity.x != 0)
                     {
@@ -260,9 +257,6 @@ public class PlayerController : MonoBehaviour
                         rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
                     }
 
-
-
-                }
                 playerAnimator.SetBool("WalkRight", true);
                 playerSpriteRender.flipX = true;
                 walkingRight = true;
@@ -284,12 +278,10 @@ public class PlayerController : MonoBehaviour
 
                 if (isGroundedMain)
                 {
-                    rb.velocity = new Vector2(-speed, rb.velocity.y);
 
                     increaceSpeedLeft = 0;
                 }
-                else
-                {
+             
 
 
                     if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
@@ -309,7 +301,6 @@ public class PlayerController : MonoBehaviour
                     }
 
 
-                }
                 playerAnimator.SetBool("WalkRight", true);
                 playerSpriteRender.flipX = false;
                 walkingLeft = true;
@@ -334,12 +325,10 @@ public class PlayerController : MonoBehaviour
                 {
                     if (isGroundedMain)
                     {
-                        rb.velocity = new Vector2(speed, rb.velocity.y);
 
                         increaceSpeedRight = 0;
                     }
-                    else
-                    {
+                   
 
                         if (increaceSpeedRight == 0 && rb.velocity.x != 0)
                         {
@@ -357,11 +346,6 @@ public class PlayerController : MonoBehaviour
                             increaceSpeedRight += Time.deltaTime * valueOfIncreace;
                             rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
                         }
-
-
-
-                    }
-
                     
                     walkingRight = true;
                     playerAnimator.SetBool("WalkRight", true);
@@ -384,12 +368,9 @@ public class PlayerController : MonoBehaviour
                 {
                     if (isGroundedMain)
                     {
-                        rb.velocity = new Vector2(-speed, rb.velocity.y);
-
                         increaceSpeedLeft = 0;
                     }
-                    else
-                    {
+              
                         if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
                         {
                             increaceSpeedLeft = rb.velocity.x;
@@ -405,11 +386,6 @@ public class PlayerController : MonoBehaviour
                             rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
                         }
 
-
-
-                    }
-
-                    
                     walkingLeft = true;
                     playerAnimator.SetBool("WalkRight", true);
                     playerSpriteRender.flipX = false;
@@ -505,7 +481,10 @@ public class PlayerController : MonoBehaviour
         if (!isPressed && !isPressedKeys)
         {
             if (isGroundedMain)
+            {
                 rb.velocity = new Vector2(0, rb.velocity.y);
+                increaceSpeedLeft = increaceSpeedRight = 0;
+            }
         }
 
 
