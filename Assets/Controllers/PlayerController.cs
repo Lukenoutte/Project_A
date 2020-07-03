@@ -244,16 +244,23 @@ public class PlayerController : MonoBehaviour
                 else
                 {
 
-                    if (increaceSpeedRight == 0)
+                    if (increaceSpeedRight == 0 && rb.velocity.x != 0)
+                    {
+                        increaceSpeedRight = rb.velocity.x;
+
+                    }
+                    else if (rb.velocity.x == 0)
                     {
                         increaceSpeedRight = rb.velocity.x;
                     }
+
                     if (increaceSpeedRight < speed)
                     {
                         increaceSpeedRight += Time.deltaTime * valueOfIncreace;
                         rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
                     }
-                    
+
+
 
                 }
                 playerAnimator.SetBool("WalkRight", true);
@@ -284,16 +291,23 @@ public class PlayerController : MonoBehaviour
                 else
                 {
 
-                    if (increaceSpeedLeft == 0)
+
+                    if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
+                    {
+                        increaceSpeedLeft = rb.velocity.x;
+
+                    }
+                    else if (rb.velocity.x == 0)
                     {
                         increaceSpeedLeft = rb.velocity.x;
                     }
+
                     if (increaceSpeedLeft > -speed)
                     {
                         increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
                         rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
                     }
-                    
+
 
                 }
                 playerAnimator.SetBool("WalkRight", true);
@@ -327,10 +341,16 @@ public class PlayerController : MonoBehaviour
                     else
                     {
 
-                        if (increaceSpeedRight == 0)
+                        if (increaceSpeedRight == 0 && rb.velocity.x != 0)
+                        {
+                            increaceSpeedRight = rb.velocity.x;
+
+                        }
+                        else if (rb.velocity.x == 0)
                         {
                             increaceSpeedRight = rb.velocity.x;
                         }
+
                         if (increaceSpeedRight < speed)
                         {
 
@@ -342,10 +362,11 @@ public class PlayerController : MonoBehaviour
 
                     }
 
-                    walkingLeft = false;
+                    
                     walkingRight = true;
                     playerAnimator.SetBool("WalkRight", true);
                     playerSpriteRender.flipX = true;
+                    increaceSpeedLeft = 0;
                 }
                 else
                 {
@@ -369,9 +390,12 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
+                        if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
+                        {
+                            increaceSpeedLeft = rb.velocity.x;
 
-
-                        if (increaceSpeedLeft == 0)
+                        }
+                        else if (rb.velocity.x == 0)
                         {
                             increaceSpeedLeft = rb.velocity.x;
                         }
@@ -380,15 +404,16 @@ public class PlayerController : MonoBehaviour
                             increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
                             rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
                         }
-                        
+
 
 
                     }
 
-                    walkingRight = false;
+                    
                     walkingLeft = true;
                     playerAnimator.SetBool("WalkRight", true);
                     playerSpriteRender.flipX = false;
+                    increaceSpeedRight = 0;
                 }
                 else
                 {
