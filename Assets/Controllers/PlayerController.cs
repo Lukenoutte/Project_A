@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject lux1, lux2, buttonLeft, buttonRight, buttonLux1, buttonLux2;
+    private GameObject lux1, lux2, buttonLeft, buttonRight, buttonLux1, buttonLux2, playerClone1;
 
     private GameObject LuxMain;
 
@@ -21,17 +21,17 @@ public class PlayerController : MonoBehaviour
     private Vector3 directionGround = Vector3.zero;
     public GameObject setaOld;
     private int countCollision = 0;
-    public bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
+    private bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
         tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown, isPressed, isPressedKeys = false;
 
     public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
-    public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist;
+    public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist, confirmGrounded;
     public LayerMask groundLayers;
-    public float  groundCheckDistance2, valueOfIncreace, fRemenberJumpTime;
-    private bool jumpTap, blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight, confirmGrounded = false;
-    private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY, fRemenberJump,
+    public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, oldVelocityX, oldVelocityY;
+    private bool jumpTap, blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight = false;
+    private float oldPosition, directionYValue, setaPosition, fRemenberJump,
         increaceSpeedLeft, increaceSpeedRight;
 
 
@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+
         SomeAnimations();
 
         if (UIController.instance != null)
@@ -244,6 +246,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+
+                StartCoroutine(ShowClone1Delay());
                 buttonLux1.SetActive(true);
                 buttonLux2.SetActive(true);
                 playerAnimator.SetBool("IsLuxMode", true);
@@ -275,7 +279,7 @@ public class PlayerController : MonoBehaviour
         // Está precionado?
         if (Input.GetMouseButtonDown(0))
         {
-            
+
 
             isPressed = true;
 
@@ -338,7 +342,7 @@ public class PlayerController : MonoBehaviour
         #region Mobile Inputs
         if (Input.touchCount > 0)
         {
-            
+
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
@@ -380,9 +384,9 @@ public class PlayerController : MonoBehaviour
                     }
 
                 }
-                
-                
-                if(rightFirst && isDragging2Click && Input.touches[0].position.x > (Screen.width / 2))
+
+
+                if (rightFirst && isDragging2Click && Input.touches[0].position.x > (Screen.width / 2))
                 {
                     startTouchRight = Input.touches[0].position;
                     rightSideScreen = true;
@@ -438,10 +442,10 @@ public class PlayerController : MonoBehaviour
 
                     if (Input.touchCount == 2 && rightFirst)
                     {
-                        
+
                         if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
                         {
-                            
+
                             startTouchLeft = Input.touches[1].position;
 
                             leftSideScreen = true;
@@ -567,7 +571,16 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private IEnumerator ShowClone1Delay()
+    {
 
+
+       
+        yield return new WaitForSeconds(0.1f);
+
+        playerClone1.SetActive(true);
+
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -601,7 +614,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!UIController.instance.luxMode)
             {
-                rb.velocity = new Vector2(rb.velocity.x, 2.5f);
+                rb.velocity = new Vector2(0, 2.5f);
             }
 
             collision.gameObject.SetActive(false);
@@ -648,7 +661,6 @@ public class PlayerController : MonoBehaviour
             confirmGrounded = true;
             if (!isGroundedMain)
             {
-                firstJump = doubleJump = false;
                 isGroundedMain = true;
             }
 

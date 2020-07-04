@@ -115,7 +115,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 342}
   m_MaxSize: {x: 12004, y: 8042}
   vertical: 0
-  controlID: 65
+  controlID: 39
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 342}
   m_MaxSize: {x: 8003, y: 8042}
   vertical: 1
-  controlID: 71
+  controlID: 40
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 115
+  controlID: 41
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -398,21 +398,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: b2f1fffff0f1ffff02f2ffffd8f2ffff70fbffff
+      m_ExpandedIDs: f0b3ffffc2c6ffff9cf5ffff70fbfffff03800002cec0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: PlayerClone1
+        m_OriginalName: PlayerClone1
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -2660
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -458,9 +458,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 346.24155, y: 78.57402, z: -48.001106}
+    m_Target: {x: -28.39386, y: -0.056375504, z: -1.2685671}
     speed: 2
-    m_Value: {x: 346.24155, y: 78.57402, z: -48.001106}
+    m_Value: {x: -28.39386, y: -0.056375504, z: -1.2685671}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -510,9 +510,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 152.48744
+    m_Target: 1.7071203
     speed: 2
-    m_Value: 152.48744
+    m_Value: 1.7071203
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -668,9 +668,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: f0380000
-    m_LastClickedInstanceID: 14576
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 9cf5ffff
+    m_LastClickedInstanceID: -2660
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000d0270000a628000006290000d22c00004034000038340000aa390000262e00007e2a0000fc7b00007047000024300000ee2f00006a61000026c1ffff12530000da6d0000546f0000282a0000fe2d0000362b0000b0390000e03c00009046000092430000463f0000223b0000e8410000643f000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -791,14 +791,14 @@ MonoBehaviour:
       e31: 0
       e32: 0
       e33: 1
-    - e00: 0.3927273
+    - e00: 0.38512912
       e01: 0
       e02: 0
-      e03: 90.07817
+      e03: 92.49501
       e10: 0
-      e11: 0.3927273
+      e11: 0.38512912
       e12: 0
-      e13: 50.34545
+      e13: 51.635033
       e20: 0
       e21: 0
       e22: 1
