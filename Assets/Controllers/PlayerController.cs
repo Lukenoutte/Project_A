@@ -21,31 +21,18 @@ public class PlayerController : MonoBehaviour
     private Vector3 directionGround = Vector3.zero;
     public GameObject setaOld;
     private int countCollision = 0;
-    private bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
-        tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen, leftFrist, rightFirst;
-    private bool swipeLeft, swipeRight, swipeUp, swipeDown,
-        isPressed, isPressedKeys = false;
+    public bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
+        tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen;
+    private bool swipeLeft, swipeRight, swipeUp, swipeDown, isPressed, isPressedKeys = false;
 
-    private Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
+    public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
-    public bool confirmGrounded, fakeWalk, walkingRight, walkingLeft, isGroundedMain;
+    public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist;
     public LayerMask groundLayers;
-    public float groundCheckDistance, groundCheckDistance2, valueOfIncreace;
-
-    public bool wasGoingToLeft, wasGoingToRight;
-
-    private bool jumpTap, blockLoop,
-        upKey, rightKey, leftKey, wasLuxMode = false;
-
-    private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY;
-
-
-    public float increaceSpeedLeft, increaceSpeedRight;
-
-
-    // Hold
-    private float holdTime = 0.3f; //or whatever
-    private float acumTime = 0;
+    public float  groundCheckDistance2, valueOfIncreace, fRemenberJumpTime;
+    private bool jumpTap, blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight, confirmGrounded = false;
+    private float oldPosition, directionYValue, setaPosition, oldVelocityX, oldVelocityY, fRemenberJump,
+        increaceSpeedLeft, increaceSpeedRight;
 
 
     private Animator setaOldAnimator, playerAnimator, buttonWalkLeftAnimator, buttonWalkRightAnimator;
@@ -64,7 +51,7 @@ public class PlayerController : MonoBehaviour
         playerSpriteRender = GetComponent<SpriteRenderer>();
 
         playerAnimator = GetComponent<Animator>();
-        setaPosition = 102;
+        setaPosition = 104;
         directionYValue = 0.54f;
         instance = this;
 
@@ -84,6 +71,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        SomeAnimations();
+
         if (UIController.instance != null)
         {
             if (UIController.instance.luxButton1)
@@ -108,49 +97,6 @@ public class PlayerController : MonoBehaviour
         }
 
         ComfirmIfIsGrounded();
-        if (setaOld != null)
-        {
-            if (walkingRight)
-            {
-                setaOldAnimator.SetBool("WalkingRight", true);
-            }
-            else
-            {
-                setaOldAnimator.SetBool("WalkingRight", false);
-            }
-
-            if (walkingLeft)
-            {
-                setaOldAnimator.SetBool("WalkingLeft", true);
-            }
-            else
-            {
-                setaOldAnimator.SetBool("WalkingLeft", false);
-            }
-        }
-
-
-        if (buttonLeft != null && buttonRight != null)
-        {
-            if (walkingRight)
-            {
-                buttonWalkRightAnimator.SetBool("Press", true);
-            }
-            else
-            {
-                buttonWalkRightAnimator.SetBool("Press", false);
-            }
-
-            if (walkingLeft)
-            {
-                buttonWalkLeftAnimator.SetBool("Press", true);
-            }
-            else
-            {
-                buttonWalkLeftAnimator.SetBool("Press", false);
-            }
-
-        }
 
 
         if (walkingLeft | walkingRight)
@@ -177,306 +123,144 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        // Está andando e esbarrando em algo
-        if (fakeWalk)
+
+
+        if (UIController.instance != null)
         {
-            playerAnimator.SetBool("FakeWalk", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("FakeWalk", false);
-        }
-
-
-
-        if (!UIController.instance.luxMode)
-        {
-            // Movimento usando teclas (PC)
-            #region PC Moviments
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (!UIController.instance.luxMode)
             {
-                leftKey = true;
-                isPressedKeys = true;
-            }
-            else
-            {
-                leftKey = false;
-
-            }
-
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                rightKey = true;
-                isPressedKeys = true;
-            }
-            else
-            {
-                rightKey = false;
-
-            }
-
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                upKey = true;
-                isPressedKeys = true;
-            }
-            else
-            {
-                upKey = false;
-
-            }
-
-            if (!leftKey && !rightKey && !upKey)
-            {
-                isPressedKeys = false;
-            }
+                // Movimento usando teclas (PC)
+                #region PC Moviments
+                PressKeysPc();
 
 
 
-            if (rightKey)
-            {
-                if (isGroundedMain)
+                if (rightKey)
                 {
-                  increaceSpeedRight = 0;
-                }
-          
-
-                    if (increaceSpeedRight == 0 && rb.velocity.x != 0)
-                    {
-                        increaceSpeedRight = rb.velocity.x;
-
-                    }
-                    else if (rb.velocity.x == 0)
-                    {
-                        increaceSpeedRight = rb.velocity.x;
-                    }
-
-                    if (increaceSpeedRight < speed)
-                    {
-                        increaceSpeedRight += Time.deltaTime * valueOfIncreace;
-                        rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
-                    }
-
-                playerAnimator.SetBool("WalkRight", true);
-                playerSpriteRender.flipX = true;
-                walkingRight = true;
-                increaceSpeedLeft = 0;
-            }
-            else
-            {
-
-                if (!leftKey)
-                    playerAnimator.SetBool("WalkRight", false);
-                if (!isDragging1Click)
-                    walkingRight = false;
-
-            }
-
-
-            if (leftKey)
-            {
-
-                if (isGroundedMain)
-                {
-
-                    increaceSpeedLeft = 0;
-                }
-             
-
-
-                    if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
-                    {
-                        increaceSpeedLeft = rb.velocity.x;
-
-                    }
-                    else if (rb.velocity.x == 0)
-                    {
-                        increaceSpeedLeft = rb.velocity.x;
-                    }
-
-                    if (increaceSpeedLeft > -speed)
-                    {
-                        increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
-                        rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
-                    }
-
-
-                playerAnimator.SetBool("WalkRight", true);
-                playerSpriteRender.flipX = false;
-                walkingLeft = true;
-                increaceSpeedRight = 0;
-            }
-            else
-            {
-
-                if (!rightKey)
-                    playerAnimator.SetBool("WalkRight", false);
-
-                if (!isDragging1Click)
-                    walkingLeft = false;
-
-            }
-            #endregion
-
-            #region Mobile Moviments
-            if (startTouchLeft.x > setaPosition && leftSideScreen)
-            {
-                if (isDragging1Click | isDragging2Click)
-                {
-                    if (isGroundedMain)
-                    {
-
-                        increaceSpeedRight = 0;
-                    }
-                   
-
-                        if (increaceSpeedRight == 0 && rb.velocity.x != 0)
-                        {
-                            increaceSpeedRight = rb.velocity.x;
-
-                        }
-                        else if (rb.velocity.x == 0)
-                        {
-                            increaceSpeedRight = rb.velocity.x;
-                        }
-
-                        if (increaceSpeedRight < speed)
-                        {
-
-                            increaceSpeedRight += Time.deltaTime * valueOfIncreace;
-                            rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
-                        }
-                    
-                    walkingRight = true;
-                    playerAnimator.SetBool("WalkRight", true);
-                    playerSpriteRender.flipX = true;
-                    increaceSpeedLeft = 0;
-                }
-                else
-                {
-                    playerAnimator.SetBool("WalkRight", false);
-
-                }
-
-            }
-
-
-
-            if (startTouchLeft.x < setaPosition && leftSideScreen)
-            {
-                if (isDragging1Click | isDragging2Click)
-                {
-                    if (isGroundedMain)
-                    {
-                        increaceSpeedLeft = 0;
-                    }
-              
-                        if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
-                        {
-                            increaceSpeedLeft = rb.velocity.x;
-
-                        }
-                        else if (rb.velocity.x == 0)
-                        {
-                            increaceSpeedLeft = rb.velocity.x;
-                        }
-                        if (increaceSpeedLeft > -speed)
-                        {
-                            increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
-                            rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
-                        }
-
-                    walkingLeft = true;
-                    playerAnimator.SetBool("WalkRight", true);
-                    playerSpriteRender.flipX = false;
-                    increaceSpeedRight = 0;
+                    WalkRight();
                 }
                 else
                 {
 
-                    playerAnimator.SetBool("WalkRight", false);
+                    if (!leftKey)
+                        playerAnimator.SetBool("WalkRight", false);
+                    if (!isDragging1Click)
+                        walkingRight = false;
 
                 }
-            }
-            #endregion
 
 
-            // Mobile and PC Jump
-            if (upKey | jumpTap)
-            {
-
-
-                if (!firstJump | !doubleJump)
+                if (leftKey)
                 {
-                    blockLoop = true;
-                    if (!firstJump)
-                    {
 
-                        if (isGroundedMain)
-                        {
+                    WalkLeft();
+                }
+                else
+                {
 
+                    if (!rightKey)
+                        playerAnimator.SetBool("WalkRight", false);
 
-                            dust.Play();
-
-                        }
-
-                        firstJump = true;
-
-                    }
-                    else if (!doubleJump && firstJump)
-                    {
-                        doubleJump = true;
-                    }
-
-
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                    playerAnimator.SetBool("Jump", true);
-                    StartCoroutine(JumpOffDelay());
-
+                    if (!isDragging1Click)
+                        walkingLeft = false;
 
                 }
-                jumpTap = false;
-                upKey = false;
+                #endregion
 
+                #region Mobile Moviments
+                if (startTouchLeft.x > setaPosition && leftSideScreen)
+                {
+                    if (isDragging1Click | isDragging2Click)
+                    {
+                        WalkRight();
+
+                    }
+                    else
+                    {
+                        playerAnimator.SetBool("WalkRight", false);
+
+                    }
+
+                }
+
+
+
+                if (startTouchLeft.x < setaPosition && leftSideScreen)
+                {
+                    if (isDragging1Click | isDragging2Click)
+                    {
+                        WalkLeft();
+                    }
+                    else
+                    {
+
+                        playerAnimator.SetBool("WalkRight", false);
+
+                    }
+                }
+                #endregion
+
+
+                // Mobile and PC Jump
+
+                if (fRemenberJump >= 0)
+                {
+                    fRemenberJump -= Time.deltaTime;
+                }
+
+                if (upKey | jumpTap)
+                {
+                    fRemenberJump = fRemenberJumpTime;
+
+                }
+
+                // Pulo
+                if (fRemenberJump > 0 && isGroundedMain)
+                {
+                    Jump();
+                    fRemenberJump = 0;
+                }
+                else if (fRemenberJump > 0 && !isGroundedMain)
+                {
+                    Jump();
+                }
+
+                if (wasLuxMode)
+                {
+                    rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
+
+                    wasLuxMode = false;
+                    fakeWalk = false;
+                    oldVelocityX = oldVelocityY = 0;
+                    dust.playbackSpeed = 1;
+                    playerAnimator.SetBool("IsLuxMode", false);
+                    buttonLux1.SetActive(false);
+                    buttonLux2.SetActive(false);
+
+                }
+
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                playerAnimator.SetFloat("Velocity", 1f);
             }
-
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            playerAnimator.SetFloat("Velocity", 1f);
-
-            if (wasLuxMode)
+            else
             {
-                rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
+                buttonLux1.SetActive(true);
+                buttonLux2.SetActive(true);
+                playerAnimator.SetBool("IsLuxMode", true);
+                dust.playbackSpeed = 0;
+                fakeWalk = true;
+                if (oldVelocityX == 0 && oldVelocityY == 0)
+                {
+                    oldVelocityX = rb.velocity.x;
+                    oldVelocityY = rb.velocity.y;
 
-                wasLuxMode = false;
-                fakeWalk = false;
-                oldVelocityX = oldVelocityY = 0;
-                dust.playbackSpeed = 1;
-                playerAnimator.SetBool("IsLuxMode", false);
-                buttonLux1.SetActive(false);
-                buttonLux2.SetActive(false);
+                }
 
+                wasLuxMode = true;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+                playerAnimator.SetFloat("Velocity", 0f);
             }
-
         }
-        else
-        {
-            buttonLux1.SetActive(true);
-            buttonLux2.SetActive(true);
-            playerAnimator.SetBool("IsLuxMode", true);
-            dust.playbackSpeed = 0;
-            fakeWalk = true;
-            if (oldVelocityX == 0 && oldVelocityY == 0)
-            {
-                oldVelocityX = rb.velocity.x;
-                oldVelocityY = rb.velocity.y;
-
-            }
-
-            wasLuxMode = true;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-            playerAnimator.SetFloat("Velocity", 0f);
-        }
-
         // Evitar que o personagem deslize
         if (!isPressed && !isPressedKeys)
         {
@@ -491,7 +275,7 @@ public class PlayerController : MonoBehaviour
         // Está precionado?
         if (Input.GetMouseButtonDown(0))
         {
-
+            
 
             isPressed = true;
 
@@ -546,41 +330,19 @@ public class PlayerController : MonoBehaviour
             rightSideScreen = false;
         }
 
-        if (touchPositionLux != Vector2.zero)
-        {
+        // Criar Lux se estiver em lux mode
+        CreateLux();
 
-            Vector3 auxLux = Camera.main.ScreenToWorldPoint(touchPositionLux);
-            Debug.DrawRay(touchPositionLux, Camera.main.transform.forward, Color.green);
-            if (!UIController.instance.uIClick && UIController.instance.luxMode)
-            {
-                luxTransform = LuxMain.GetComponent<Transform>();
-                luxTransform.position = new Vector3(auxLux.x, auxLux.y, luxTransform.position.z);
-                touchPositionLux = Vector2.zero;
-                StartCoroutine(ShowLuxDelay());
-            }
-
-        }
-
-
-
-        // Create Lux if mouse
-        if (UIController.instance.luxMode && !UIController.instance.uIClick)
-        {
-            if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
-            {
-
-                touchPositionLux = Input.mousePosition;
-            }
-        }
 
 
         #region Mobile Inputs
         if (Input.touchCount > 0)
         {
-
+            
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
+                // Lux
                 if (UIController.instance.luxMode && !UIController.instance.uIClick && Input.touchCount == 1)
                 {
 
@@ -594,6 +356,7 @@ public class PlayerController : MonoBehaviour
                 {
                     isDragging1BeforeLux = true;
                 }
+                // End Lux
 
                 isDragging1Click = true;
                 tapRequested1Click = true;
@@ -617,14 +380,12 @@ public class PlayerController : MonoBehaviour
                     }
 
                 }
-                else if (Input.touchCount == 2 && rightFirst)
+                
+                
+                if(rightFirst && isDragging2Click && Input.touches[0].position.x > (Screen.width / 2))
                 {
-                    if (Input.touches[0].position.x > (Screen.width / 2))
-                    {
-                        startTouchRight = Input.touches[0].position;
-                        rightSideScreen = true;
-
-                    }
+                    startTouchRight = Input.touches[0].position;
+                    rightSideScreen = true;
                 }
 
 
@@ -667,25 +428,23 @@ public class PlayerController : MonoBehaviour
                     if (Input.touchCount == 2)
                     {
 
-                        if (Input.touches[1].position.x < Screen.width / 2)
-                        {
-                            leftSideScreen = true;
-                            if (leftSideScreen && rightSideScreen)
-                            {
-                                startTouchLeft = Input.touches[1].position;
-
-                            }
-                            else if (leftSideScreen && !rightSideScreen)
-                            {
-                                startTouchLeft = Input.touches[1].position;
-                            }
-
-                        }
                         if (Input.touches[1].position.x > Screen.width / 2)
                         {
                             startTouchRight = Input.touches[1].position;
                             rightSideScreen = true;
 
+                        }
+                    }
+
+                    if (Input.touchCount == 2 && rightFirst)
+                    {
+                        
+                        if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
+                        {
+                            
+                            startTouchLeft = Input.touches[1].position;
+
+                            leftSideScreen = true;
                         }
                     }
                 }
@@ -755,8 +514,6 @@ public class PlayerController : MonoBehaviour
     private void Reset1()
     {
 
-
-        isDragging1Click = tapRequested1Click = false;
         if (!isDragging2Click)
             leftSideScreen = rightFirst = leftFrist = false;
 
@@ -881,30 +638,17 @@ public class PlayerController : MonoBehaviour
     {
 
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance, groundLayers);
+
         RaycastHit2D hit2 = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance2, groundLayers);
 
-        if (countCollision == 0)
-        {
-            if (hit)
-            {
 
-                if (!isGroundedMain)
-                {
-                    if (firstJump && doubleJump)
-                        firstJump = doubleJump = false;
-                }
-
-            }
-
-
-        }
 
         if (hit2)
         {
             confirmGrounded = true;
             if (!isGroundedMain)
             {
+                firstJump = doubleJump = false;
                 isGroundedMain = true;
             }
 
@@ -917,6 +661,232 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private void Jump()
+    {
+        if (!firstJump | !doubleJump)
+        {
+            blockLoop = true;
+            if (!firstJump)
+            {
+
+                if (isGroundedMain)
+                {
 
 
+                    dust.Play();
+
+                }
+
+                firstJump = true;
+
+            }
+            else if (!doubleJump && firstJump)
+            {
+                doubleJump = true;
+            }
+
+
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            playerAnimator.SetBool("Jump", true);
+            StartCoroutine(JumpOffDelay());
+
+
+        }
+        jumpTap = false;
+        upKey = false;
+
+    }
+    private void WalkRight()
+    {
+        if (isGroundedMain)
+        {
+            increaceSpeedRight = 0;
+        }
+
+
+        if (increaceSpeedRight == 0 && rb.velocity.x != 0)
+        {
+            increaceSpeedRight = rb.velocity.x;
+
+        }
+        else if (rb.velocity.x == 0)
+        {
+            increaceSpeedRight = rb.velocity.x;
+        }
+
+        if (increaceSpeedRight < speed)
+        {
+            increaceSpeedRight += Time.deltaTime * valueOfIncreace;
+            rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
+        }
+
+        playerAnimator.SetBool("WalkRight", true);
+        playerSpriteRender.flipX = true;
+        walkingRight = true;
+        walkingLeft = false;
+        increaceSpeedLeft = 0;
+    }
+
+    private void WalkLeft()
+    {
+        if (isGroundedMain)
+        {
+
+            increaceSpeedLeft = 0;
+        }
+
+
+
+        if (increaceSpeedLeft == 0 && rb.velocity.x != 0)
+        {
+            increaceSpeedLeft = rb.velocity.x;
+
+        }
+        else if (rb.velocity.x == 0)
+        {
+            increaceSpeedLeft = rb.velocity.x;
+        }
+
+        if (increaceSpeedLeft > -speed)
+        {
+            increaceSpeedLeft += Time.deltaTime * -valueOfIncreace;
+            rb.velocity = new Vector2(increaceSpeedLeft, rb.velocity.y);
+        }
+
+
+        playerAnimator.SetBool("WalkRight", true);
+        playerSpriteRender.flipX = false;
+        walkingLeft = true;
+        walkingRight = false;
+        increaceSpeedRight = 0;
+    }
+
+    public void PressKeysPc()
+    {
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            leftKey = true;
+            isPressedKeys = true;
+        }
+        else
+        {
+            leftKey = false;
+
+        }
+
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            rightKey = true;
+            isPressedKeys = true;
+        }
+        else
+        {
+            rightKey = false;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            upKey = true;
+            isPressedKeys = true;
+        }
+        else
+        {
+            upKey = false;
+
+        }
+
+        if (!leftKey && !rightKey && !upKey)
+        {
+            isPressedKeys = false;
+        }
+    }
+
+
+    private void CreateLux()
+    {
+        if (touchPositionLux != Vector2.zero)
+        {
+
+            Vector3 auxLux = Camera.main.ScreenToWorldPoint(touchPositionLux);
+            Debug.DrawRay(touchPositionLux, Camera.main.transform.forward, Color.green);
+            if (!UIController.instance.uIClick && UIController.instance.luxMode)
+            {
+                luxTransform = LuxMain.GetComponent<Transform>();
+                luxTransform.position = new Vector3(auxLux.x, auxLux.y, luxTransform.position.z);
+                touchPositionLux = Vector2.zero;
+                StartCoroutine(ShowLuxDelay());
+            }
+
+        }
+
+        // Create Lux if mouse
+        if (UIController.instance.luxMode && !UIController.instance.uIClick)
+        {
+            if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
+            {
+
+                touchPositionLux = Input.mousePosition;
+            }
+        }
+    }
+
+
+    private void SomeAnimations()
+    {
+        if (setaOld != null)
+        {
+            if (walkingRight)
+            {
+                setaOldAnimator.SetBool("WalkingRight", true);
+            }
+            else
+            {
+                setaOldAnimator.SetBool("WalkingRight", false);
+            }
+
+            if (walkingLeft)
+            {
+                setaOldAnimator.SetBool("WalkingLeft", true);
+            }
+            else
+            {
+                setaOldAnimator.SetBool("WalkingLeft", false);
+            }
+        }
+
+
+        if (buttonLeft != null && buttonRight != null)
+        {
+            if (walkingRight)
+            {
+                buttonWalkRightAnimator.SetBool("Press", true);
+            }
+            else
+            {
+                buttonWalkRightAnimator.SetBool("Press", false);
+            }
+
+            if (walkingLeft)
+            {
+                buttonWalkLeftAnimator.SetBool("Press", true);
+            }
+            else
+            {
+                buttonWalkLeftAnimator.SetBool("Press", false);
+            }
+
+        }
+
+        // Está andando e esbarrando em algo
+        if (fakeWalk)
+        {
+            playerAnimator.SetBool("FakeWalk", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("FakeWalk", false);
+        }
+
+    }
 }
