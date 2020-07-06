@@ -79,13 +79,22 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            luxMode = false;
+            StartCoroutine(LuxModeOffDelay());
 
         }
 
     }
 
+    private IEnumerator LuxModeOffDelay()
+    {
 
+
+
+        yield return new WaitForSeconds(0.2f);
+
+        luxMode = false;
+
+    }
 
 
 }
