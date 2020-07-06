@@ -10,8 +10,8 @@ public class PlayerCloneController : MonoBehaviour
     public GameObject PlayerToFollow;
     private bool setPositionClone;
     private PlayerController playerControllerInstance;
-    private Animator playerAnimator;
-    private SpriteRenderer playerSpriteRender;
+    private Animator playerCloneAnimator;
+    private SpriteRenderer playerSpriteRender, playerFollowRender;
     private BoxCollider2D playerToFollowCollider;
     public BoxCollider2D playerCloneCollider;
     // Start is called before the first frame update
@@ -21,21 +21,23 @@ public class PlayerCloneController : MonoBehaviour
         playerControllerInstance = PlayerController.instance;
         playerCloneTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
-        playerAnimator = GetComponent<Animator>();
+        playerCloneAnimator = GetComponent<Animator>();
         playerToFollowCollider = PlayerToFollow.GetComponent<BoxCollider2D>();
         playerCloneCollider = GetComponent<BoxCollider2D>();
+        playerFollowRender = PlayerToFollow.GetComponent<SpriteRenderer>();
         instance = this;
-        
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
+
         if (UIController.instance.luxMode)
         {
-            
+
 
             if (!setPositionClone)
             {
@@ -43,20 +45,25 @@ public class PlayerCloneController : MonoBehaviour
                 {
                     playerControllerInstance = PlayerController.instance;
                 }
-                
+
+                if (playerFollowRender.flipX)
+                {
+                    playerSpriteRender.flipX = true;
+                }
+                else
+                {
+                    playerSpriteRender.flipX = false;
+                }
+
                 if (playerControllerInstance.oldVelocityX != 0 | playerControllerInstance.oldVelocityY != 0)
                 {
+
                     playerCloneTransform.position = new Vector3(PlayerToFollow.transform.position.x, PlayerToFollow.transform.position.y, 6);
+                    if (!playerControllerInstance.isGroundedMain)
+                    {
+                        rb.velocity = new Vector2(playerControllerInstance.oldVelocityX, playerControllerInstance.oldVelocityY);
+                    }
                     
-                    rb.velocity = new Vector2(playerControllerInstance.oldVelocityX, playerControllerInstance.oldVelocityY);
-                    if (playerControllerInstance.oldVelocityX > 0)
-                    {
-                        playerSpriteRender.flipX = true;
-                    }
-                    else
-                    {
-                        playerSpriteRender.flipX = false;
-                    }
                     StartCoroutine(FreezeCloneDelay());
                     setPositionClone = true;
                 }
@@ -64,6 +71,7 @@ public class PlayerCloneController : MonoBehaviour
         }
         else
         {
+            playerCloneTransform.position = new Vector3(PlayerToFollow.transform.position.x, PlayerToFollow.transform.position.y, 6);
             gameObject.SetActive(false);
             setPositionClone = false;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -89,8 +97,12 @@ public class PlayerCloneController : MonoBehaviour
         {
 
 
-                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+            playerCloneAnimator.SetBool("InTheAir", false);
+        }
+        else
+        {
+            playerCloneAnimator.SetBool("InTheAir", true);
         }
 
     }

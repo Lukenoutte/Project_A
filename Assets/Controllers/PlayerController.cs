@@ -591,7 +591,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
         playerClone1.SetActive(true);
 
