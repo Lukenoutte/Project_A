@@ -46,7 +46,7 @@ public class PlayerCloneController : MonoBehaviour
                 
                 if (playerControllerInstance.oldVelocityX != 0 | playerControllerInstance.oldVelocityY != 0)
                 {
-                    playerCloneTransform.position = new Vector2(PlayerToFollow.transform.position.x, PlayerToFollow.transform.position.y);
+                    playerCloneTransform.position = new Vector3(PlayerToFollow.transform.position.x, PlayerToFollow.transform.position.y, 6);
                     
                     rb.velocity = new Vector2(playerControllerInstance.oldVelocityX, playerControllerInstance.oldVelocityY);
                     if (playerControllerInstance.oldVelocityX > 0)
@@ -77,7 +77,7 @@ public class PlayerCloneController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.15f);
 
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
 

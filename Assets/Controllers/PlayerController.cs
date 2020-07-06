@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 directionGround = Vector3.zero;
     public GameObject setaOld;
     private int countCollision = 0;
-    private bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
+    public bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
         tapRequested2Click, tap1, tap2, rightSideScreen, leftSideScreen;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown, isPressed, isPressedKeys = false;
 
@@ -29,9 +29,9 @@ public class PlayerController : MonoBehaviour
 
     public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist, confirmGrounded;
     public LayerMask groundLayers;
-    public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, oldVelocityX, oldVelocityY;
+    public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, oldVelocityX, oldVelocityY;
     private bool jumpTap, blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight = false;
-    private float oldPosition, directionYValue, setaPosition, fRemenberJump,
+    private float oldPosition, directionYValue, setaPosition,
         increaceSpeedLeft, increaceSpeedRight;
 
 
@@ -217,15 +217,21 @@ public class PlayerController : MonoBehaviour
                 }
 
                 // Pulo
-                if (fRemenberJump > 0 && isGroundedMain)
+                if (fRemenberJump > 0)
                 {
                     Jump();
-                    fRemenberJump = 0;
+
+                    if (!firstJump && !doubleJump)
+                    {
+                        fRemenberJump = 0;
+                    }
+                    else if (firstJump && !doubleJump)
+                    {
+                        fRemenberJump = 0;
+                    }
                 }
-                else if (fRemenberJump > 0 && !isGroundedMain)
-                {
-                    Jump();
-                }
+
+
 
                 if (wasLuxMode)
                 {
@@ -289,8 +295,7 @@ public class PlayerController : MonoBehaviour
             isPressed = false;
             walkingLeft = false;
             walkingRight = false;
-            isDragging2Click = tapRequested2Click = false;
-            startTouchRight = Vector2.zero;
+
 
         }
 
@@ -371,14 +376,16 @@ public class PlayerController : MonoBehaviour
                     {
                         startTouchLeft = Input.touches[0].position;
                         leftSideScreen = true;
-                        leftFrist = true;
+                        if (!rightFirst)
+                            leftFrist = true;
 
                     }
                     else if (Input.touches[0].position.x > (Screen.width / 2))
                     {
                         startTouchRight = Input.touches[0].position;
                         rightSideScreen = true;
-                        rightFirst = true;
+                        if (!leftFrist)
+                            rightFirst = true;
 
 
                     }
@@ -399,13 +406,11 @@ public class PlayerController : MonoBehaviour
                 if (tapRequested1Click)
                 {
                     tap1 = true;
-
-
                     tapRequested1Click = false;
-
+                    isDragging1Click = false;
+                    isDragging1BeforeLux = false;
                 }
-                isDragging1Click = false;
-                isDragging1BeforeLux = false;
+
                 Reset1();
             }
 
@@ -478,6 +483,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.touchCount > 0)
             {
+                // Lux
                 if (UIController.instance.luxMode && !UIController.instance.uIClick)
                 {
                     if (Input.touchCount == 1 && !isDragging1BeforeLux)
@@ -488,6 +494,7 @@ public class PlayerController : MonoBehaviour
                     if (Input.touchCount == 2 && isDragging1BeforeLux)
                         touchPositionLux = Input.touches[1].position;
                 }
+                // end Lux
 
                 if (startTouchLeft != Vector2.zero && leftSideScreen && leftFrist)
                 {
@@ -496,13 +503,20 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (startTouchLeft != Vector2.zero && leftSideScreen && rightFirst)
                 {
-                    if (Input.touchCount > 1)
+                    if (Input.touchCount == 2)
                     {
                         startTouchLeft = Input.touches[1].position;
                     }
-                    else
+                    else if (Input.touchCount == 1)
                     {
                         startTouchLeft = Input.touches[0].position;
+                    }
+                }
+                else if (startTouchLeft != Vector2.zero && rightSideScreen && rightFirst)
+                {
+                    if (Input.touchCount == 2)
+                    {
+                        startTouchRight = Input.touches[0].position;
                     }
                 }
             }
@@ -518,15 +532,16 @@ public class PlayerController : MonoBehaviour
     private void Reset1()
     {
 
-        if (!isDragging2Click)
+        if (!isDragging2Click | !isDragging1Click)
             leftSideScreen = rightFirst = leftFrist = false;
 
     }
 
     private void Reset2()
     {
+        if (!isDragging2Click | !isDragging1Click)
+            startTouchRight = Vector2.zero;
 
-        startTouchRight = Vector2.zero;
 
     }
 
@@ -575,7 +590,7 @@ public class PlayerController : MonoBehaviour
     {
 
 
-       
+
         yield return new WaitForSeconds(0.1f);
 
         playerClone1.SetActive(true);
@@ -669,6 +684,10 @@ public class PlayerController : MonoBehaviour
         {
             confirmGrounded = false;
         }
+        if (countCollision == 0 && isGroundedMain)
+        {
+            isGroundedMain = false;
+        }
 
     }
 
@@ -683,7 +702,6 @@ public class PlayerController : MonoBehaviour
 
                 if (isGroundedMain)
                 {
-
 
                     dust.Play();
 

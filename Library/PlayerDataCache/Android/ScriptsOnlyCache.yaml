@@ -4,6 +4,7 @@ ScriptsOnlyBuild:
     - CameraController
     - DialogManager
     - DialogText
+    - PlayerCloneController
     - PlayerController
     - ScrollScript
     - UIController
@@ -82,41 +83,43 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11374}
     - Class: 114
-      Script: {instanceID: 11686}
+      Script: {instanceID: 11582}
     - Class: 114
-      Script: {instanceID: 11938}
+      Script: {instanceID: 11688}
     - Class: 114
-      Script: {instanceID: 12010}
+      Script: {instanceID: 11940}
     - Class: 114
-      Script: {instanceID: 12016}
+      Script: {instanceID: 12012}
     - Class: 114
-      Script: {instanceID: 12188}
+      Script: {instanceID: 12018}
     - Class: 114
-      Script: {instanceID: 12300}
+      Script: {instanceID: 12190}
     - Class: 114
-      Script: {instanceID: 12352}
+      Script: {instanceID: 12302}
     - Class: 114
-      Script: {instanceID: 12356}
+      Script: {instanceID: 12354}
     - Class: 114
-      Script: {instanceID: 12452}
+      Script: {instanceID: 12358}
     - Class: 114
-      Script: {instanceID: 13160}
+      Script: {instanceID: 12454}
     - Class: 114
-      Script: {instanceID: 13238}
+      Script: {instanceID: 13162}
     - Class: 114
-      Script: {instanceID: 13256}
+      Script: {instanceID: 13240}
     - Class: 114
-      Script: {instanceID: 13538}
+      Script: {instanceID: 13258}
     - Class: 114
-      Script: {instanceID: 13608}
+      Script: {instanceID: 13540}
     - Class: 114
-      Script: {instanceID: 13624}
+      Script: {instanceID: 13610}
     - Class: 114
-      Script: {instanceID: 13850}
+      Script: {instanceID: 13626}
     - Class: 114
-      Script: {instanceID: 14094}
+      Script: {instanceID: 13852}
     - Class: 114
-      Script: {instanceID: 14166}
+      Script: {instanceID: 14096}
+    - Class: 114
+      Script: {instanceID: 14168}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -184,6 +187,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.XR.LegacyInputHelpers.dll
     namespaceName: UnityEngine.XR.LegacyInputHelpers
     className: ArmModel
+  - hash:
+      serializedVersion: 2
+      Hash: 88e92b180ea274cbd0672090c20684b3
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerCloneController
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -642,7 +651,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: e469fd03402a1d4d3457e61b4925ce2d
+      Hash: a22a6744750820abe1ddc8dcdfc0ca82
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
