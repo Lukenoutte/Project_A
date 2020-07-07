@@ -1944,11 +1944,10 @@ MonoBehaviour:
   buttonLux2: {fileID: 265315039}
   playerClone1: {fileID: 115783807}
   dust: {fileID: 1859239570}
-  speed: 1
-  jumpForce: 1.7
+  speed: 1.1
+  jumpForce: 1.9
   setaOld: {fileID: 0}
   firstJump: 0
-  doubleJump: 0
   isDragging1Click: 0
   tapRequested1Click: 0
   isDragging2Click: 0
@@ -1956,8 +1955,10 @@ MonoBehaviour:
   tapRequested2Click: 0
   tap1: 0
   tap2: 0
-  rightSideScreen: 0
-  leftSideScreen: 0
+  rightSideScreen1: 0
+  leftSideScreen1: 0
+  rightSideScreen2: 0
+  leftSideScreen2: 0
   startTouchLeft: {x: 0, y: 0}
   startTouchRight: {x: 0, y: 0}
   touchPositionLux: {x: 0, y: 0}
@@ -1968,11 +1969,12 @@ MonoBehaviour:
   rightFirst: 0
   leftFrist: 0
   confirmGrounded: 0
+  jumpTap: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 512
   groundCheckDistance2: 0.17
-  valueOfIncreace: 3
+  valueOfIncreace: 4
   fRemenberJumpTime: 0.25
   fRemenberJump: 0
   oldVelocityX: 0
@@ -5576,7 +5578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 0
+  - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:

@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 directionGround = Vector3.zero;
     public GameObject setaOld;
     private int countCollision = 0;
-    public bool firstJump, doubleJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
+    public bool firstJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
         tapRequested2Click, tap1, tap2, rightSideScreen1, leftSideScreen1, rightSideScreen2, leftSideScreen2;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown, isPressed, isPressedKeys = false;
 
@@ -227,14 +227,11 @@ public class PlayerController : MonoBehaviour
                 {
                     Jump();
 
-                    if (!firstJump && !doubleJump)
+                    if (!firstJump)
                     {
                         fRemenberJump = 0;
                     }
-                    else if (firstJump && !doubleJump)
-                    {
-                        fRemenberJump = 0;
-                    }
+        
                 }
 
 
@@ -320,7 +317,7 @@ public class PlayerController : MonoBehaviour
             {
 
                 firstJump = false;
-                doubleJump = false;
+               
             }
 
 
@@ -575,7 +572,16 @@ public class PlayerController : MonoBehaviour
 
 
 
+    private IEnumerator OfffLuxModeDelay()
+    {
 
+
+
+        yield return new WaitForSeconds(0.4f);
+
+        UIController.instance.luxMode = false;
+
+    }
 
     private IEnumerator OldPositionDelay()
     {
@@ -585,6 +591,16 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         oldPosition = playerTransform.position.x;
+
+    }
+    private IEnumerator ResetSpeedDelay()
+    {
+
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        speed = 1.1f;
 
     }
 
@@ -642,7 +658,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!UIController.instance.luxMode)
             {
-                rb.velocity = new Vector2(0, 2.5f);
+                firstJump  = false;
             }
 
             collision.gameObject.SetActive(false);
@@ -652,7 +668,8 @@ public class PlayerController : MonoBehaviour
         {
             if (!UIController.instance.luxMode)
             {
-                rb.velocity = new Vector2(2.5f, rb.velocity.y);
+                speed = 5f;
+                StartCoroutine(ResetSpeedDelay());
             }
 
             collision.gameObject.SetActive(false);
@@ -707,7 +724,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (!firstJump | !doubleJump)
+        if (!firstJump)
         {
             blockLoop = true;
             if (!firstJump)
@@ -724,11 +741,7 @@ public class PlayerController : MonoBehaviour
                 
 
             }
-            else if (!doubleJump && firstJump)
-            {
-                doubleJump = true;
-                
-            }
+    
 
 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
@@ -862,6 +875,8 @@ public class PlayerController : MonoBehaviour
                 luxTransform.position = new Vector3(auxLux.x, auxLux.y, luxTransform.position.z);
                 touchPositionLux = Vector2.zero;
                 StartCoroutine(ShowLuxDelay());
+                StartCoroutine(OfffLuxModeDelay());
+                
             }
 
         }
