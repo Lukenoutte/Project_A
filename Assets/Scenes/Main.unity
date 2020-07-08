@@ -505,7 +505,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 140980c5a03112949af9ff22836dd552, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5764706}
+  m_Color: {r: 1, g: 0, b: 0.52147484, a: 0.72156864}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1826,7 +1826,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.5
+  m_GravityScale: 0.6
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1945,7 +1945,7 @@ MonoBehaviour:
   playerClone1: {fileID: 115783807}
   dust: {fileID: 1859239570}
   speed: 0.9
-  jumpForce: 2
+  jumpForce: 2.2
   setaOld: {fileID: 0}
   firstJump: 0
   isDragging1Click: 0

@@ -131,6 +131,26 @@ public class PlayerController : MonoBehaviour
         {
             if (!UIController.instance.luxMode)
             {
+
+                float newVelocity = rb.velocity.x;
+                if (!isGroundedMain)
+                {
+                    
+                    if (!isPressed && !isPressedKeys)
+                    {
+                        if (newVelocity > 0)
+                        {
+                            newVelocity -= Time.deltaTime;
+                        }
+                        else
+                        {
+                            newVelocity += Time.deltaTime;
+                        }
+
+                        rb.velocity = new Vector2(newVelocity, rb.velocity.y);
+                    }
+                }
+
                 // Movimento usando teclas (PC)
                 #region PC Moviments
                 PressKeysPc();
@@ -604,7 +624,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+        GetComponent<Rigidbody2D>().gravityScale = 0.6f;
 
     }
 
