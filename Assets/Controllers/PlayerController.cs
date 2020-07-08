@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist, confirmGrounded, jumpTap;
     public LayerMask groundLayers;
     public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, oldVelocityX, oldVelocityY;
-    private bool blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight = false;
+    private bool blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight, isJumping = false;
     private float oldPosition, directionYValue, setaPosition,
         increaceSpeedLeft, increaceSpeedRight;
 
@@ -219,7 +219,9 @@ public class PlayerController : MonoBehaviour
                 {
                     if(!UIController.instance.luxMode)
                     fRemenberJump = fRemenberJumpTime;
-                    
+                    jumpTap = false;
+                    upKey = false;
+
                 }
 
                 // Pulo
@@ -255,13 +257,16 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-
+                fRemenberJump = 0;
+                jumpTap = false;
+                upKey = false;
                 StartCoroutine(ShowClone1Delay());
                 buttonLux1.SetActive(true);
                 buttonLux2.SetActive(true);
                 playerAnimator.SetBool("IsLuxMode", true);
                 dust.playbackSpeed = 0;
                 fakeWalk = true;
+
                 if (oldVelocityX == 0 && oldVelocityY == 0)
                 {
                     oldVelocityX = rb.velocity.x;
@@ -562,14 +567,23 @@ public class PlayerController : MonoBehaviour
     {
 
 
+        isJumping = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        isJumping = false;
+    }
+    private IEnumerator JumpOffDelay2()
+    {
+
+
 
         yield return new WaitForSeconds(0.2f);
 
-        playerAnimator.SetBool("Jump", false);       
+        playerAnimator.SetBool("Jump", false);
         blockLoop = false;
-        
-    }
 
+    }
 
 
     private IEnumerator OfffLuxModeDelay()
@@ -580,6 +594,17 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         UIController.instance.luxMode = false;
+
+    }
+    private IEnumerator SetGravityDelay()
+    {
+
+
+        GetComponent<Rigidbody2D>().gravityScale = 0.1f;
+
+        yield return new WaitForSeconds(0.1f);
+
+        GetComponent<Rigidbody2D>().gravityScale = 0.5f;
 
     }
 
@@ -596,11 +621,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ResetSpeedDelay()
     {
 
-
+        speed = 5f;
 
         yield return new WaitForSeconds(0.1f);
 
-        speed = 1.1f;
+        speed = 0.9f;
 
     }
 
@@ -659,6 +684,13 @@ public class PlayerController : MonoBehaviour
             if (!UIController.instance.luxMode)
             {
                 firstJump  = false;
+                
+                if (isJumping)
+                {
+                    fRemenberJump = 0;
+                   
+                }
+                StartCoroutine(SetGravityDelay());
             }
 
             collision.gameObject.SetActive(false);
@@ -668,7 +700,6 @@ public class PlayerController : MonoBehaviour
         {
             if (!UIController.instance.luxMode)
             {
-                speed = 5f;
                 StartCoroutine(ResetSpeedDelay());
             }
 
@@ -741,17 +772,13 @@ public class PlayerController : MonoBehaviour
                 
 
             }
-    
-
-
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            playerAnimator.SetBool("Jump", true);
+            playerAnimator.SetBool("Jump", true);            
+            
             StartCoroutine(JumpOffDelay());
-
-
+            StartCoroutine(JumpOffDelay2());
+            
         }
-        jumpTap = false;
-        upKey = false;
         startTouchRight = Vector2.zero;
 
     }
