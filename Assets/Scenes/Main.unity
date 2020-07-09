@@ -1916,7 +1916,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521889386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -33.169, y: -0.655, z: 5}
+  m_LocalPosition: {x: -33.169, y: -0.665, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 115783808}
@@ -1944,8 +1944,8 @@ MonoBehaviour:
   buttonLux2: {fileID: 265315039}
   playerClone1: {fileID: 115783807}
   dust: {fileID: 1859239570}
-  speed: 0.9
-  jumpForce: 2.2
+  speed: 1
+  jumpForce: 2.3
   setaOld: {fileID: 0}
   firstJump: 0
   isDragging1Click: 0

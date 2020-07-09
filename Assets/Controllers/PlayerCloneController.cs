@@ -93,17 +93,16 @@ public class PlayerCloneController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        Vector3 directionGround = transform.position - collision.gameObject.transform.position;
+        
+        if (collision.gameObject.CompareTag("Ground") && directionGround.y > 0.54)
         {
-
+            
 
             rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
             playerCloneAnimator.SetBool("InTheAir", false);
         }
-        else
-        {
-            playerCloneAnimator.SetBool("InTheAir", true);
-        }
+        
 
     }
 }

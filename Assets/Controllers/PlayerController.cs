@@ -332,6 +332,11 @@ public class PlayerController : MonoBehaviour
         if (!isGroundedMain)
         {
             playerAnimator.SetBool("InTheAir", true);
+            
+            if (rb.velocity.y < -2.5) {
+                 rb.velocity = new Vector2(rb.velocity.x, -2.5f);
+            }
+
         }
         else
         {

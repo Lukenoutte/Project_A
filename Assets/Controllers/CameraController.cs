@@ -27,6 +27,10 @@ public class CameraController : MonoBehaviour
         {
             positionT.y = -0.67f;
         }
+        else if(positionT.y > 2)
+        {
+            positionT.y = 2f;
+        }
         Vector3 desiredPosition = positionT + offset;
         Vector3 smoothedPosition = Vector3.Lerp(cameraTransform.position, desiredPosition, smoothTime);
         cameraTransform.position = smoothedPosition;
