@@ -22,12 +22,12 @@ public class PlayerController : MonoBehaviour
     public GameObject setaOld;
     private int countCollision = 0;
     public bool firstJump, isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
-        tapRequested2Click, tap1, tap2, rightSideScreen1, leftSideScreen1, rightSideScreen2, leftSideScreen2;
+        tapRequested2Click, tap1, tap2;
     private bool swipeLeft, swipeRight, swipeUp, swipeDown, isPressed, isPressedKeys = false;
 
     public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
-    public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist, confirmGrounded, jumpTap;
+    public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, rightFirst, leftFrist, confirmGrounded, jumpTap, rightSideScreen, leftSideScreen;
     public LayerMask groundLayers;
     public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, oldVelocityX, oldVelocityY;
     private bool blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight, isJumping = false;
@@ -134,8 +134,8 @@ public class PlayerController : MonoBehaviour
 
                 float newVelocity = rb.velocity.x;
                 if (!isGroundedMain)
-                {
-                    
+                { // Reduz a velocidade se não ta clicando pra andar
+
                     if (!isPressed && !isPressedKeys)
                     {
                         if (newVelocity > 0)
@@ -190,9 +190,10 @@ public class PlayerController : MonoBehaviour
                 #endregion
 
                 #region Mobile Moviments
-                if (startTouchLeft.x > setaPosition && startTouchLeft.x < (Screen.width / 2))
+                if (startTouchLeft.x > setaPosition)// Andar para direita (mobile)
                 {
-                    if (leftSideScreen1 | leftSideScreen2)
+
+                    if (leftSideScreen)
                     {
                         if (isDragging1Click | isDragging2Click)
                         {
@@ -209,9 +210,9 @@ public class PlayerController : MonoBehaviour
 
 
 
-                if (startTouchLeft.x < setaPosition)
+                if (startTouchLeft.x < setaPosition) // Andar para esquerda (mobile)
                 {
-                    if (leftSideScreen1 | leftSideScreen2)
+                    if (leftSideScreen)
                     {
                         if (isDragging1Click | isDragging2Click)
                         {
@@ -237,8 +238,8 @@ public class PlayerController : MonoBehaviour
 
                 if (upKey | jumpTap)
                 {
-                    if(!UIController.instance.luxMode)
-                    fRemenberJump = fRemenberJumpTime;
+                    if (!UIController.instance.luxMode)
+                        fRemenberJump = fRemenberJumpTime;
                     jumpTap = false;
                     upKey = false;
 
@@ -253,13 +254,13 @@ public class PlayerController : MonoBehaviour
                     {
                         fRemenberJump = 0;
                     }
-        
+
                 }
 
 
 
                 if (wasLuxMode)
-                {
+                { // Reseta configurações depois do lux mode
                     rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
 
                     wasLuxMode = false;
@@ -276,7 +277,7 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.SetFloat("Velocity", 1f);
             }
             else
-            {
+            { // Lux mode ativo
                 fRemenberJump = 0;
                 jumpTap = false;
                 upKey = false;
@@ -288,7 +289,7 @@ public class PlayerController : MonoBehaviour
                 fakeWalk = true;
 
                 if (oldVelocityX == 0 && oldVelocityY == 0)
-                {
+                { // Pega velocidade que estava antes do Lux mode
                     oldVelocityX = rb.velocity.x;
                     oldVelocityY = rb.velocity.y;
 
@@ -308,6 +309,78 @@ public class PlayerController : MonoBehaviour
                 increaceSpeedLeft = increaceSpeedRight = 0;
             }
         }
+
+
+        // Side screen
+        if (Input.touchCount >= 1)
+        {
+            if (Input.touchCount == 1)
+            {
+                if (Input.touches[0].position.x < (Screen.width / 2))
+                {
+                    leftSideScreen = true;
+
+                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+                    {
+                        leftSideScreen = false;
+                    }
+                }
+
+
+                if (Input.touches[0].position.x > (Screen.width / 2))
+                {
+                    rightSideScreen = true;
+
+                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+                    {
+                        StartCoroutine(RightSideDelay());
+                    }
+                }
+
+            }
+            else if (Input.touchCount == 2)
+            {
+                if (Input.touches[0].position.x < (Screen.width / 2))
+                {
+                    leftSideScreen = true;
+                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+                    {
+                        leftSideScreen = false;
+                    }
+                }
+                else if(Input.touches[1].position.x < (Screen.width / 2))
+                {
+                    leftSideScreen = true;
+                    if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
+                    {
+                        leftSideScreen = false;
+                    }
+
+                }
+
+
+                if (Input.touches[0].position.x > (Screen.width / 2))
+                {
+                    rightSideScreen = true;
+                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+                    {
+                        StartCoroutine(RightSideDelay());
+                    }
+                }
+                else if (Input.touches[1].position.x > (Screen.width / 2))
+                {
+                    rightSideScreen = true;
+                    if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
+                    {
+                        StartCoroutine(RightSideDelay());
+                    }
+
+                }
+
+            }
+        }
+
+
 
 
         // Está precionado?
@@ -332,9 +405,11 @@ public class PlayerController : MonoBehaviour
         if (!isGroundedMain)
         {
             playerAnimator.SetBool("InTheAir", true);
-            
-            if (rb.velocity.y < -2.5) {
-                 rb.velocity = new Vector2(rb.velocity.x, -2.5f);
+
+            // Controlar velocidade de queda
+            if (rb.velocity.y < -2.5)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -2.5f);
             }
 
         }
@@ -343,11 +418,11 @@ public class PlayerController : MonoBehaviour
 
             playerAnimator.SetBool("InTheAir", false);
 
-            if (!blockLoop)
+            if (!blockLoop) // Proíbe o pulo de resetar no momento do pulo
             {
 
                 firstJump = false;
-               
+
             }
 
 
@@ -356,22 +431,17 @@ public class PlayerController : MonoBehaviour
         if (tap2 | tap1)
         {
 
-         
-
-            if (rightSideScreen1 | rightSideScreen2)
+            if (rightSideScreen)
             {
+
                 if (!UIController.instance.luxMode)
                 {
                     jumpTap = true;
-                }
-          
 
-                rightSideScreen1 = false;
-                rightSideScreen2 = false;
+                }
 
             }
-        
-            tap1 = tap2 = false;
+            StartCoroutine(ResetTapDelay());
         }
 
         // Criar Lux se estiver em lux mode
@@ -407,31 +477,24 @@ public class PlayerController : MonoBehaviour
                 if (Input.touchCount == 1)
                 {
 
-                    if (Input.touches[0].position.x < (Screen.width / 2))
+                    if (Input.touches[0].position.x < (Screen.width / 2)) // Cliques a esquerda da tela
                     {
                         startTouchLeft = Input.touches[0].position;
-                        leftSideScreen1 = true;
+
                         rightFirst = false;
                         leftFrist = true;
 
                     }
-                    else if (Input.touches[0].position.x > (Screen.width / 2))
+                    else if (Input.touches[0].position.x > (Screen.width / 2))// Cliques a direita da tela
                     {
                         startTouchRight = Input.touches[0].position;
-                        rightSideScreen1 = true;
+
                         leftFrist = false;
                         rightFirst = true;
 
 
                     }
 
-                }
-
-
-                if (rightFirst && isDragging2Click && Input.touches[0].position.x > (Screen.width / 2))
-                {
-                    startTouchRight = Input.touches[0].position;
-                    rightSideScreen2 = true;
                 }
 
 
@@ -449,46 +512,45 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if (Input.touchCount > 1)
+            if (Input.touchCount == 2) // 2 Cliques
             {
-
-
 
 
                 if (Input.touches[1].phase == TouchPhase.Began)
                 {
+                    // Lux
                     if (UIController.instance.luxMode && !UIController.instance.uIClick)
                     {
 
                         touchPositionLux = Input.touches[1].position;
 
                     }
+                    // End Lux
 
                     isDragging2Click = true;
                     tapRequested2Click = true;
-                    if (Input.touchCount == 2)
+
+
+                    if (Input.touches[1].position.x > Screen.width / 2) // Clique a direita da tela
+                    {
+                        startTouchRight = Input.touches[1].position;
+
+
+                    }
+
+
+                    if (rightFirst)
                     {
 
-                        if (Input.touches[1].position.x > Screen.width / 2)
-                        {
-                            startTouchRight = Input.touches[1].position;
-                            rightSideScreen2 = true;
+                        if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
+                        { // Pega clique da esquerda quando está segurando na direita
+
+                            startTouchLeft = Input.touches[1].position;
 
                         }
 
-
-                        if (rightFirst)
-                        {
-
-                            if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
-                            {
-
-                                startTouchLeft = Input.touches[1].position;
-
-                                leftSideScreen2 = true;
-                            }
-                        }
                     }
+
                 }
                 else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
                 {
@@ -509,54 +571,80 @@ public class PlayerController : MonoBehaviour
         #endregion
 
 
-        if (isDragging1Click | isDragging2Click)
+        if (isDragging1Click | isDragging2Click) // Atualiza posição quando o clique é segurado
         {
-            if (Input.touchCount > 0)
+
+            // Se está no Lux Mode
+            if (UIController.instance.luxMode && !UIController.instance.uIClick)
             {
-                // Lux
-                if (UIController.instance.luxMode && !UIController.instance.uIClick)
+                if (Input.touchCount == 1 && !isDragging1BeforeLux)
                 {
-                    if (Input.touchCount == 1 && !isDragging1BeforeLux)
-                    {
 
-                        touchPositionLux = Input.touches[0].position;
-                    }
-                    if (Input.touchCount == 2 && isDragging1BeforeLux)
-                        touchPositionLux = Input.touches[1].position;
+                    touchPositionLux = Input.touches[0].position; // Atualiza posição do lux
                 }
-                // end Lux
+                if (Input.touchCount == 2 && isDragging1BeforeLux) // Se tiver mais que 1 clique
+                    touchPositionLux = Input.touches[1].position;
+            }
+            // end Lux
 
-                if (startTouchLeft != Vector2.zero && leftFrist)
+            if (leftFrist)
+            { // Clique começa pela esquerda e atualiza a esquerda
+                if (Input.touches[0].position.x < (Screen.width / 2))
+                    startTouchLeft = Input.touches[0].position;
+
+                if (Input.touchCount == 2)
                 {
-                    if (leftSideScreen1 | leftSideScreen2)
+                    if (Input.touches[0].position.x < (Screen.width / 2) && Input.touches[1].position.x > (Screen.width / 2))
+                    {
                         startTouchLeft = Input.touches[0].position;
 
-                }
-                else if (startTouchLeft != Vector2.zero && rightFirst)
-                {
-                    if (leftSideScreen1 | leftSideScreen2)
-                    {
-                        if (Input.touchCount == 2)
-                        {
-                            startTouchLeft = Input.touches[1].position;
-                        }
-                        else if (Input.touchCount == 1)
-                        {
-                            startTouchLeft = Input.touches[0].position;
-                        }
                     }
-                }
-                else if (startTouchLeft != Vector2.zero && rightFirst)
-                {
-                    if (rightSideScreen1 | rightSideScreen2)
+                    else if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
                     {
-                        if (Input.touchCount == 2)
-                        {
-                            startTouchRight = Input.touches[0].position;
-                        }
+                        startTouchLeft = Input.touches[1].position;
+
                     }
                 }
             }
+            else if (rightFirst)
+            { // Começa o primeiro clique pela direita e segura
+                if ((Input.touches[0].position.x < (Screen.width / 2)))
+                {
+                    // Atualiza a posição do clique
+                    startTouchLeft = Input.touches[0].position;
+
+
+                }
+
+                if (Input.touches[0].position.x > (Screen.width / 2))
+                { // Clique começa pela direita e atualiza direita porque o primeiro touch (direita) foi retirado 
+
+                    startTouchRight = Input.touches[0].position;
+
+                }
+
+                if (Input.touchCount == 2)
+                {
+                    if ((Input.touches[1].position.x < (Screen.width / 2)))
+                    {
+                        // Atualiza posição do clique da esqueda caso tenha mais de 1 clique
+                        startTouchLeft = Input.touches[1].position;
+
+                    }
+                }
+
+
+            }
+
+
+                if (!leftSideScreen && isGroundedMain)
+                {
+                    walkingLeft = false;
+                    walkingRight = false;
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+         
+
         }
 
 
@@ -569,27 +657,28 @@ public class PlayerController : MonoBehaviour
     private void Reset1()
     {
 
-        tapRequested1Click = isDragging1Click = isDragging1BeforeLux = leftSideScreen1 = false;
-        if (!isDragging2Click)
-        {
-            leftSideScreen2 = false;
+        tapRequested1Click = isDragging1Click = isDragging1BeforeLux = false;
 
-        }
     }
 
     private void Reset2()
     {
 
         tapRequested2Click = isDragging2Click = false;
-        leftSideScreen2 = false;
+
 
 
     }
 
+    private IEnumerator RightSideDelay()
+    {
+        yield return new WaitForSeconds(0.2f);
 
+        rightSideScreen = false;
+    }
 
     private IEnumerator JumpOffDelay()
-    {
+    { // Reseta configurações após pulo
 
 
         isJumping = true;
@@ -599,7 +688,7 @@ public class PlayerController : MonoBehaviour
         isJumping = false;
     }
     private IEnumerator JumpOffDelay2()
-    {
+    {// Reseta configurações após pulo
 
 
 
@@ -609,10 +698,20 @@ public class PlayerController : MonoBehaviour
         blockLoop = false;
 
     }
+    private IEnumerator ResetTapDelay()
+    {// Reseta configurações após pulo
+
+
+
+        yield return new WaitForSeconds(0.1f);
+
+        tap1 = tap2 = false;
+
+    }
 
 
     private IEnumerator OfffLuxModeDelay()
-    {
+    { // Delay depois que desativa o Lux mode
 
 
 
@@ -622,7 +721,7 @@ public class PlayerController : MonoBehaviour
 
     }
     private IEnumerator SetGravityDelay()
-    {
+    { // Muda gravidade por alguns milesimos dps que pega lux
 
 
         GetComponent<Rigidbody2D>().gravityScale = 0.1f;
@@ -634,7 +733,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private IEnumerator OldPositionDelay()
-    {
+    { // Pega posição antiga pra ver se o personagem não está parado 
 
 
 
@@ -666,7 +765,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private IEnumerator ShowClone1Delay()
-    {
+    { // Delay para mostrar Clone 1
 
 
 
@@ -680,7 +779,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         countCollision++;
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground") // Colisão com o chão
         {
 
             directionGround = transform.position - collision.gameObject.transform.position;
@@ -704,16 +803,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Lux1"))
+        if (collision.gameObject.CompareTag("Lux1")) // Colisão com Lux 1
         {
             if (!UIController.instance.luxMode)
             {
-                firstJump  = false;
-                
+                firstJump = false;
+
                 if (isJumping)
                 {
                     fRemenberJump = 0;
-                   
+
                 }
                 StartCoroutine(SetGravityDelay());
             }
@@ -721,7 +820,7 @@ public class PlayerController : MonoBehaviour
             collision.gameObject.SetActive(false);
         }
 
-        if (collision.gameObject.CompareTag("Lux2"))
+        if (collision.gameObject.CompareTag("Lux2"))// Colisão com Lux 2
         {
             if (!UIController.instance.luxMode)
             {
@@ -738,7 +837,7 @@ public class PlayerController : MonoBehaviour
         directionGround = transform.position - collision.gameObject.transform.position;
         countCollision--;
 
-        if (collision.gameObject.tag == "Ground" && countCollision == 0)
+        if (collision.gameObject.tag == "Ground" && countCollision == 0) // Deixou o chão
         {
 
             isGroundedMain = false;
@@ -748,7 +847,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void ComfirmIfIsGrounded()
+    private void ComfirmIfIsGrounded() /// Confirma se o personagem está realmente no chão (evitar bugs)
     {
 
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
@@ -794,21 +893,22 @@ public class PlayerController : MonoBehaviour
                 }
 
                 firstJump = true;
-                
+
 
             }
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            playerAnimator.SetBool("Jump", true);            
-            
+            playerAnimator.SetBool("Jump", true);
+
             StartCoroutine(JumpOffDelay());
             StartCoroutine(JumpOffDelay2());
-            
+
         }
         startTouchRight = Vector2.zero;
 
     }
     private void WalkRight()
     {
+
         if (isGroundedMain)
         {
             increaceSpeedRight = 0;
@@ -928,12 +1028,12 @@ public class PlayerController : MonoBehaviour
                 touchPositionLux = Vector2.zero;
                 StartCoroutine(ShowLuxDelay());
                 StartCoroutine(OfffLuxModeDelay());
-                
+
             }
 
         }
 
-        // Create Lux if mouse
+        // Criar Lux com clique do mouse
         if (UIController.instance != null)
         {
             if (UIController.instance.luxMode && !UIController.instance.uIClick)
