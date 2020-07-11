@@ -61,7 +61,15 @@ public class PlayerCloneController : MonoBehaviour
                     playerCloneTransform.position = new Vector3(PlayerToFollow.transform.position.x, PlayerToFollow.transform.position.y, 6);
                     if (!playerControllerInstance.isGroundedMain)
                     {
-                        rb.velocity = new Vector2(playerControllerInstance.oldVelocityX, playerControllerInstance.oldVelocityY);
+
+                        float newY= playerControllerInstance.oldVelocityY;
+                        if(newY < -1)
+                        {
+                            newY = -1f;
+                        }
+
+                        rb.velocity = new Vector2(playerControllerInstance.oldVelocityX, newY);
+                        
                     }
                     
                     StartCoroutine(FreezeCloneDelay());
@@ -95,7 +103,7 @@ public class PlayerCloneController : MonoBehaviour
     {
         Vector3 directionGround = transform.position - collision.gameObject.transform.position;
         
-        if (collision.gameObject.CompareTag("Ground") && directionGround.y > 0.54)
+        if (collision.gameObject.CompareTag("Ground") && directionGround.y > 0.53)
         {
             
 

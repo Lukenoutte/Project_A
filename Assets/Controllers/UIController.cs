@@ -9,7 +9,7 @@ public class UIController : MonoBehaviour
     public bool uIClick;
     private GraphicRaycaster canvasRaycaster;
     public bool luxMode;
-    public bool luxButton1, luxButton2;
+   
 
     public static UIController instance { set; get; }
 
@@ -38,17 +38,6 @@ public class UIController : MonoBehaviour
             {
                 uIClick = true;
                 LuxMode();
-            }
-
-            if (result.gameObject.name == "Lux1Button")
-            {
-                luxButton1 = true;
-                uIClick = true;
-            }
-            if (result.gameObject.name == "Lux2Button")
-            {
-                luxButton2 = true;
-                uIClick = true;
             }
 
             if (result.gameObject.name == "teclaRight" | result.gameObject.name == "teclaLeft")
@@ -90,7 +79,7 @@ public class UIController : MonoBehaviour
 
 
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
 
         luxMode = false;
 

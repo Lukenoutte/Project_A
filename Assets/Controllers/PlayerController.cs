@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private GameObject lux1, lux2, buttonLeft, buttonRight, buttonLux1, buttonLux2, playerClone1;
+    private GameObject lux1, buttonLeft, buttonRight, playerClone1;
 
     private GameObject LuxMain;
 
@@ -75,21 +75,6 @@ public class PlayerController : MonoBehaviour
 
         SomeAnimations();
 
-        if (UIController.instance != null)
-        {
-            if (UIController.instance.luxButton1)
-            {
-                LuxMain = lux1;
-                UIController.instance.luxButton1 = false;
-
-            }
-
-            if (UIController.instance.luxButton2)
-            {
-                LuxMain = lux2;
-                UIController.instance.luxButton2 = false;
-            }
-        }
 
 
         // Death
@@ -103,11 +88,15 @@ public class PlayerController : MonoBehaviour
 
         if (walkingLeft | walkingRight)
         {
-            StartCoroutine(OldPositionDelay());
+            if (countCollision > 1)
+            {
+                StartCoroutine(OldPositionDelay());
+            }
+
             if (playerTransform.position.x == oldPosition && countCollision > 1)
             {
                 fakeWalk = true;
-
+                
             }
             else
             {
@@ -268,8 +257,8 @@ public class PlayerController : MonoBehaviour
                     oldVelocityX = oldVelocityY = 0;
                     dust.playbackSpeed = 1;
                     playerAnimator.SetBool("IsLuxMode", false);
-                    buttonLux1.SetActive(false);
-                    buttonLux2.SetActive(false);
+
+
 
                 }
 
@@ -282,8 +271,7 @@ public class PlayerController : MonoBehaviour
                 jumpTap = false;
                 upKey = false;
                 StartCoroutine(ShowClone1Delay());
-                buttonLux1.SetActive(true);
-                buttonLux2.SetActive(true);
+   
                 playerAnimator.SetBool("IsLuxMode", true);
                 dust.playbackSpeed = 0;
                 fakeWalk = true;
@@ -348,7 +336,7 @@ public class PlayerController : MonoBehaviour
                         leftSideScreen = false;
                     }
                 }
-                else if(Input.touches[1].position.x < (Screen.width / 2))
+                else if (Input.touches[1].position.x < (Screen.width / 2))
                 {
                     leftSideScreen = true;
                     if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
@@ -637,13 +625,14 @@ public class PlayerController : MonoBehaviour
             }
 
 
-                if (!leftSideScreen && isGroundedMain)
-                {
-                    walkingLeft = false;
-                    walkingRight = false;
-                    rb.velocity = new Vector2(0, rb.velocity.y);
-                }
-         
+            if (!leftSideScreen && isGroundedMain)
+            {
+                walkingLeft = false;
+                walkingRight = false;
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+
+    
 
         }
 
@@ -683,7 +672,7 @@ public class PlayerController : MonoBehaviour
 
         isJumping = true;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
 
         isJumping = false;
     }
@@ -742,16 +731,7 @@ public class PlayerController : MonoBehaviour
         oldPosition = playerTransform.position.x;
 
     }
-    private IEnumerator ResetSpeedDelay()
-    {
-
-        speed = 5f;
-
-        yield return new WaitForSeconds(0.1f);
-
-        speed = 0.9f;
-
-    }
+   
 
     private IEnumerator ShowLuxDelay()
     {
@@ -815,16 +795,6 @@ public class PlayerController : MonoBehaviour
 
                 }
                 StartCoroutine(SetGravityDelay());
-            }
-
-            collision.gameObject.SetActive(false);
-        }
-
-        if (collision.gameObject.CompareTag("Lux2"))// Colisão com Lux 2
-        {
-            if (!UIController.instance.luxMode)
-            {
-                StartCoroutine(ResetSpeedDelay());
             }
 
             collision.gameObject.SetActive(false);

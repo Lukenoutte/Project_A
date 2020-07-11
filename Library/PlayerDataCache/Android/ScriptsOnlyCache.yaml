@@ -87,39 +87,39 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11688}
     - Class: 114
-      Script: {instanceID: 11940}
+      Script: {instanceID: 11942}
     - Class: 114
-      Script: {instanceID: 12012}
+      Script: {instanceID: 12014}
     - Class: 114
-      Script: {instanceID: 12018}
+      Script: {instanceID: 12020}
     - Class: 114
-      Script: {instanceID: 12190}
+      Script: {instanceID: 12192}
     - Class: 114
-      Script: {instanceID: 12302}
+      Script: {instanceID: 12304}
     - Class: 114
-      Script: {instanceID: 12354}
+      Script: {instanceID: 12356}
     - Class: 114
-      Script: {instanceID: 12358}
+      Script: {instanceID: 12360}
     - Class: 114
-      Script: {instanceID: 12454}
+      Script: {instanceID: 12456}
     - Class: 114
-      Script: {instanceID: 13162}
+      Script: {instanceID: 13164}
     - Class: 114
-      Script: {instanceID: 13240}
+      Script: {instanceID: 13242}
     - Class: 114
-      Script: {instanceID: 13258}
+      Script: {instanceID: 13260}
     - Class: 114
-      Script: {instanceID: 13540}
+      Script: {instanceID: 13544}
     - Class: 114
-      Script: {instanceID: 13610}
+      Script: {instanceID: 13616}
     - Class: 114
-      Script: {instanceID: 13626}
+      Script: {instanceID: 13632}
     - Class: 114
-      Script: {instanceID: 13852}
+      Script: {instanceID: 13858}
     - Class: 114
-      Script: {instanceID: 14096}
+      Script: {instanceID: 14102}
     - Class: 114
-      Script: {instanceID: 14168}
+      Script: {instanceID: 14174}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -249,7 +249,7 @@ ScriptsOnlyBuild:
     className: TestResultRendererCallback
   - hash:
       serializedVersion: 2
-      Hash: 896f4ddc5cbd3f6fa8a70c332cddb47a
+      Hash: 1d845b2535654b2525956159b2714d86
     assemblyName: Unity.2D.SpriteShape.Runtime.dll
     namespaceName: UnityEngine.U2D
     className: SpriteShapeController
@@ -271,6 +271,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: GridLayoutGroup
+  - hash:
+      serializedVersion: 2
+      Hash: 523ce309f50d9eee6a8fc0e2f86c9c97
+    assemblyName: Unity.2D.SpriteShape.Runtime.dll
+    namespaceName: 
+    className: SpriteShapeGeometryCache
   - hash:
       serializedVersion: 2
       Hash: 8aa3d6ccbcb54ee8db6c1229854adaaa
@@ -381,7 +387,7 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
-      Hash: b45e5faf9ffbd9e0a57fe3861968197e
+      Hash: a362b07700acbb02a07e6a9b8c6aa4f7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIController
@@ -651,7 +657,7 @@ ScriptsOnlyBuild:
     className: AudioTrack
   - hash:
       serializedVersion: 2
-      Hash: 8abd2d37393a59e08e41e77a9b4303a4
+      Hash: 5cdea8255e392695bdb8856fc5431117
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController

@@ -10,7 +10,7 @@ public class ScrollScript : MonoBehaviour
     private Vector2 offset;
     private MeshRenderer mesh;
     private PlayerController player;
-
+    
     private void Start()
     {
         player = PlayerController.instance;
@@ -22,6 +22,7 @@ public class ScrollScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         if (player != null)
         {
             if (!player.fakeWalk)
