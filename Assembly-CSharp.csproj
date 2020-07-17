@@ -678,6 +678,9 @@
     <Reference Include="Unity.2D.Common.Runtime">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>C:/Users/Zete/ProjectA/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
