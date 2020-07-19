@@ -51,10 +51,10 @@ public class PlayerController : MonoBehaviour
         playerSpriteRender = GetComponent<SpriteRenderer>();
 
         playerAnimator = GetComponent<Animator>();
-        setaPosition = 104;
+        setaPosition = Screen.width / 5;
         directionYValue = 0.54f;
         instance = this;
-
+        
         if (setaOld != null)
         {
             setaOldAnimator = setaOld.GetComponent<Animator>();
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
+    
     void Update()
     {
 
@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
 
         // Death
-        if (playerTransform.position.y < -2f)
+        if (playerTransform.position.y < -13f)
         {
             SceneManager.LoadScene(0);
         }
@@ -313,7 +313,7 @@ public class PlayerController : MonoBehaviour
                         leftSideScreen = false;
                     }
                 }
-
+               
 
                 if (Input.touches[0].position.x > (Screen.width / 2))
                 {
@@ -395,10 +395,10 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("InTheAir", true);
 
             // Controlar velocidade de queda
-            if (rb.velocity.y < -2.5)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, -2.5f);
-            }
+            //if (rb.velocity.y < -2.5)
+            //{
+            //    rb.velocity = new Vector2(rb.velocity.x, -2.5f);
+            //}
 
         }
         else
@@ -764,7 +764,7 @@ public class PlayerController : MonoBehaviour
 
             directionGround = transform.position - collision.gameObject.transform.position;
 
-
+            
             if (directionGround.y >= directionYValue)
             {
 

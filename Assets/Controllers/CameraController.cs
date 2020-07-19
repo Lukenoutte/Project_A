@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
-        Screen.SetResolution(720, 360, true);
+        Screen.SetResolution(1440, 720, true);
         positionT = character.GetComponent<Transform>().position;
         cameraTransform = GetComponent<Transform>();
         characterTransform = character.GetComponent<Transform>();
