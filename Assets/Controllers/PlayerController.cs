@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayers;
     public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, oldVelocityX, oldVelocityY;
     private bool blockLoop, upKey, rightKey, leftKey, wasLuxMode, wasGoingToLeft, wasGoingToRight, isJumping = false;
-    private float oldPosition, directionYValue, setaPosition,
+    private float oldPosition, directionYValue, positionMiddleArrows,
         increaceSpeedLeft, increaceSpeedRight;
 
 
@@ -51,8 +52,8 @@ public class PlayerController : MonoBehaviour
         playerSpriteRender = GetComponent<SpriteRenderer>();
 
         playerAnimator = GetComponent<Animator>();
-        setaPosition = Screen.width / 5;
-        directionYValue = 0.54f;
+        positionMiddleArrows = Screen.width / 5;
+        directionYValue = 1.61f;
         instance = this;
         
         if (setaOld != null)
@@ -75,7 +76,10 @@ public class PlayerController : MonoBehaviour
 
         SomeAnimations();
 
-
+        if (positionMiddleArrows != Screen.width / 5)
+        {
+            positionMiddleArrows = Screen.width / 5;
+        }
 
         // Death
         if (playerTransform.position.y < -13f)
@@ -179,7 +183,7 @@ public class PlayerController : MonoBehaviour
                 #endregion
 
                 #region Mobile Moviments
-                if (startTouchLeft.x > setaPosition)// Andar para direita (mobile)
+                if (startTouchLeft.x > positionMiddleArrows)// Andar para direita (mobile)
                 {
 
                     if (leftSideScreen)
@@ -199,7 +203,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-                if (startTouchLeft.x < setaPosition) // Andar para esquerda (mobile)
+                if (startTouchLeft.x < positionMiddleArrows) // Andar para esquerda (mobile)
                 {
                     if (leftSideScreen)
                     {
@@ -761,10 +765,16 @@ public class PlayerController : MonoBehaviour
         countCollision++;
         if (collision.gameObject.tag == "Ground") // Colisão com o chão
         {
-
-            directionGround = transform.position - collision.gameObject.transform.position;
-
+            ContactPoint2D [] contacts = new ContactPoint2D[1];
+            Tilemap map = collision.gameObject.GetComponent<Tilemap>();
+            collision.GetContacts(contacts);
             
+            Vector3Int colliderPos = map.WorldToCell(contacts[0].point);
+           
+            
+            directionGround = transform.position - colliderPos;
+            
+           
             if (directionGround.y >= directionYValue)
             {
 

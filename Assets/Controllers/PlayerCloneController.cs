@@ -103,7 +103,7 @@ public class PlayerCloneController : MonoBehaviour
     {
         Vector3 directionGround = transform.position - collision.gameObject.transform.position;
         
-        if (collision.gameObject.CompareTag("Ground") && directionGround.y > 0.53)
+        if (collision.gameObject.CompareTag("Ground") && directionGround.y > 1.5)
         {
             
 
