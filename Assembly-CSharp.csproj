@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Controllers\Animations.cs" />
     <Compile Include="Assets\Controllers\BeforeController.cs" />
     <Compile Include="Assets\Controllers\CameraController.cs" />
     <Compile Include="Assets\Controllers\DialogManager.cs" />
@@ -72,6 +73,8 @@
     <Compile Include="Assets\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Controllers\ScrollScript.cs" />
     <Compile Include="Assets\Controllers\UIController.cs" />
+    <Compile Include="Assets\Controllers\UserInputMobile.cs" />
+    <Compile Include="Assets\Controllers\UserInputPC.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\Clipper.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\ConformingSpline.cs" />
     <Compile Include="Assets\Samples\2D SpriteShape\3.0.10\Sprite Shape Extras\Scripts\GeometryCollider.cs" />

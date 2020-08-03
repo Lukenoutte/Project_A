@@ -2018,7 +2018,7 @@ Camera:
   far clip plane: 50
   field of view: 60
   orthographic: 1
-  orthographic size: 4.5
+  orthographic size: 5.3766365
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2213,7 +2213,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.4
+  m_GravityScale: 1.6
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -2232,7 +2232,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.041402817, y: -0.20536375}
+  m_Offset: {x: -0.0199337, y: -0.20536375}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2243,7 +2243,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33607864, y: 1.1360366}
+  m_Size: {x: 0.49351883, y: 1.1360366}
   m_EdgeRadius: 0
 --- !u!212 &521889389
 SpriteRenderer:
@@ -2327,31 +2327,17 @@ MonoBehaviour:
   buttonLeft: {fileID: 196299815}
   buttonRight: {fileID: 444236494}
   playerClone1: {fileID: 115783807}
+  rb: {fileID: 0}
   dust: {fileID: 1859239570}
   speed: 5
-  jumpForce: 8
+  jumpForce: 10
   setaOld: {fileID: 0}
   firstJump: 0
-  isDragging1Click: 0
-  tapRequested1Click: 0
-  isDragging2Click: 0
-  isDragging1BeforeLux: 0
-  tapRequested2Click: 0
-  tap1: 0
-  tap2: 0
-  startTouchLeft: {x: 0, y: 0}
-  startTouchRight: {x: 0, y: 0}
-  touchPositionLux: {x: 0, y: 0}
   fakeWalk: 0
   walkingRight: 0
   walkingLeft: 0
   isGroundedMain: 0
-  rightFirst: 0
-  leftFrist: 0
   confirmGrounded: 0
-  jumpTap: 0
-  rightSideScreen: 0
-  leftSideScreen: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -2454,6 +2440,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599212263}
   m_CullTransparentMesh: 0
+--- !u!1 &600038983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 600038986}
+  - component: {fileID: 600038985}
+  - component: {fileID: 600038984}
+  m_Layer: 0
+  m_Name: Inputs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &600038984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600038983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac51e56b9ff9e1a4fae3d6ba9a712264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upKey: 0
+  rightKey: 0
+  leftKey: 0
+  isPressedKeys: 0
+--- !u!114 &600038985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600038983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e24792c753802946bcc8fd516c2c5ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDragging1Click: 0
+  tapRequested1Click: 0
+  isDragging2Click: 0
+  isDragging1BeforeLux: 0
+  tapRequested2Click: 0
+  tap1: 0
+  tap2: 0
+  rightFirst: 0
+  leftFrist: 0
+  rightSideScreen: 0
+  leftSideScreen: 0
+  isPressed: 0
+  jumpTap: 0
+  startTouchLeft: {x: 0, y: 0}
+  startTouchRight: {x: 0, y: 0}
+  touchPositionLux: {x: 0, y: 0}
+--- !u!4 &600038986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600038983}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.714392, y: -0.9564712, z: -98.313286}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &627837995
 GameObject:
   m_ObjectHideFlags: 0
@@ -3043,6 +3105,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1392849305
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1392849307}
+  - component: {fileID: 1392849306}
+  m_Layer: 0
+  m_Name: Animations
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1392849306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392849305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 127ab2be22e2ef648aca36cf34c439d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setaOldAnimator: {fileID: 0}
+  playerAnimator: {fileID: 0}
+  buttonWalkLeftAnimator: {fileID: 0}
+  buttonWalkRightAnimator: {fileID: 0}
+  buttonLeft: {fileID: 196299815}
+  buttonRight: {fileID: 444236494}
+  setaOld: {fileID: 0}
+--- !u!4 &1392849307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392849305}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.714392, y: -0.9564712, z: -98.313286}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550431288
 GameObject:
