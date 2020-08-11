@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,14 +8,24 @@ public class UIController : MonoBehaviour
 {
     public bool uIClick;
     private GraphicRaycaster canvasRaycaster;
-    public bool luxMode;
-   
+    public float positionMiddleArrows;
 
     public static UIController instance { set; get; }
 
     private void Start()
     {
         instance = this;
+        positionMiddleArrows = Screen.width / 5;
+
+    }
+
+    private void Update()
+    {
+        if (positionMiddleArrows != Screen.width / 5)
+        {
+            positionMiddleArrows = Screen.width / 5;
+        }
+
     }
 
 
@@ -34,11 +44,6 @@ public class UIController : MonoBehaviour
         foreach (RaycastResult result in results)
         {
 
-            if (result.gameObject.name == "LuxModeButton")
-            {
-                uIClick = true;
-                LuxMode();
-            }
 
             if (result.gameObject.name == "teclaRight" | result.gameObject.name == "teclaLeft")
             {
@@ -57,33 +62,8 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void LuxMode()
-    {
 
 
-        if (!luxMode)
-        {
-            luxMode = true;
-
-        }
-        else
-        {
-            StartCoroutine(LuxModeOffDelay());
-
-        }
-
-    }
-
-    private IEnumerator LuxModeOffDelay()
-    {
-
-
-
-        yield return new WaitForSeconds(0.3f);
-
-        luxMode = false;
-
-    }
 
 
 }

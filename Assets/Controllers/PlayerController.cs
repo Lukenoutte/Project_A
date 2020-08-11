@@ -1,86 +1,81 @@
-﻿using System;
+﻿
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject lux1, buttonLeft, buttonRight, playerClone1;
-
-    private GameObject LuxMain;
-
     public static PlayerController instance { set; get; }
     public Rigidbody2D rb;
     public ParticleSystem dust;
     [SerializeField]
     private float speed, jumpForce;
     private Vector3 directionGround = Vector3.zero;
-    public GameObject setaOld;
+
     private int countCollision = 0;
     public bool firstJump;
-
-
-    
-
-    public bool fakeWalk, walkingRight, walkingLeft, isGroundedMain, confirmGrounded;
+    public bool fakeWalk, isGroundedMain, confirmGrounded;
+    public bool walkingRight, walkingLeft;
     public LayerMask groundLayers;
     public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, oldVelocityX, oldVelocityY;
-    private bool blockLoop, wasLuxMode, isJumping = false;
-    private float oldPosition, directionYValue, positionMiddleArrows,
+    private bool blockLoop, isJumping = false;
+    private float oldPosition, directionYValue,
         increaceSpeedLeft, increaceSpeedRight;
 
 
-    private Animator setaOldAnimator, playerAnimator, buttonWalkLeftAnimator, buttonWalkRightAnimator;
+    private Animator playerAnimator;
     private SpriteRenderer playerSpriteRender;
-    private Transform playerTransform, luxTransform;
+    private Transform playerTransform;
 
     private UserInputMobile userInputMobileIntance;
     private UserInputPC userInputPcIntance;
+    private UIController uiControlerInstance;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        userInputMobileIntance = UserInputMobile.instance;
-        userInputPcIntance = UserInputPC.instance;
-        LuxMain = lux1;
-        buttonWalkLeftAnimator = buttonLeft.GetComponent<Animator>();
-        buttonWalkRightAnimator = buttonRight.GetComponent<Animator>();
+
 
         playerTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
 
+
         playerAnimator = GetComponent<Animator>();
-        positionMiddleArrows = Screen.width / 5;
+
         directionYValue = 1.61f;
         instance = this;
-        
-        if (setaOld != null)
-        {
-            setaOldAnimator = setaOld.GetComponent<Animator>();
-        }
 
-     
         rb = GetComponent<Rigidbody2D>();
-
-
-
     }
 
-    
+
     void Update()
     {
 
-
-        SomeAnimations();
-
-        if (positionMiddleArrows != Screen.width / 5)
+        #region Not null instances
+        if (userInputMobileIntance == null)
         {
-            positionMiddleArrows = Screen.width / 5;
+            userInputMobileIntance = UserInputMobile.instance;
+        }
+        if (userInputPcIntance == null)
+        {
+            userInputPcIntance = UserInputPC.instance;
+        }
+        if (uiControlerInstance == null)
+        {
+            uiControlerInstance = UIController.instance;
+        }
+        # endregion
+
+        if(!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys)
+        {
+            walkingLeft = false;
+            walkingRight = false;
         }
 
         // Death
@@ -102,7 +97,7 @@ public class PlayerController : MonoBehaviour
             if (playerTransform.position.x == oldPosition && countCollision > 1)
             {
                 fakeWalk = true;
-                
+
             }
             else
             {
@@ -119,187 +114,122 @@ public class PlayerController : MonoBehaviour
 
 
         }
+        StopWalkAnimationIfisFake();
 
 
+        #region Moviments
+        if (!isGroundedMain)
+        { // Reduz a velocidade se não ta clicando pra andar
 
-        if (UIController.instance != null)
+            ReduceVelocityIfNotClicking();
+
+
+        }
+
+        // Movimento usando teclas (PC)
+
+
+        if (userInputPcIntance.rightKey) // Direita
         {
-            if (!UIController.instance.luxMode)
+            WalkRight();
+        }
+        else
+        {
+
+            if (!userInputPcIntance.leftKey)
+                playerAnimator.SetBool("WalkRight", false);
+
+
+        }
+
+
+        if (userInputPcIntance.leftKey) // Esquerda
+        {
+
+            WalkLeft();
+        }
+        else
+        {
+
+            if (!userInputPcIntance.rightKey)
+                playerAnimator.SetBool("WalkRight", false);
+
+
+        }
+        #endregion
+
+        #region Mobile Moviments
+        if (userInputMobileIntance.startTouchLeft.x > uiControlerInstance.positionMiddleArrows)// Andar para direita (mobile)
+        {
+
+            if (userInputMobileIntance.leftSideScreen)
             {
-
-                float newVelocity = rb.velocity.x;
-                if (!isGroundedMain)
-                { // Reduz a velocidade se não ta clicando pra andar
-
-                    if (!userInputMobileIntance.isPressed && !userInputPcIntance.isPressedKeys)
-                    {
-                        if (newVelocity > 0)
-                        {
-                            newVelocity -= Time.deltaTime;
-                        }
-                        else
-                        {
-                            newVelocity += Time.deltaTime;
-                        }
-
-                        rb.velocity = new Vector2(newVelocity, rb.velocity.y);
-                    }
-                }
-
-                // Movimento usando teclas (PC)
-                #region PC Moviments
-
-                if (userInputPcIntance.rightKey)
+                if (userInputMobileIntance.isDragging1Touch | userInputMobileIntance.isDragging2Touch)
                 {
                     WalkRight();
+
                 }
                 else
                 {
-
-                    if (!userInputPcIntance.leftKey)
-                        playerAnimator.SetBool("WalkRight", false);
-                    if (userInputMobileIntance.isDragging1Click)
-                        walkingRight = false;
+                    playerAnimator.SetBool("WalkRight", false);
 
                 }
+            }
+        }
 
 
-                if (userInputPcIntance.leftKey)
+
+        if (userInputMobileIntance.startTouchLeft.x < uiControlerInstance.positionMiddleArrows) // Andar para esquerda (mobile)
+        {
+            if (userInputMobileIntance.leftSideScreen)
+            {
+                if (userInputMobileIntance.isDragging1Touch | userInputMobileIntance.isDragging2Touch)
                 {
-
                     WalkLeft();
                 }
                 else
                 {
 
-                    if (!userInputPcIntance.rightKey)
-                        playerAnimator.SetBool("WalkRight", false);
-
-                    if (!userInputMobileIntance.isDragging1Click)
-                        walkingLeft = false;
+                    playerAnimator.SetBool("WalkRight", false);
 
                 }
-                #endregion
-
-                #region Mobile Moviments
-                if (userInputMobileIntance.startTouchLeft.x > positionMiddleArrows)// Andar para direita (mobile)
-                {
-
-                    if (userInputMobileIntance.leftSideScreen)
-                    {
-                        if (userInputMobileIntance.isDragging1Click | userInputMobileIntance.isDragging2Click)
-                        {
-                            WalkRight();
-
-                        }
-                        else
-                        {
-                            playerAnimator.SetBool("WalkRight", false);
-
-                        }
-                    }
-                }
-
-
-
-                if (userInputMobileIntance.startTouchLeft.x < positionMiddleArrows) // Andar para esquerda (mobile)
-                {
-                    if (userInputMobileIntance.leftSideScreen)
-                    {
-                        if (userInputMobileIntance.isDragging1Click | userInputMobileIntance.isDragging2Click)
-                        {
-                            WalkLeft();
-                        }
-                        else
-                        {
-
-                            playerAnimator.SetBool("WalkRight", false);
-
-                        }
-                    }
-                }
-                #endregion
-
-
-                // Mobile and PC Jump
-
-                if (fRemenberJump >= 0)
-                {
-                    fRemenberJump -= Time.deltaTime;
-                }
-
-                if (userInputPcIntance.upKey | userInputMobileIntance.jumpTap)
-                {
-                    if (!UIController.instance.luxMode)
-                        fRemenberJump = fRemenberJumpTime;
-                    userInputMobileIntance.jumpTap = false;
-                    userInputPcIntance.upKey = false;
-
-                }
-
-                // Pulo
-                if (fRemenberJump > 0)
-                {
-                    Jump();
-
-                    if (!firstJump)
-                    {
-                        fRemenberJump = 0;
-                    }
-
-                }
-
-
-
-                if (wasLuxMode)
-                { // Reseta configurações depois do lux mode
-                    rb.velocity = new Vector2(oldVelocityX, oldVelocityY);
-
-                    wasLuxMode = false;
-                    fakeWalk = false;
-                    oldVelocityX = oldVelocityY = 0;
-                    dust.playbackSpeed = 1;
-                    playerAnimator.SetBool("IsLuxMode", false);
-
-
-
-                }
-
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                playerAnimator.SetFloat("Velocity", 1f);
-            }
-            else
-            { // Lux mode ativo
-                fRemenberJump = 0;
-                userInputMobileIntance.jumpTap = false;
-                userInputPcIntance.upKey = false;
-                StartCoroutine(ShowClone1Delay());
-   
-                playerAnimator.SetBool("IsLuxMode", true);
-                dust.playbackSpeed = 0;
-                fakeWalk = true;
-
-                if (oldVelocityX == 0 && oldVelocityY == 0)
-                { // Pega velocidade que estava antes do Lux mode
-                    oldVelocityX = rb.velocity.x;
-                    oldVelocityY = rb.velocity.y;
-
-                }
-
-                wasLuxMode = true;
-                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-                playerAnimator.SetFloat("Velocity", 0f);
             }
         }
-        // Evitar que o personagem deslize
-        if (!userInputMobileIntance.isPressed && !userInputPcIntance.isPressedKeys)
+        #endregion
+
+
+        // Mobile and PC Jump
+
+        if (fRemenberJump >= 0) // Pulo timer
         {
-            if (isGroundedMain)
-            {
-                rb.velocity = new Vector2(0, rb.velocity.y);
-                increaceSpeedLeft = increaceSpeedRight = 0;
-            }
+            fRemenberJump -= Time.deltaTime;
         }
+
+        if (userInputPcIntance.upKey | userInputMobileIntance.jumpTap)
+        {
+
+            fRemenberJump = fRemenberJumpTime;
+            userInputMobileIntance.jumpTap = false;
+            userInputPcIntance.upKey = false;
+
+        }
+
+        // Pulo
+        if (fRemenberJump > 0)
+        {
+            Jump();
+
+            if (!firstJump)
+            {
+                fRemenberJump = 0;
+            }
+
+        }
+
+
+
+        // Evitar que o personagem deslize
+        PersonDontSlide();
 
 
 
@@ -324,19 +254,10 @@ public class PlayerController : MonoBehaviour
 
         }
 
-       
-
-        // Criar Lux se estiver em lux mode
-        CreateLux();
 
     } // End Update
 
 
-
-
-    
-
-   
 
     private IEnumerator JumpOffDelay()
     { // Reseta configurações após pulo
@@ -362,27 +283,6 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private IEnumerator OfffLuxModeDelay()
-    { // Delay depois que desativa o Lux mode
-
-
-
-        yield return new WaitForSeconds(0.4f);
-
-        UIController.instance.luxMode = false;
-
-    }
-    private IEnumerator SetGravityDelay()
-    { // Muda gravidade por alguns milesimos dps que pega lux
-
-
-        GetComponent<Rigidbody2D>().gravityScale = 0.1f;
-
-        yield return new WaitForSeconds(0.1f);
-
-        GetComponent<Rigidbody2D>().gravityScale = 0.6f;
-
-    }
 
     private IEnumerator OldPositionDelay()
     { // Pega posição antiga pra ver se o personagem não está parado 
@@ -394,29 +294,7 @@ public class PlayerController : MonoBehaviour
         oldPosition = playerTransform.position.x;
 
     }
-   
 
-    private IEnumerator ShowLuxDelay()
-    {
-
-
-
-        yield return new WaitForSeconds(0.1f);
-
-        LuxMain.SetActive(true);
-
-    }
-
-    private IEnumerator ShowClone1Delay()
-    { // Delay para mostrar Clone 1
-
-
-
-        yield return new WaitForSeconds(0.2f);
-
-        playerClone1.SetActive(true);
-
-    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -424,16 +302,16 @@ public class PlayerController : MonoBehaviour
         countCollision++;
         if (collision.gameObject.tag == "Ground") // Colisão com o chão
         {
-            ContactPoint2D [] contacts = new ContactPoint2D[1];
+            ContactPoint2D[] contacts = new ContactPoint2D[1];
             Tilemap map = collision.gameObject.GetComponent<Tilemap>();
             collision.GetContacts(contacts);
-            
+
             Vector3Int colliderPos = map.WorldToCell(contacts[0].point);
-           
-            
+
+
             directionGround = transform.position - colliderPos;
-            
-           
+
+
             if (directionGround.y >= directionYValue)
             {
 
@@ -457,26 +335,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Lux1")) // Colisão com Lux 1
-        {
-            if (!UIController.instance.luxMode)
-            {
-                firstJump = false;
-
-                if (isJumping)
-                {
-                    fRemenberJump = 0;
-
-                }
-                StartCoroutine(SetGravityDelay());
-            }
-
-            collision.gameObject.SetActive(false);
-        }
-
-    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -493,7 +351,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void ComfirmIfIsGrounded() /// Confirma se o personagem está realmente no chão (evitar bugs)
+    private void ComfirmIfIsGrounded() /// Confirma se o personagem está realmente no chão
     {
 
         Ray2D ray = new Ray2D(transform.position, Vector2.down);
@@ -621,86 +479,8 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void CreateLux()
+    private void StopWalkAnimationIfisFake()
     {
-        if (userInputMobileIntance.touchPositionLux != Vector2.zero)
-        {
-
-            Vector3 auxLux = Camera.main.ScreenToWorldPoint(userInputMobileIntance.touchPositionLux);
-            Debug.DrawRay(userInputMobileIntance.touchPositionLux, Camera.main.transform.forward, Color.green);
-            if (!UIController.instance.uIClick && UIController.instance.luxMode)
-            {
-                luxTransform = LuxMain.GetComponent<Transform>();
-                luxTransform.position = new Vector3(auxLux.x, auxLux.y, luxTransform.position.z);
-                userInputMobileIntance.touchPositionLux = Vector2.zero;
-                StartCoroutine(ShowLuxDelay());
-                StartCoroutine(OfffLuxModeDelay());
-
-            }
-
-        }
-
-        // Criar Lux com clique do mouse
-        if (UIController.instance != null)
-        {
-            if (UIController.instance.luxMode && !UIController.instance.uIClick)
-            {
-                if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
-                {
-
-                    userInputMobileIntance.touchPositionLux = Input.mousePosition;
-                }
-            }
-        }
-    }
-
-
-    private void SomeAnimations()
-    {
-        if (setaOld != null)
-        {
-            if (walkingRight)
-            {
-                setaOldAnimator.SetBool("WalkingRight", true);
-            }
-            else
-            {
-                setaOldAnimator.SetBool("WalkingRight", false);
-            }
-
-            if (walkingLeft)
-            {
-                setaOldAnimator.SetBool("WalkingLeft", true);
-            }
-            else
-            {
-                setaOldAnimator.SetBool("WalkingLeft", false);
-            }
-        }
-
-
-        if (buttonLeft != null && buttonRight != null)
-        {
-            if (walkingRight)
-            {
-                buttonWalkRightAnimator.SetBool("Press", true);
-            }
-            else
-            {
-                buttonWalkRightAnimator.SetBool("Press", false);
-            }
-
-            if (walkingLeft)
-            {
-                buttonWalkLeftAnimator.SetBool("Press", true);
-            }
-            else
-            {
-                buttonWalkLeftAnimator.SetBool("Press", false);
-            }
-
-        }
-
         // Está andando e esbarrando em algo
         if (fakeWalk)
         {
@@ -712,4 +492,36 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    private void ReduceVelocityIfNotClicking()
+    {
+        float newVelocity = rb.velocity.x;
+        if (!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys)
+        {
+            if (newVelocity > 0)
+            {
+                newVelocity -= Time.deltaTime;
+            }
+            else
+            {
+                newVelocity += Time.deltaTime;
+            }
+
+            rb.velocity = new Vector2(newVelocity, rb.velocity.y);
+        }
+    }
+
+
+    private void PersonDontSlide()
+    {
+        if (!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys)
+        {
+            if (isGroundedMain)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                increaceSpeedLeft = increaceSpeedRight = 0;
+            }
+        }
+    }
+
 }

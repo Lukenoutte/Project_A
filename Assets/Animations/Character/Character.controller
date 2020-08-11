@@ -14,9 +14,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: WalkRight
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102437537929119586}
   m_Solo: 0
@@ -45,9 +42,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Jump
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102778583892894598}
   m_Solo: 0
@@ -73,9 +67,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: WalkRight
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102596179078674642}
   m_Solo: 0
@@ -100,9 +91,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Jump
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102583121903042424}
@@ -132,37 +120,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: InTheAir
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: FakeWalk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Velocity
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: IsLuxMode
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -215,9 +197,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: InTheAir
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102778583892894598}
   m_Solo: 0
@@ -249,9 +228,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: InTheAir
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102596179078674642}
   m_Solo: 0
@@ -279,9 +255,6 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: WalkRight
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102596179078674642}
@@ -314,9 +287,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: WalkRight
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102596179078674642}
   m_Solo: 0
@@ -342,9 +312,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Jump
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102583121903042424}
   m_Solo: 0
@@ -369,9 +336,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: Jump
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102583121903042424}
@@ -585,9 +549,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: FakeWalk
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102437537929119586}
   m_Solo: 0
@@ -619,9 +580,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: InTheAir
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102437537929119586}
   m_Solo: 0
@@ -646,9 +604,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: InTheAir
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: IsLuxMode
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 788130280635136205}

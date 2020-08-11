@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserInputPC : MonoBehaviour
 {
-    public bool upKey, rightKey, leftKey, isPressedKeys;
+    public bool upKey, rightKey, leftKey, isPressingKeys;
     public static UserInputPC instance { set; get; }
 
     // Start is called before the first frame update
@@ -16,16 +16,10 @@ public class UserInputPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PressKeysPc();
-    }
-
-
-    public void PressKeysPc()
-    {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             leftKey = true;
-            isPressedKeys = true;
+            isPressingKeys = true;
         }
         else
         {
@@ -36,7 +30,7 @@ public class UserInputPC : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             rightKey = true;
-            isPressedKeys = true;
+            isPressingKeys = true;
         }
         else
         {
@@ -47,7 +41,7 @@ public class UserInputPC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             upKey = true;
-            isPressedKeys = true;
+            isPressingKeys = true;
         }
         else
         {
@@ -57,7 +51,9 @@ public class UserInputPC : MonoBehaviour
 
         if (!leftKey && !rightKey && !upKey)
         {
-            isPressedKeys = false;
+            isPressingKeys = false;
         }
     }
+
+
 }

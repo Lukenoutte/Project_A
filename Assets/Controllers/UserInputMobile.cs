@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class UserInputMobile : MonoBehaviour
 {
 
-    public bool isDragging1Click, tapRequested1Click, isDragging2Click, isDragging1BeforeLux,
-        tapRequested2Click, tap1, tap2, rightFirst, leftFrist, rightSideScreen, leftSideScreen, isPressed, jumpTap;
+    public bool isDragging1Touch, tapRequested1Touch, isDragging2Touch,
+        tapRequested2Touch, tap1, tap2, rightFirst, leftFrist, rightSideScreen, leftSideScreen, isPressingTouch, jumpTap;
 
     public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
 
@@ -98,23 +98,13 @@ public class UserInputMobile : MonoBehaviour
         {
 
 
-            isPressed = true;
+            isPressingTouch = true;
 
         }
         else 
         {
-            tapRequested2Click = isDragging2Click = false;
-            isPressed = false;
-            if (playerControllerInstance != null)
-            {
-                playerControllerInstance.walkingLeft = false;
-                playerControllerInstance.walkingRight = false;
-            }
-            else
-            {
-                playerControllerInstance = PlayerController.instance;
-
-            }
+            tapRequested2Touch = isDragging2Touch = false;
+            isPressingTouch = false;
 
         }
 
@@ -126,24 +116,11 @@ public class UserInputMobile : MonoBehaviour
 
             if (Input.touches[0].phase == TouchPhase.Began)
             {
-                // Lux
-                if (UIController.instance.luxMode && !UIController.instance.uIClick && Input.touchCount == 1)
-                {
+ 
+               
 
-
-                    touchPositionLux = Input.touches[0].position;
-
-
-                }
-
-                if (!UIController.instance.luxMode)
-                {
-                    isDragging1BeforeLux = true;
-                }
-                // End Lux
-
-                isDragging1Click = true;
-                tapRequested1Click = true;
+                isDragging1Touch = true;
+                tapRequested1Touch = true;
                 if (Input.touchCount == 1)
                 {
 
@@ -171,7 +148,7 @@ public class UserInputMobile : MonoBehaviour
             }
             else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
             {
-                if (tapRequested1Click)
+                if (tapRequested1Touch)
                 {
                     tap1 = true;
 
@@ -189,7 +166,7 @@ public class UserInputMobile : MonoBehaviour
                 if (Input.touches[1].phase == TouchPhase.Began)
                 {
                     // Lux
-                    if (UIController.instance.luxMode && !UIController.instance.uIClick)
+                    if (!UIController.instance.uIClick)
                     {
 
                         touchPositionLux = Input.touches[1].position;
@@ -197,8 +174,8 @@ public class UserInputMobile : MonoBehaviour
                     }
                     // End Lux
 
-                    isDragging2Click = true;
-                    tapRequested2Click = true;
+                    isDragging2Touch = true;
+                    tapRequested2Touch = true;
 
 
                     if (Input.touches[1].position.x > Screen.width / 2) // Clique a direita da tela
@@ -224,7 +201,7 @@ public class UserInputMobile : MonoBehaviour
                 }
                 else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
                 {
-                    if (tapRequested2Click)
+                    if (tapRequested2Touch)
                     {
                         tap2 = true;
 
@@ -241,21 +218,10 @@ public class UserInputMobile : MonoBehaviour
         #endregion
 
 
-        if (isDragging1Click | isDragging2Click) // Atualiza posição quando o clique é segurado
+        if (isDragging1Touch | isDragging2Touch) // Atualiza posição quando o clique é segurado
         {
 
-            // Se está no Lux Mode
-            if (UIController.instance.luxMode && !UIController.instance.uIClick)
-            {
-                if (Input.touchCount == 1 && !isDragging1BeforeLux)
-                {
-
-                    touchPositionLux = Input.touches[0].position; // Atualiza posição do lux
-                }
-                if (Input.touchCount == 2 && isDragging1BeforeLux) // Se tiver mais que 1 clique
-                    touchPositionLux = Input.touches[1].position;
-            }
-            // end Lux
+          
 
             if (leftFrist)
             { // Clique começa pela esquerda e atualiza a esquerda
@@ -309,6 +275,7 @@ public class UserInputMobile : MonoBehaviour
 
             if (!leftSideScreen && playerControllerInstance.isGroundedMain)
             {
+
                 playerControllerInstance.walkingLeft = false;
                 playerControllerInstance.walkingRight = false;
                 playerControllerInstance.rb.velocity = new Vector2(0, playerControllerInstance.rb.velocity.y);
@@ -318,39 +285,21 @@ public class UserInputMobile : MonoBehaviour
 
         }
 
-
-
-
-        if (tap2 | tap1)
-        {
-
-            if (rightSideScreen)
-            {
-
-                if (!UIController.instance.luxMode)
-                {
-                    jumpTap = true;
-
-                }
-
-            }
-            StartCoroutine(ResetTapDelay());
-        }
-
+        Tap();
 
     }
 
     private void Reset1()
     {
 
-        tapRequested1Click = isDragging1Click = isDragging1BeforeLux = false;
+        tapRequested1Touch = isDragging1Touch = false;
 
     }
 
     private void Reset2()
     {
 
-        tapRequested2Click = isDragging2Click = false;
+        tapRequested2Touch = isDragging2Touch = false;
 
 
     }
@@ -363,11 +312,10 @@ public class UserInputMobile : MonoBehaviour
             if (rightSideScreen)
             {
 
-                if (!UIController.instance.luxMode)
-                {
+
                     jumpTap = true;
 
-                }
+                
 
             }
             StartCoroutine(ResetTapDelay());
