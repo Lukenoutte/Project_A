@@ -63,13 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Controllers\Animations.cs" />
+    <Compile Include="Assets\Controllers\BgScrollScript.cs" />
     <Compile Include="Assets\Controllers\CameraController.cs" />
     <Compile Include="Assets\Controllers\DialogManager.cs" />
     <Compile Include="Assets\Controllers\DialogText.cs" />
     <Compile Include="Assets\Controllers\PlayerController.cs" />
     <Compile Include="Assets\Controllers\RulesController.cs" />
-    <Compile Include="Assets\Controllers\ScrollScript.cs" />
     <Compile Include="Assets\Controllers\UIController.cs" />
     <Compile Include="Assets\Controllers\UserInputMobile.cs" />
     <Compile Include="Assets\Controllers\UserInputPC.cs" />

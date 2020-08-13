@@ -9,6 +9,9 @@ public class UIController : MonoBehaviour
     public bool uIClick;
     private GraphicRaycaster canvasRaycaster;
     public float positionMiddleArrows;
+    private Animator buttonWalkLeftAnimator, buttonWalkRightAnimator;
+    public GameObject buttonLeft, buttonRight;
+    private PlayerController playerControllerInstance;
 
     public static UIController instance { set; get; }
 
@@ -16,6 +19,9 @@ public class UIController : MonoBehaviour
     {
         instance = this;
         positionMiddleArrows = Screen.width / 5;
+        playerControllerInstance = PlayerController.instance;
+        buttonWalkLeftAnimator = buttonLeft.GetComponent<Animator>();
+        buttonWalkRightAnimator = buttonRight.GetComponent<Animator>();
 
     }
 
@@ -26,10 +32,45 @@ public class UIController : MonoBehaviour
             positionMiddleArrows = Screen.width / 5;
         }
 
+        if (playerControllerInstance != null)
+        {
+            VirtualKeysAnimations();
+
+        }
+        else
+        {
+            playerControllerInstance = PlayerController.instance;
+        }
+
     }
 
+    private void VirtualKeysAnimations()
+    {
 
-    public void UiClick(BaseEventData data)
+        if (buttonLeft != null && buttonRight != null)
+        {
+            if (playerControllerInstance.walkingRight)
+            {
+                buttonWalkRightAnimator.SetBool("Press", true);
+            }
+            else
+            {
+                buttonWalkRightAnimator.SetBool("Press", false);
+            }
+
+            if (playerControllerInstance.walkingLeft)
+            {
+                buttonWalkLeftAnimator.SetBool("Press", true);
+            }
+            else
+            {
+                buttonWalkLeftAnimator.SetBool("Press", false);
+            }
+
+        }
+
+    }
+        public void UiClick(BaseEventData data)
     {
         List<RaycastResult> results = new List<RaycastResult>();
         PointerEventData pointerData = data as PointerEventData;

@@ -8,7 +8,7 @@ public class UserInputMobile : MonoBehaviour
     public bool isDragging1Touch, tapRequested1Touch, isDragging2Touch,
         tapRequested2Touch, tap1, tap2, rightFirst, leftFrist, rightSideScreen, leftSideScreen, isPressingTouch, jumpTap;
 
-    public Vector2 startTouchLeft, startTouchRight, touchPositionLux = Vector2.zero;
+    public Vector2 startTouchLeft, startTouchRight= Vector2.zero;
 
     private PlayerController playerControllerInstance;
 
@@ -165,15 +165,7 @@ public class UserInputMobile : MonoBehaviour
 
                 if (Input.touches[1].phase == TouchPhase.Began)
                 {
-                    // Lux
-                    if (!UIController.instance.uIClick)
-                    {
-
-                        touchPositionLux = Input.touches[1].position;
-
-                    }
-                    // End Lux
-
+  
                     isDragging2Touch = true;
                     tapRequested2Touch = true;
 
@@ -311,12 +303,7 @@ public class UserInputMobile : MonoBehaviour
 
             if (rightSideScreen)
             {
-
-
                     jumpTap = true;
-
-                
-
             }
             StartCoroutine(ResetTapDelay());
         }
@@ -324,9 +311,6 @@ public class UserInputMobile : MonoBehaviour
 
     public IEnumerator ResetTapDelay()
     {// Reseta configurações após pulo
-
-
-
         yield return new WaitForSeconds(0.1f);
 
         tap1 = tap2 = false;

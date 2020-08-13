@@ -9,28 +9,27 @@ using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
-    public static PlayerController instance { set; get; }
-    public Rigidbody2D rb;
-    public ParticleSystem dust;
+
     [SerializeField]
     private float speed, jumpForce;
-    private Vector3 directionGround = Vector3.zero;
 
-    private int countCollision = 0;
+
+    public static PlayerController instance { set; get; }
+    [HideInInspector] public Rigidbody2D rb;
+    public ParticleSystem dust;
     public bool firstJump;
-    public bool fakeWalk, isGroundedMain, confirmGrounded;
+    public bool isGroundedMain, confirmGrounded;
     public bool walkingRight, walkingLeft;
     public LayerMask groundLayers;
-    public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, oldVelocityX, oldVelocityY;
+    public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, topOfGroundValue;
+    public Transform playerTransform;
+
+    private Vector3 groundSideValue = Vector3.zero;
+    private int countCollision = 0;     
     private bool blockLoop, isJumping = false;
-    private float oldPosition, directionYValue,
-        increaceSpeedLeft, increaceSpeedRight;
-
-
+    private float increaceSpeedLeft, increaceSpeedRight;
     private Animator playerAnimator;
     private SpriteRenderer playerSpriteRender;
-    private Transform playerTransform;
-
     private UserInputMobile userInputMobileIntance;
     private UserInputPC userInputPcIntance;
     private UIController uiControlerInstance;
@@ -39,17 +38,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
         playerTransform = GetComponent<Transform>();
         playerSpriteRender = GetComponent<SpriteRenderer>();
-
-
         playerAnimator = GetComponent<Animator>();
-
-        directionYValue = 1.61f;
         instance = this;
-
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -72,89 +64,54 @@ public class PlayerController : MonoBehaviour
         }
         # endregion
 
-        if(!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys)
+        if(!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys) // Reset walk bool
         {
             walkingLeft = false;
             walkingRight = false;
         }
 
-        // Death
-        if (playerTransform.position.y < -13f)
-        {
-            SceneManager.LoadScene(0);
-        }
+
 
         ComfirmIfIsGrounded();
 
-
-        if (walkingLeft | walkingRight)
-        {
-            if (countCollision > 1)
-            {
-                StartCoroutine(OldPositionDelay());
-            }
-
-            if (playerTransform.position.x == oldPosition && countCollision > 1)
-            {
-                fakeWalk = true;
-
-            }
-            else
-            {
-                if (playerTransform.position.x == oldPosition && !isGroundedMain)
-                {
-                    fakeWalk = true;
-                }
-                else
-                {
-                    fakeWalk = false;
-                    oldPosition = 0;
-                }
-            }
-
-
-        }
-        StopWalkAnimationIfisFake();
+        SomeAnimations();
 
 
         #region Moviments
         if (!isGroundedMain)
         { // Reduz a velocidade se não ta clicando pra andar
-
             ReduceVelocityIfNotClicking();
+        }
+        else { 
 
+            if (!blockLoop) // Proíbe o pulo de resetar no momento do pulo
+            {
 
+                firstJump = false;
+
+            }
         }
 
         // Movimento usando teclas (PC)
-
-
         if (userInputPcIntance.rightKey) // Direita
         {
             WalkRight();
         }
         else
         {
-
             if (!userInputPcIntance.leftKey)
                 playerAnimator.SetBool("WalkRight", false);
-
-
         }
 
 
         if (userInputPcIntance.leftKey) // Esquerda
         {
-
             WalkLeft();
         }
         else
         {
-
             if (!userInputPcIntance.rightKey)
                 playerAnimator.SetBool("WalkRight", false);
-
-
         }
         #endregion
 
@@ -226,40 +183,13 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
-
         // Evitar que o personagem deslize
         PersonDontSlide();
-
-
-
-        if (!isGroundedMain)
-        {
-            playerAnimator.SetBool("InTheAir", true);
-
-
-        }
-        else
-        {
-
-            playerAnimator.SetBool("InTheAir", false);
-
-            if (!blockLoop) // Proíbe o pulo de resetar no momento do pulo
-            {
-
-                firstJump = false;
-
-            }
-
-
-        }
-
-
     } // End Update
 
 
 
-    private IEnumerator JumpOffDelay()
+    private IEnumerator isJumpingDelay()
     { // Reseta configurações após pulo
 
 
@@ -269,7 +199,7 @@ public class PlayerController : MonoBehaviour
 
         isJumping = false;
     }
-    private IEnumerator JumpOffDelay2()
+    private IEnumerator JumpOffAnimationsDelay()
     {// Reseta configurações após pulo
 
 
@@ -280,21 +210,6 @@ public class PlayerController : MonoBehaviour
         blockLoop = false;
 
     }
-
-
-
-
-    private IEnumerator OldPositionDelay()
-    { // Pega posição antiga pra ver se o personagem não está parado 
-
-
-
-        yield return new WaitForSeconds(0.1f);
-
-        oldPosition = playerTransform.position.x;
-
-    }
-
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -309,10 +224,10 @@ public class PlayerController : MonoBehaviour
             Vector3Int colliderPos = map.WorldToCell(contacts[0].point);
 
 
-            directionGround = transform.position - colliderPos;
+            groundSideValue = transform.position - colliderPos;
 
 
-            if (directionGround.y >= directionYValue)
+            if (groundSideValue.y >= topOfGroundValue)
             {
 
                 dust.Play();
@@ -338,7 +253,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        directionGround = transform.position - collision.gameObject.transform.position;
+        groundSideValue = transform.position - collision.gameObject.transform.position;
         countCollision--;
 
         if (collision.gameObject.tag == "Ground" && countCollision == 0) // Deixou o chão
@@ -403,8 +318,8 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             playerAnimator.SetBool("Jump", true);
 
-            StartCoroutine(JumpOffDelay());
-            StartCoroutine(JumpOffDelay2());
+            StartCoroutine(isJumpingDelay());
+            StartCoroutine(JumpOffAnimationsDelay());
 
         }
         userInputMobileIntance.startTouchRight = Vector2.zero;
@@ -479,16 +394,16 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void StopWalkAnimationIfisFake()
+    private void SomeAnimations()
     {
-        // Está andando e esbarrando em algo
-        if (fakeWalk)
+
+        if (!isGroundedMain)
         {
-            playerAnimator.SetBool("FakeWalk", true);
+            playerAnimator.SetBool("InTheAir", true);
         }
         else
         {
-            playerAnimator.SetBool("FakeWalk", false);
+            playerAnimator.SetBool("InTheAir", false);
         }
 
     }

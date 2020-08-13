@@ -152,7 +152,7 @@ Transform:
   - {fileID: 2092486661}
   - {fileID: 70152684}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &70152683
 GameObject:
@@ -1673,7 +1673,7 @@ GameObject:
   - component: {fileID: 196299820}
   - component: {fileID: 196299819}
   m_Layer: 5
-  m_Name: teclaLeft
+  m_Name: buttonLeft
   m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1796,7 +1796,7 @@ Transform:
   m_Children:
   - {fileID: 111381995}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &394429958
 GameObject:
@@ -1931,7 +1931,7 @@ GameObject:
   - component: {fileID: 444236497}
   - component: {fileID: 444236496}
   m_Layer: 5
-  m_Name: teclaRight
+  m_Name: buttonRight
   m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2012,6 +2012,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444236494}
   m_CullTransparentMesh: 0
+--- !u!1 &466377879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 466377881}
+  - component: {fileID: 466377880}
+  m_Layer: 0
+  m_Name: Rules
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &466377880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466377879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e2b0784a12f3a4e802486d3b983deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &466377881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466377879}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.714392, y: -0.9564712, z: -98.313286}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &521889386
 GameObject:
   m_ObjectHideFlags: 0
@@ -2143,7 +2186,7 @@ Transform:
   m_Children:
   - {fileID: 1859239568}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &521889391
 MonoBehaviour:
@@ -2157,27 +2200,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d038f13cc7ab8644abbe432f9da986f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonLeft: {fileID: 196299815}
-  buttonRight: {fileID: 444236494}
-  rb: {fileID: 0}
-  dust: {fileID: 1859239570}
   speed: 6
   jumpForce: 10
+  rb: {fileID: 0}
+  dust: {fileID: 1859239570}
   firstJump: 0
-  fakeWalk: 0
-  walkingRight: 0
-  walkingLeft: 0
   isGroundedMain: 0
   confirmGrounded: 0
+  walkingRight: 0
+  walkingLeft: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 512
   groundCheckDistance2: 1
   valueOfIncreace: 16
-  fRemenberJumpTime: 0.3
+  fRemenberJumpTime: 0.24
   fRemenberJump: 0
-  oldVelocityX: 0
-  oldVelocityY: 0
+  topOfGroundValue: 0
+  playerTransform: {fileID: 0}
 --- !u!95 &521889392
 Animator:
   serializedVersion: 3
@@ -2230,7 +2270,7 @@ MonoBehaviour:
   upKey: 0
   rightKey: 0
   leftKey: 0
-  isPressedKeys: 0
+  isPressingKeys: 0
 --- !u!114 &600038985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2243,22 +2283,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e24792c753802946bcc8fd516c2c5ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDragging1Click: 0
-  tapRequested1Click: 0
-  isDragging2Click: 0
-  isDragging1BeforeLux: 0
-  tapRequested2Click: 0
+  isDragging1Touch: 0
+  tapRequested1Touch: 0
+  isDragging2Touch: 0
+  tapRequested2Touch: 0
   tap1: 0
   tap2: 0
   rightFirst: 0
   leftFrist: 0
   rightSideScreen: 0
   leftSideScreen: 0
-  isPressed: 0
+  isPressingTouch: 0
   jumpTap: 0
   startTouchLeft: {x: 0, y: 0}
   startTouchRight: {x: 0, y: 0}
-  touchPositionLux: {x: 0, y: 0}
 --- !u!4 &600038986
 Transform:
   m_ObjectHideFlags: 0
@@ -2766,56 +2804,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1392849305
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1392849307}
-  - component: {fileID: 1392849306}
-  m_Layer: 0
-  m_Name: Animations
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1392849306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392849305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 127ab2be22e2ef648aca36cf34c439d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setaOldAnimator: {fileID: 0}
-  playerAnimator: {fileID: 0}
-  buttonWalkLeftAnimator: {fileID: 0}
-  buttonWalkRightAnimator: {fileID: 0}
-  buttonLeft: {fileID: 196299815}
-  buttonRight: {fileID: 444236494}
---- !u!4 &1392849307
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1392849305}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30.714392, y: -0.9564712, z: -98.313286}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550431288
 GameObject:
@@ -2865,7 +2854,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1842142024
 GameObject:
@@ -3013,6 +3002,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIClick: 0
   positionMiddleArrows: 0
+  buttonLeft: {fileID: 196299815}
+  buttonRight: {fileID: 444236494}
 --- !u!1 &1859239567
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,7 +3030,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859239567}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.005, y: -0.138, z: 2}
+  m_LocalPosition: {x: -0.005, y: -0.82, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 521889390}
