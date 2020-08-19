@@ -47,6 +47,15 @@ TextureImporter:
   - first:
       213: 5890276192290687744
     second: spriteSheetGround2_14
+  - first:
+      213: 6815702111024334272
+    second: spriteSheetGround2_15
+  - first:
+      213: -7672692369377244518
+    second: spriteSheetGround2_16
+  - first:
+      213: 3385923832640780245
+    second: spriteSheetGround2_17
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -252,8 +261,8 @@ TextureImporter:
       name: spriteSheetGround2_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 80
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -273,7 +282,7 @@ TextureImporter:
       name: spriteSheetGround2_6
       rect:
         serializedVersion: 2
-        x: 16
+        x: 0
         y: 16
         width: 16
         height: 16
@@ -294,7 +303,7 @@ TextureImporter:
       name: spriteSheetGround2_7
       rect:
         serializedVersion: 2
-        x: 32
+        x: 16
         y: 16
         width: 16
         height: 16
@@ -315,7 +324,7 @@ TextureImporter:
       name: spriteSheetGround2_8
       rect:
         serializedVersion: 2
-        x: 48
+        x: 32
         y: 16
         width: 16
         height: 16
@@ -336,7 +345,7 @@ TextureImporter:
       name: spriteSheetGround2_9
       rect:
         serializedVersion: 2
-        x: 64
+        x: 48
         y: 16
         width: 16
         height: 16
@@ -357,8 +366,8 @@ TextureImporter:
       name: spriteSheetGround2_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 64
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -378,8 +387,8 @@ TextureImporter:
       name: spriteSheetGround2_11
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 80
+        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -399,7 +408,7 @@ TextureImporter:
       name: spriteSheetGround2_12
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 0
         width: 16
         height: 16
@@ -420,7 +429,7 @@ TextureImporter:
       name: spriteSheetGround2_13
       rect:
         serializedVersion: 2
-        x: 48
+        x: 16
         y: 0
         width: 16
         height: 16
@@ -441,7 +450,7 @@ TextureImporter:
       name: spriteSheetGround2_14
       rect:
         serializedVersion: 2
-        x: 64
+        x: 32
         y: 0
         width: 16
         height: 16
@@ -454,6 +463,69 @@ TextureImporter:
       bones: []
       spriteID: 00b4d662df67eb150800000000000000
       internalID: 5890276192290687744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spriteSheetGround2_15
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c54c7675fc369e50800000000000000
+      internalID: 6815702111024334272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spriteSheetGround2_16
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9a4b6411fe158590800000000000000
+      internalID: -7672692369377244518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spriteSheetGround2_17
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d7351159c73dfe20800000000000000
+      internalID: 3385923832640780245
       vertices: []
       indices: 
       edges: []

@@ -6,9 +6,9 @@ public class UserInputMobile : MonoBehaviour
 {
 
     public bool isDragging1Touch, tapRequested1Touch, isDragging2Touch,
-        tapRequested2Touch, tap1, tap2, rightFirst, leftFrist, rightSideScreen, leftSideScreen, isPressingTouch, jumpTap;
+        tapRequested2Touch, tap1, tap2, rightFirst, leftFrist, rightSideScreen, leftSideScreen, isPressingTouch;
 
-    public Vector2 startTouchLeft, startTouchRight= Vector2.zero;
+    public Vector2 startTouchLeft, startTouchRight = Vector2.zero;
 
     private PlayerController playerControllerInstance;
 
@@ -24,196 +24,247 @@ public class UserInputMobile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Side screen
-        if (Input.touchCount >= 1)
-        {
-            if (Input.touchCount == 1)
-            {
-                if (Input.touches[0].position.x < (Screen.width / 2))
-                {
-                    leftSideScreen = true;
-
-                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
-                    {
-                        leftSideScreen = false;
-                    }
-                }
-
-
-                if (Input.touches[0].position.x > (Screen.width / 2))
-                {
-                    rightSideScreen = true;
-
-                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
-                    {
-                        StartCoroutine(RightSideDelay());
-                    }
-                }
-
-            }
-            else if (Input.touchCount == 2)
-            {
-                if (Input.touches[0].position.x < (Screen.width / 2))
-                {
-                    leftSideScreen = true;
-                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
-                    {
-                        leftSideScreen = false;
-                    }
-                }
-                else if (Input.touches[1].position.x < (Screen.width / 2))
-                {
-                    leftSideScreen = true;
-                    if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
-                    {
-                        leftSideScreen = false;
-                    }
-
-                }
-
-
-                if (Input.touches[0].position.x > (Screen.width / 2))
-                {
-                    rightSideScreen = true;
-                    if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
-                    {
-                        StartCoroutine(RightSideDelay());
-                    }
-                }
-                else if (Input.touches[1].position.x > (Screen.width / 2))
-                {
-                    rightSideScreen = true;
-                    if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
-                    {
-                        StartCoroutine(RightSideDelay());
-                    }
-
-                }
-
-            }
-        }
+        // Identifica qual lado da tela está sendo usado
+        ScreenSideTouches();
 
         // Está precionado?
         if (Input.touchCount > 0)
         {
-
-
             isPressingTouch = true;
-
         }
-        else 
+        else
         {
             tapRequested2Touch = isDragging2Touch = false;
             isPressingTouch = false;
-
         }
 
 
-        #region Mobile Inputs
+        #region Mobile Inputs get Positions
         if (Input.touchCount > 0)
+        {
+            if (Input.touchCount == 1)
+            {
+                GetPositionOneTouch();
+            }
+            if (Input.touchCount == 2) 
+            {
+                GetPositionTwoTouches();
+            }
+        }
+        #endregion
+
+        UpdateTouchPositionIfIsDragging();
+    } // End Update
+
+    private void Reset1()
+    {
+
+        tapRequested1Touch = isDragging1Touch = false;
+
+    }
+
+    private void Reset2()
+    {
+
+        tapRequested2Touch = isDragging2Touch = false;
+
+
+    }
+
+
+    public void GetPositionOneTouch()
+    {
+        if (Input.touches[0].phase == TouchPhase.Began)
         {
 
 
-            if (Input.touches[0].phase == TouchPhase.Began)
+            isDragging1Touch = true;
+            tapRequested1Touch = true;
+            if (Input.touches[0].position.x < (Screen.width / 2)) // Cliques a esquerda da tela
             {
- 
-               
+                startTouchLeft = Input.touches[0].position;
 
-                isDragging1Touch = true;
-                tapRequested1Touch = true;
-                if (Input.touchCount == 1)
-                {
+                rightFirst = false;
+                leftFrist = true;
 
-                    if (Input.touches[0].position.x < (Screen.width / 2)) // Cliques a esquerda da tela
-                    {
-                        startTouchLeft = Input.touches[0].position;
+            }
+            else if (Input.touches[0].position.x > (Screen.width / 2))// Cliques a direita da tela
+            {
+                startTouchRight = Input.touches[0].position;
 
-                        rightFirst = false;
-                        leftFrist = true;
-
-                    }
-                    else if (Input.touches[0].position.x > (Screen.width / 2))// Cliques a direita da tela
-                    {
-                        startTouchRight = Input.touches[0].position;
-
-                        leftFrist = false;
-                        rightFirst = true;
-
-
-                    }
-
-                }
+                leftFrist = false;
+                rightFirst = true;
 
 
             }
-            else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+
+        }
+        else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+        {
+            if (tapRequested1Touch)
             {
+                tap1 = true;
+
+            }
+
+
+            Reset1();
+        }
+    }
+
+    public void GetPositionTwoTouches()
+    {
+
+        if (Input.touches[1].phase == TouchPhase.Began)
+        {
+
+            isDragging2Touch = true;
+            tapRequested2Touch = true;
+
+
+            if (Input.touches[1].position.x > Screen.width / 2) // Clique a direita da tela
+            {
+                startTouchRight = Input.touches[1].position;
+
+
+            }
+
+
+            if (rightFirst)
+            {
+
+                if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
+                { // Pega clique da esquerda quando está segurando na direita
+
+                    startTouchLeft = Input.touches[1].position;
+
+                }
+
+            }
+
+        }
+        else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
+        {
+            if (tapRequested2Touch)
+            {
+                tap2 = true;
+
+            }
+
+            Reset2();
+        }
+
+    }
+
+        public void ScreenSideTouches()
+    {
+        if (Input.touchCount >= 1)
+        {
+            if (Input.touchCount == 1)
+            {
+                ScreemSideOneTouch();
+
+            }
+            else if (Input.touchCount == 2)
+            {
+
+                ScreenSideTwoTouchesStartLeft();
+                ScreenSideTwoTouchesStartRight();
+
+            }
+        }
+    }
+
+    public void ScreemSideOneTouch()
+    {
+        if (Input.touches[0].position.x < (Screen.width / 2))
+        {
+            leftSideScreen = true;
+
+            if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+            {
+                leftSideScreen = false;
+            }
+        }
+
+
+        if (Input.touches[0].position.x > (Screen.width / 2))
+        {
+            rightSideScreen = true;
+
+            if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+            {
+                StartCoroutine(RightSideDelay());
+                if (leftFrist)
+                    leftSideScreen = false;
+            }
+        }
+    }
+
+    public void ScreenSideTwoTouchesStartLeft()
+    {
+        if (Input.touches[0].position.x < (Screen.width / 2))
+        {
+            leftSideScreen = true;
+            if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+            {
+                leftSideScreen = false;
+            }
+        }
+        else if (Input.touches[1].position.x < (Screen.width / 2))
+        {
+            leftSideScreen = true;
+            if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
+            {
+                leftSideScreen = false;
+            }
+
+        }
+    }
+
+    public void ScreenSideTwoTouchesStartRight()
+    {
+        if (Input.touches[0].position.x > (Screen.width / 2))
+        {
+            rightSideScreen = true;
+            if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+            {
+                StartCoroutine(RightSideDelay());
                 if (tapRequested1Touch)
                 {
                     tap1 = true;
 
                 }
+              
 
-
-                Reset1();
             }
-
-
-            if (Input.touchCount == 2) // 2 Cliques
+        }
+        else if (Input.touches[1].position.x > (Screen.width / 2))
+        {
+            rightSideScreen = true;
+            if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
             {
-
-
-                if (Input.touches[1].phase == TouchPhase.Began)
+                StartCoroutine(RightSideDelay());
+                if (tapRequested2Touch)
                 {
-  
-                    isDragging2Touch = true;
-                    tapRequested2Touch = true;
-
-
-                    if (Input.touches[1].position.x > Screen.width / 2) // Clique a direita da tela
-                    {
-                        startTouchRight = Input.touches[1].position;
-
-
-                    }
-
-
-                    if (rightFirst)
-                    {
-
-                        if (Input.touches[0].position.x > (Screen.width / 2) && Input.touches[1].position.x < (Screen.width / 2))
-                        { // Pega clique da esquerda quando está segurando na direita
-
-                            startTouchLeft = Input.touches[1].position;
-
-                        }
-
-                    }
+                    tap2 = true;
 
                 }
-                else if (Input.touches[1].phase == TouchPhase.Ended || Input.touches[1].phase == TouchPhase.Canceled)
-                {
-                    if (tapRequested2Touch)
-                    {
-                        tap2 = true;
 
-                    }
-
-                    Reset2();
-                }
             }
 
+        }
+    }
 
 
 
-        }// end if Touch > 0
-        #endregion
 
-
+    public void UpdateTouchPositionIfIsDragging()
+    {
         if (isDragging1Touch | isDragging2Touch) // Atualiza posição quando o clique é segurado
         {
 
-          
+
 
             if (leftFrist)
             { // Clique começa pela esquerda e atualiza a esquerda
@@ -255,57 +306,12 @@ public class UserInputMobile : MonoBehaviour
                 {
                     if ((Input.touches[1].position.x < (Screen.width / 2)))
                     {
-                        // Atualiza posição do clique da esqueda caso tenha mais de 1 clique
+                        // Atualiza posição do clique da esquerda caso tenha mais de 1 clique
                         startTouchLeft = Input.touches[1].position;
 
                     }
                 }
-
-
             }
-
-
-            if (!leftSideScreen && playerControllerInstance.isGroundedMain)
-            {
-
-                playerControllerInstance.walkingLeft = false;
-                playerControllerInstance.walkingRight = false;
-                playerControllerInstance.rb.velocity = new Vector2(0, playerControllerInstance.rb.velocity.y);
-            }
-
-
-
-        }
-
-        Tap();
-
-    }
-
-    private void Reset1()
-    {
-
-        tapRequested1Touch = isDragging1Touch = false;
-
-    }
-
-    private void Reset2()
-    {
-
-        tapRequested2Touch = isDragging2Touch = false;
-
-
-    }
-
-    public void Tap()
-    {
-        if (tap2 | tap1)
-        {
-
-            if (rightSideScreen)
-            {
-                    jumpTap = true;
-            }
-            StartCoroutine(ResetTapDelay());
         }
     }
 

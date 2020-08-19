@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 groundSideValue = Vector3.zero;
     private int countCollision = 0;     
-    private bool blockLoop, isJumping = false;
+    private bool blockLoop, isJumping, jumpTap = false;
     private float increaceSpeedLeft, increaceSpeedRight;
     private Animator playerAnimator;
     private SpriteRenderer playerSpriteRender;
@@ -64,17 +64,16 @@ public class PlayerController : MonoBehaviour
         }
         # endregion
 
-        if(!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys) // Reset walk bool
+        if(!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys) // Reseta varariaveis de movimento se estiver parado
         {
             walkingLeft = false;
             walkingRight = false;
+
+            if (isGroundedMain)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
         }
-
-
-
-        ComfirmIfIsGrounded();
-
-        SomeAnimations();
 
 
         #region Moviments
@@ -162,11 +161,11 @@ public class PlayerController : MonoBehaviour
             fRemenberJump -= Time.deltaTime;
         }
 
-        if (userInputPcIntance.upKey | userInputMobileIntance.jumpTap)
+        if (userInputPcIntance.upKey | jumpTap)
         {
 
             fRemenberJump = fRemenberJumpTime;
-            userInputMobileIntance.jumpTap = false;
+            jumpTap = false;
             userInputPcIntance.upKey = false;
 
         }
@@ -183,8 +182,12 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        // Evitar que o personagem deslize
+
+
         PersonDontSlide();
+        IsTappedToJump();
+        ComfirmIfIsGrounded();
+        SomeAnimations();
     } // End Update
 
 
@@ -415,17 +418,29 @@ public class PlayerController : MonoBehaviour
         {
             if (newVelocity > 0)
             {
-                newVelocity -= Time.deltaTime;
+                newVelocity -= Time.deltaTime * 2;
             }
             else
             {
-                newVelocity += Time.deltaTime;
+                newVelocity += Time.deltaTime * 2;
             }
 
             rb.velocity = new Vector2(newVelocity, rb.velocity.y);
         }
     }
 
+    public void IsTappedToJump()
+    {
+        if (userInputMobileIntance.tap2 | userInputMobileIntance.tap1)
+        {
+
+            if (userInputMobileIntance.rightSideScreen)
+            {
+                jumpTap = true;
+            }
+            StartCoroutine(userInputMobileIntance.ResetTapDelay());
+        }
+    }
 
     private void PersonDontSlide()
     {
