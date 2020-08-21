@@ -5,16 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - UnTag
-  - EyeButton
   - Ground
   - Enemy
   - Jump
   - Reset
   - UI
-  - Lux
   - NotUi
-  - Lux1
-  - Lux2
+  - Copyable
   layers:
   - Default
   - TransparentFX

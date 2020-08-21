@@ -1,6 +1,5 @@
 ﻿
 using System.Collections;
-
 using UnityEngine;
 
 using UnityEngine.SceneManagement;
@@ -17,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance { set; get; }
     [HideInInspector] public Rigidbody2D rb;
     public ParticleSystem dust;
-    public bool firstJump;
+    public bool firstJump, isTransformationCopyActive, isTransformed;
     public bool isGroundedMain, confirmGrounded;
     public bool walkingRight, walkingLeft;
     public LayerMask groundLayers;
@@ -34,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private UserInputPC userInputPcIntance;
     private UIController uiControlerInstance;
 
+
+    private CopyableObjectCharacteristics lastTuchedCopyableObject;
 
     // Start is called before the first frame update
     void Start()
@@ -188,6 +189,7 @@ public class PlayerController : MonoBehaviour
         IsTappedToJump();
         ComfirmIfIsGrounded();
         SomeAnimations();
+        TransformInCopyableObject();
     } // End Update
 
 
@@ -218,19 +220,25 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         countCollision++;
-        if (collision.gameObject.tag == "Ground") // Colisão com o chão
+        if (collision.gameObject.layer == 9) // Colisão com o chão  (9 é a layer do Ground)
         {
-            ContactPoint2D[] contacts = new ContactPoint2D[1];
-            Tilemap map = collision.gameObject.GetComponent<Tilemap>();
-            collision.GetContacts(contacts);
-
-            Vector3Int colliderPos = map.WorldToCell(contacts[0].point);
-
-
-            groundSideValue = transform.position - colliderPos;
-
-
-            if (groundSideValue.y >= topOfGroundValue)
+            
+            if (collision.gameObject.GetComponent<Tilemap>() != null)
+            {
+                
+                ContactPoint2D[] contacts = new ContactPoint2D[1];
+                Tilemap map = collision.gameObject.GetComponent<Tilemap>();
+                collision.GetContacts(contacts);
+                Vector3Int colliderPosTile = map.WorldToCell(contacts[0].point);
+                groundSideValue = transform.position - colliderPosTile;
+            }
+            else
+            {
+               groundSideValue = transform.position - collision.transform.position;
+            }
+         
+            
+            if (groundSideValue.y > topOfGroundValue)
             {
 
                 dust.Play();
@@ -250,7 +258,13 @@ public class PlayerController : MonoBehaviour
 
         }
 
-    }
+        if (collision.gameObject.tag == "Copyable") // Inimigo
+        {
+         
+            lastTuchedCopyableObject = collision.gameObject.GetComponent<CopyableObjectCharacteristics>();
+        }
+
+        }
 
 
 
@@ -259,7 +273,7 @@ public class PlayerController : MonoBehaviour
         groundSideValue = transform.position - collision.gameObject.transform.position;
         countCollision--;
 
-        if (collision.gameObject.tag == "Ground" && countCollision == 0) // Deixou o chão
+        if (collision.gameObject.layer == 9) // Deixou o chão
         {
 
             isGroundedMain = false;
@@ -418,11 +432,11 @@ public class PlayerController : MonoBehaviour
         {
             if (newVelocity > 0)
             {
-                newVelocity -= Time.deltaTime * 2;
+                newVelocity -= Time.deltaTime * 6;
             }
             else
             {
-                newVelocity += Time.deltaTime * 2;
+                newVelocity += Time.deltaTime * 6;
             }
 
             rb.velocity = new Vector2(newVelocity, rb.velocity.y);
@@ -454,4 +468,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-}
+    private void TransformInCopyableObject()
+    {
+        if (isTransformationCopyActive && lastTuchedCopyableObject == null)
+        {
+            isTransformationCopyActive = false;
+            return;
+        }
+
+        if (isTransformationCopyActive && lastTuchedCopyableObject != null && !isTransformed)
+        {
+
+            print("Transformed");
+            print(lastTuchedCopyableObject.canWalk);
+            isTransformed = true;
+        }
+        else if(!isTransformationCopyActive && isTransformed)
+        {
+            print("Destransformed");
+            isTransformed = false;
+        }
+    }
+
+    }

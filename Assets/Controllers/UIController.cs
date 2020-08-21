@@ -86,13 +86,18 @@ public class UIController : MonoBehaviour
         {
 
 
-            if (result.gameObject.name == "teclaRight" | result.gameObject.name == "teclaLeft")
+            if (result.gameObject.name == "TransformButton")
             {
                 uIClick = true;
-
+                if (!playerControllerInstance.isTransformationCopyActive)
+                {
+                    playerControllerInstance.isTransformationCopyActive = true;
+                }
+                else
+                {
+                    playerControllerInstance.isTransformationCopyActive = false;
+                }
             }
-
-
 
         }
 
