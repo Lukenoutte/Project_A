@@ -2,6 +2,8 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CameraController
+    - CopyabbleController
+    - CopyableObjectCharacteristics
     - DialogManager
     - DialogText
     - PlayerController
@@ -102,29 +104,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 12480}
     - Class: 114
-      Script: {instanceID: 12926}
+      Script: {instanceID: 12642}
     - Class: 114
-      Script: {instanceID: 13212}
+      Script: {instanceID: 12928}
     - Class: 114
-      Script: {instanceID: 13292}
+      Script: {instanceID: 13214}
     - Class: 114
-      Script: {instanceID: 13310}
+      Script: {instanceID: 13294}
     - Class: 114
-      Script: {instanceID: 13504}
+      Script: {instanceID: 13312}
     - Class: 114
-      Script: {instanceID: 13600}
+      Script: {instanceID: 13506}
     - Class: 114
-      Script: {instanceID: 13670}
+      Script: {instanceID: 13602}
     - Class: 114
-      Script: {instanceID: 13678}
+      Script: {instanceID: 13672}
     - Class: 114
-      Script: {instanceID: 13694}
+      Script: {instanceID: 13680}
     - Class: 114
-      Script: {instanceID: 13932}
+      Script: {instanceID: 13696}
     - Class: 114
-      Script: {instanceID: 14186}
+      Script: {instanceID: 13934}
     - Class: 114
-      Script: {instanceID: 14258}
+      Script: {instanceID: 14188}
+    - Class: 114
+      Script: {instanceID: 14260}
+    - Class: 114
+      Script: {instanceID: 15854}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -476,6 +482,12 @@ ScriptsOnlyBuild:
     className: TMP_Asset
   - hash:
       serializedVersion: 2
+      Hash: 29a75ca03c252a0c3a5768e8efcd1006
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CopyableObjectCharacteristics
+  - hash:
+      serializedVersion: 2
       Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -674,7 +686,7 @@ ScriptsOnlyBuild:
     className: UserInputMobile
   - hash:
       serializedVersion: 2
-      Hash: b7517749592a7795004d4c28e12b2e86
+      Hash: 76456f310c49a1dc812326cd5bbf1b17
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -834,6 +846,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: a0aa75846d82eb40c7f29e07f456d67d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: CopyabbleController
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity

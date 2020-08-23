@@ -16,11 +16,11 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance { set; get; }
     [HideInInspector] public Rigidbody2D rb;
     public ParticleSystem dust;
-    public bool firstJump, isTransformationCopyActive, isTransformed;
-    public bool isGroundedMain, confirmGrounded;
-    public bool walkingRight, walkingLeft;
+
+    public bool isGrounded, walkingRight, walkingLeft, firstJump;
+
     public LayerMask groundLayers;
-    public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, topOfGroundValue;
+    [HideInInspector] public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, topGroundValue;
     public Transform playerTransform;
 
     private Vector3 groundSideValue = Vector3.zero;
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     private UIController uiControlerInstance;
 
 
-    private CopyableObjectCharacteristics lastTuchedCopyableObject;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         instance = this;
         rb = GetComponent<Rigidbody2D>();
+
     }
 
 
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviour
             walkingLeft = false;
             walkingRight = false;
 
-            if (isGroundedMain)
+            if (isGrounded)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
@@ -78,7 +79,7 @@ public class PlayerController : MonoBehaviour
 
 
         #region Moviments
-        if (!isGroundedMain)
+        if (!isGrounded)
         { // Reduz a velocidade se não ta clicando pra andar
             ReduceVelocityIfNotClicking();
         }
@@ -187,9 +188,9 @@ public class PlayerController : MonoBehaviour
 
         PersonDontSlide();
         IsTappedToJump();
-        ComfirmIfIsGrounded();
-        SomeAnimations();
-        TransformInCopyableObject();
+        IsGroundedFunc();
+
+        
     } // End Update
 
 
@@ -217,98 +218,37 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        countCollision++;
-        if (collision.gameObject.layer == 9) // Colisão com o chão  (9 é a layer do Ground)
-        {
-            
-            if (collision.gameObject.GetComponent<Tilemap>() != null)
-            {
-                
-                ContactPoint2D[] contacts = new ContactPoint2D[1];
-                Tilemap map = collision.gameObject.GetComponent<Tilemap>();
-                collision.GetContacts(contacts);
-                Vector3Int colliderPosTile = map.WorldToCell(contacts[0].point);
-                groundSideValue = transform.position - colliderPosTile;
-            }
-            else
-            {
-               groundSideValue = transform.position - collision.transform.position;
-            }
-         
-            
-            if (groundSideValue.y > topOfGroundValue)
-            {
-
-                dust.Play();
-
-                isGroundedMain = true;
-
-            }
+   
 
 
-
-        }
-
-        if (collision.gameObject.tag == "Enemy") // Inimigo
-        {
-
-            SceneManager.LoadScene(0);
-
-        }
-
-        if (collision.gameObject.tag == "Copyable") // Inimigo
-        {
-         
-            lastTuchedCopyableObject = collision.gameObject.GetComponent<CopyableObjectCharacteristics>();
-        }
-
-        }
-
-
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        groundSideValue = transform.position - collision.gameObject.transform.position;
-        countCollision--;
-
-        if (collision.gameObject.layer == 9) // Deixou o chão
-        {
-
-            isGroundedMain = false;
-
-
-        }
-    }
-
-
-    private void ComfirmIfIsGrounded() /// Confirma se o personagem está realmente no chão
+    private void IsGroundedFunc() /// Confirma se o personagem está realmente no chão
     {
 
-        Ray2D ray = new Ray2D(transform.position, Vector2.down);
+        Vector3 valueToDecreace = new Vector3(0.2f, 0, 0);
+        Vector3 valueToIncreace = new Vector3(0.16f, 0, 0);
 
-        RaycastHit2D hit2 = Physics2D.Raycast(ray.origin, ray.direction, groundCheckDistance2, groundLayers);
+        Ray2D rayLeft = new Ray2D(transform.position - valueToDecreace, Vector2.down);
+        Ray2D rayRight = new Ray2D(transform.position + valueToIncreace, Vector2.down);
 
 
+        RaycastHit2D hit1 = Physics2D.Raycast(rayLeft.origin, rayLeft.direction, groundCheckDistance2, groundLayers);
+        RaycastHit2D hit2 = Physics2D.Raycast(rayRight.origin, rayRight.direction, groundCheckDistance2, groundLayers);
 
-        if (hit2)
+
+        if (hit1 | hit2)
         {
-            confirmGrounded = true;
-            if (!isGroundedMain)
-            {
-                isGroundedMain = true;
-            }
+            dust.Play();
 
+            isGrounded = true;
+            playerAnimator.SetBool("InTheAir", false);
         }
         else
         {
-            confirmGrounded = false;
+            isGrounded = false;
+            playerAnimator.SetBool("InTheAir", true);
         }
-        if (countCollision == 0 && isGroundedMain)
-        {
-            isGroundedMain = false;
-        }
+
+
 
     }
 
@@ -321,7 +261,7 @@ public class PlayerController : MonoBehaviour
             if (!firstJump)
             {
 
-                if (isGroundedMain)
+                if (isGrounded)
                 {
 
                     dust.Play();
@@ -345,7 +285,7 @@ public class PlayerController : MonoBehaviour
     private void WalkRight()
     {
 
-        if (isGroundedMain)
+        if (isGrounded)
         {
             increaceSpeedRight = 0;
         }
@@ -376,7 +316,7 @@ public class PlayerController : MonoBehaviour
 
     private void WalkLeft()
     {
-        if (isGroundedMain)
+        if (isGrounded)
         {
 
             increaceSpeedLeft = 0;
@@ -411,19 +351,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-    private void SomeAnimations()
-    {
 
-        if (!isGroundedMain)
-        {
-            playerAnimator.SetBool("InTheAir", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("InTheAir", false);
-        }
-
-    }
 
     private void ReduceVelocityIfNotClicking()
     {
@@ -460,7 +388,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys)
         {
-            if (isGroundedMain)
+            if (isGrounded)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 increaceSpeedLeft = increaceSpeedRight = 0;
@@ -468,26 +396,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TransformInCopyableObject()
-    {
-        if (isTransformationCopyActive && lastTuchedCopyableObject == null)
-        {
-            isTransformationCopyActive = false;
-            return;
-        }
-
-        if (isTransformationCopyActive && lastTuchedCopyableObject != null && !isTransformed)
-        {
-
-            print("Transformed");
-            print(lastTuchedCopyableObject.canWalk);
-            isTransformed = true;
-        }
-        else if(!isTransformationCopyActive && isTransformed)
-        {
-            print("Destransformed");
-            isTransformed = false;
-        }
-    }
 
     }

@@ -12,12 +12,13 @@ public class UIController : MonoBehaviour
     private Animator buttonWalkLeftAnimator, buttonWalkRightAnimator;
     public GameObject buttonLeft, buttonRight;
     private PlayerController playerControllerInstance;
-
+    private CopyabbleController copyabbleControllerInstance;
     public static UIController instance { set; get; }
 
     private void Start()
     {
         instance = this;
+        copyabbleControllerInstance = CopyabbleController.instance;
         positionMiddleArrows = Screen.width / 5;
         playerControllerInstance = PlayerController.instance;
         buttonWalkLeftAnimator = buttonLeft.GetComponent<Animator>();
@@ -89,13 +90,20 @@ public class UIController : MonoBehaviour
             if (result.gameObject.name == "TransformButton")
             {
                 uIClick = true;
-                if (!playerControllerInstance.isTransformationCopyActive)
+                if (copyabbleControllerInstance != null)
                 {
-                    playerControllerInstance.isTransformationCopyActive = true;
+                    if (!copyabbleControllerInstance.isTransformationCopyActive)
+                    {
+                        copyabbleControllerInstance.isTransformationCopyActive = true;
+                    }
+                    else
+                    {
+                        copyabbleControllerInstance.isTransformationCopyActive = false;
+                    }
                 }
                 else
                 {
-                    playerControllerInstance.isTransformationCopyActive = false;
+                    copyabbleControllerInstance = CopyabbleController.instance;
                 }
             }
 
