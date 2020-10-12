@@ -17,11 +17,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb;
     public ParticleSystem dust;
 
-    public bool isGrounded, walkingRight, walkingLeft, firstJump;
-
+    public Vector3 valueToDecreace, valueToIncreace;
+    
+    public bool isGrounded, confirmIfIsGrounded, walkingRight, walkingLeft, firstJump;
+    public float groundCheckDistance;
     public LayerMask groundLayers;
-    [HideInInspector] public float groundCheckDistance2, valueOfIncreace, fRemenberJumpTime, fRemenberJump, topGroundValue;
-    public Transform playerTransform;
+    [HideInInspector] public float valueOfIncreace, fRemenberJumpTime, fRemenberJump;
+    [HideInInspector] public Transform playerTransform;
 
     private Vector3 groundSideValue = Vector3.zero;
     private int countCollision = 0;     
@@ -219,33 +221,38 @@ public class PlayerController : MonoBehaviour
 
 
    
-
-
     private void IsGroundedFunc() /// Confirma se o personagem está realmente no chão
     {
 
-        Vector3 valueToDecreace = new Vector3(0.2f, 0, 0);
-        Vector3 valueToIncreace = new Vector3(0.16f, 0, 0);
+        
 
-        Ray2D rayLeft = new Ray2D(transform.position - valueToDecreace, Vector2.down);
-        Ray2D rayRight = new Ray2D(transform.position + valueToIncreace, Vector2.down);
+        Ray2D rayLeft = new Ray2D(transform.position - valueToDecreace, -Vector3.up);
+        Ray2D rayRight = new Ray2D(transform.position + valueToIncreace, -Vector3.up);
+        
 
+        RaycastHit2D hit1 = Physics2D.Raycast(rayLeft.origin, rayLeft.direction, groundCheckDistance, groundLayers);
+        RaycastHit2D hit2 = Physics2D.Raycast(rayRight.origin, rayRight.direction, groundCheckDistance, groundLayers);
+        Debug.DrawRay(transform.position - valueToDecreace, Vector2.down, Color.green);
+        Debug.DrawRay(transform.position + valueToIncreace, Vector2.down, Color.green);
 
-        RaycastHit2D hit1 = Physics2D.Raycast(rayLeft.origin, rayLeft.direction, groundCheckDistance2, groundLayers);
-        RaycastHit2D hit2 = Physics2D.Raycast(rayRight.origin, rayRight.direction, groundCheckDistance2, groundLayers);
-
-
-        if (hit1 | hit2)
+        if (hit1 && hit2)
         {
-            dust.Play();
-
             isGrounded = true;
             playerAnimator.SetBool("InTheAir", false);
+    
         }
-        else
+        else if(!hit1 && !hit2)
         {
             isGrounded = false;
             playerAnimator.SetBool("InTheAir", true);
+        }
+        else if( (!hit1 && hit2) || (hit1 && !hit2))
+        {
+            if (confirmIfIsGrounded)
+            {
+                isGrounded = true;
+                playerAnimator.SetBool("InTheAir", false);
+            }
         }
 
 
@@ -397,4 +404,50 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        countCollision++;
+        if (collision.gameObject.layer == 9) // Colisão com o chão  (9 é a layer do Ground)
+        {
+
+            if (collision.gameObject.GetComponent<Tilemap>() != null)
+            {
+
+                ContactPoint2D[] contacts = new ContactPoint2D[1];
+                Tilemap map = collision.gameObject.GetComponent<Tilemap>();
+                collision.GetContacts(contacts);
+                Vector3Int colliderPosTile = map.WorldToCell(contacts[0].point);
+                groundSideValue = transform.position - colliderPosTile;
+            }
+            else
+            {
+                groundSideValue = transform.position - collision.transform.position;
+             
+            }
+            print(collision.collider.bounds.extents.y);
+            print(groundSideValue.y);
+            if (groundSideValue.y >= 1.1f)
+            {
+                confirmIfIsGrounded = true;
+
+            }
+        }
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+      
+        countCollision--;
+
+        if (collision.gameObject.layer == 9) // Deixou o chão
+        {
+
+            confirmIfIsGrounded = false;
+
+        }
+    }
+
+
+
+
+}
