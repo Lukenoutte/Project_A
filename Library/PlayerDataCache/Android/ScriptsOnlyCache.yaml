@@ -2,7 +2,6 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CameraController
-    - CopyabbleController
     - CopyableObjectCharacteristics
     - DialogManager
     - DialogText
@@ -31,8 +30,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -109,8 +110,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 12928}
     - Class: 114
       Script: {instanceID: 13214}
-    - Class: 114
-      Script: {instanceID: 13230}
     - Class: 114
       Script: {instanceID: 13296}
     - Class: 114
@@ -855,4 +854,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/Zete/Downloads/Soltos/projecta.apk
+  playerPath: C:/Users/Zete/Downloads/Soltos/KeyPlayStore/projecta.apk

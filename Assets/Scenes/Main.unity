@@ -2022,7 +2022,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 521889390}
-  - component: {fileID: 521889393}
   - component: {fileID: 521889391}
   - component: {fileID: 521889389}
   - component: {fileID: 521889392}
@@ -2069,7 +2068,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0199337, y: -0.2241472}
+  m_Offset: {x: -0.026412964, y: -0.2195211}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2080,7 +2079,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3363304, y: 1.1736035}
+  m_Size: {x: 0.39806366, y: 1.1643513}
   m_EdgeRadius: 0
 --- !u!212 &521889389
 SpriteRenderer:
@@ -2160,13 +2159,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  jumpForce: 10
+  jumpForce: 11
   rb: {fileID: 521889387}
   dust: {fileID: 1859239570}
-  valueToDecreace: {x: 0.19, y: 0, z: 0}
-  valueToIncreace: {x: 0.15, y: 0, z: 0}
+  valueToDecreace: {x: 0.15, y: 0, z: 3}
+  valueToIncreace: {x: 0.1, y: 0, z: 3}
   isGrounded: 1
-  confirmIfIsGrounded: 0
+  confirmIfIsGrounded: 1
   walkingRight: 0
   walkingLeft: 0
   firstJump: 0
@@ -2197,20 +2196,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &521889393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 521889386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a9600f981981134385a40d6fb0721eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isTransformationCopyActive: 0
-  isTransformed: 0
 --- !u!1 &600038983
 GameObject:
   m_ObjectHideFlags: 0
@@ -7711,7 +7696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1684486330
 RectTransform:
   m_ObjectHideFlags: 0

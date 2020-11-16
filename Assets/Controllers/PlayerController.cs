@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
         {
             uiControlerInstance = UIController.instance;
         }
-        # endregion
+        #endregion
 
         if(!userInputMobileIntance.isPressingTouch && !userInputPcIntance.isPressingKeys) // Reseta varariaveis de movimento se estiver parado
         {
@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        #region Moviments
+     
         if (!isGrounded)
         { // Reduz a velocidade se não ta clicando pra andar
             ReduceVelocityIfNotClicking();
@@ -93,73 +93,11 @@ public class PlayerController : MonoBehaviour
                 firstJump = false;
 
             }
-        }
-
-        // Movimento usando teclas (PC)
-        if (userInputPcIntance.rightKey) // Direita
-        {
-            WalkRight();
-        }
-        else
-        {
-            if (!userInputPcIntance.leftKey)
-                playerAnimator.SetBool("WalkRight", false);
-        }
+        }       
 
 
-        if (userInputPcIntance.leftKey) // Esquerda
-        {
-            WalkLeft();
-        }
-        else
-        {
-            if (!userInputPcIntance.rightKey)
-                playerAnimator.SetBool("WalkRight", false);
-        }
-        #endregion
-
-        #region Mobile Moviments
-        if (userInputMobileIntance.startTouchLeft.x > uiControlerInstance.positionMiddleArrows)// Andar para direita (mobile)
-        {
-
-            if (userInputMobileIntance.leftSideScreen)
-            {
-                if (userInputMobileIntance.isDragging1Touch | userInputMobileIntance.isDragging2Touch)
-                {
-                    WalkRight();
-
-                }
-                else
-                {
-                    playerAnimator.SetBool("WalkRight", false);
-
-                }
-            }
-        }
-
-
-
-        if (userInputMobileIntance.startTouchLeft.x < uiControlerInstance.positionMiddleArrows) // Andar para esquerda (mobile)
-        {
-            if (userInputMobileIntance.leftSideScreen)
-            {
-                if (userInputMobileIntance.isDragging1Touch | userInputMobileIntance.isDragging2Touch)
-                {
-                    WalkLeft();
-                }
-                else
-                {
-
-                    playerAnimator.SetBool("WalkRight", false);
-
-                }
-            }
-        }
-        #endregion
-
-
-        // Mobile and PC Jump
-
+        #region Jump
+        
         if (fRemenberJump >= 0) // Pulo timer
         {
             fRemenberJump -= Time.deltaTime;
@@ -185,8 +123,10 @@ public class PlayerController : MonoBehaviour
             }
 
         }
+        #endregion
 
-
+        MovimentsMobile();
+        MovimentsPC();
 
         PersonDontSlide();
         IsTappedToJump();
@@ -195,39 +135,75 @@ public class PlayerController : MonoBehaviour
         
     } // End Update
 
+    private void MovimentsMobile()
+    {
+        if (userInputMobileIntance.leftSideScreen)
+        {
+            if (userInputMobileIntance.isDragging1Touch | userInputMobileIntance.isDragging2Touch)
+            {
+                if (userInputMobileIntance.startTouchLeft.x > uiControlerInstance.positionMiddleArrows)// Andar para direita (mobile)
+                {
+
+                    WalkRight();
+
+                }
+                else  // Andar para esquerda (mobile)
+                {
+
+                    WalkLeft();
+
+                }
 
 
-    private IEnumerator isJumpingDelay()
-    { // Reseta configurações após pulo
+            }
 
 
-        isJumping = true;
+        }
+        else
+        {
 
-        yield return new WaitForSeconds(0.8f);
+            if (!userInputPcIntance.rightKey && !userInputPcIntance.leftKey)
+                  playerAnimator.SetBool("Walk", false);
+        }
 
-        isJumping = false;
     }
-    private IEnumerator JumpOffAnimationsDelay()
-    {// Reseta configurações após pulo
 
 
 
-        yield return new WaitForSeconds(0.2f);
+        private void MovimentsPC()
+    {
+        if (userInputPcIntance.rightKey | userInputPcIntance.leftKey)
+        {
+            if (userInputPcIntance.rightKey) // Direita
+            {
+                WalkRight();
+            }
+            else
+            {
+                if (!userInputPcIntance.leftKey)
+                    playerAnimator.SetBool("Walk", false);
+            }
 
-        playerAnimator.SetBool("Jump", false);
-        blockLoop = false;
 
+            if (userInputPcIntance.leftKey) // Esquerda
+            {
+                WalkLeft();
+            }
+            else
+            {
+                if (!userInputPcIntance.rightKey)
+                    playerAnimator.SetBool("Walk", false);
+            }
+        }
     }
-
-
    
     private void IsGroundedFunc() /// Confirma se o personagem está realmente no chão
     {
 
         
 
-        Ray2D rayLeft = new Ray2D(transform.position - valueToDecreace, -Vector3.up);
-        Ray2D rayRight = new Ray2D(transform.position + valueToIncreace, -Vector3.up);
+        Ray2D rayLeft = new Ray2D(transform.position - valueToDecreace, Vector2.down);
+        Ray2D rayRight = new Ray2D(transform.position + valueToIncreace, Vector2.down);
         
 
         RaycastHit2D hit1 = Physics2D.Raycast(rayLeft.origin, rayLeft.direction, groundCheckDistance, groundLayers);
@@ -235,26 +211,19 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position - valueToDecreace, Vector2.down, Color.green);
         Debug.DrawRay(transform.position + valueToIncreace, Vector2.down, Color.green);
 
-        if (hit1 && hit2)
+        if (hit1 | hit2)
         {
-            isGrounded = true;
-            playerAnimator.SetBool("InTheAir", false);
+                isGrounded = true;
+                playerAnimator.SetBool("InTheAir", false);        
+        
     
         }
-        else if(!hit1 && !hit2)
+        else 
         {
             isGrounded = false;
             playerAnimator.SetBool("InTheAir", true);
         }
-        else if( (!hit1 && hit2) || (hit1 && !hit2))
-        {
-            if (confirmIfIsGrounded)
-            {
-                isGrounded = true;
-                playerAnimator.SetBool("InTheAir", false);
-            }
-        }
-
+    
 
 
     }
@@ -314,7 +283,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(increaceSpeedRight, rb.velocity.y);
         }
 
-        playerAnimator.SetBool("WalkRight", true);
+        playerAnimator.SetBool("Walk", true);
         playerSpriteRender.flipX = true;
         walkingRight = true;
         walkingLeft = false;
@@ -348,7 +317,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        playerAnimator.SetBool("WalkRight", true);
+        playerAnimator.SetBool("Walk", true);
         playerSpriteRender.flipX = false;
         walkingLeft = true;
         walkingRight = false;
@@ -407,31 +376,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         countCollision++;
-        if (collision.gameObject.layer == 9) // Colisão com o chão  (9 é a layer do Ground)
-        {
 
-            if (collision.gameObject.GetComponent<Tilemap>() != null)
-            {
-
-                ContactPoint2D[] contacts = new ContactPoint2D[1];
-                Tilemap map = collision.gameObject.GetComponent<Tilemap>();
-                collision.GetContacts(contacts);
-                Vector3Int colliderPosTile = map.WorldToCell(contacts[0].point);
-                groundSideValue = transform.position - colliderPosTile;
-            }
-            else
-            {
-                groundSideValue = transform.position - collision.transform.position;
-             
-            }
-            print(collision.collider.bounds.extents.y);
-            print(groundSideValue.y);
-            if (groundSideValue.y >= 1.1f)
-            {
-                confirmIfIsGrounded = true;
-
-            }
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -439,15 +384,29 @@ public class PlayerController : MonoBehaviour
       
         countCollision--;
 
-        if (collision.gameObject.layer == 9) // Deixou o chão
-        {
-
-            confirmIfIsGrounded = false;
-
-        }
     }
 
+    private IEnumerator isJumpingDelay()
+    { // Reseta configurações após pulo
 
+
+        isJumping = true;
+
+        yield return new WaitForSeconds(0.8f);
+
+        isJumping = false;
+    }
+    private IEnumerator JumpOffAnimationsDelay()
+    {// Reseta configurações após pulo
+
+
+
+        yield return new WaitForSeconds(0.2f);
+
+        playerAnimator.SetBool("Jump", false);
+        blockLoop = false;
+
+    }
 
 
 }
