@@ -65,8 +65,6 @@
   <ItemGroup>
     <Compile Include="Assets\Controllers\BgScrollScript.cs" />
     <Compile Include="Assets\Controllers\CameraController.cs" />
-    <Compile Include="Assets\Controllers\CopyabbleController.cs" />
-    <Compile Include="Assets\Controllers\CopyableObjectCharacteristics.cs" />
     <Compile Include="Assets\Controllers\DialogManager.cs" />
     <Compile Include="Assets\Controllers\DialogText.cs" />
     <Compile Include="Assets\Controllers\PlayerController.cs" />

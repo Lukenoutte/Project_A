@@ -2,7 +2,6 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CameraController
-    - CopyableObjectCharacteristics
     - DialogManager
     - DialogText
     - PlayerController
@@ -481,12 +480,6 @@ ScriptsOnlyBuild:
     className: TMP_Asset
   - hash:
       serializedVersion: 2
-      Hash: 29a75ca03c252a0c3a5768e8efcd1006
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: CopyableObjectCharacteristics
-  - hash:
-      serializedVersion: 2
       Hash: d4020bafcd3ccbb5601a6e6c8ac78be0
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -575,12 +568,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CameraController
-  - hash:
-      serializedVersion: 2
-      Hash: a0aa75846d82eb40c7f29e07f456d67d
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: CopyabbleController
   - hash:
       serializedVersion: 2
       Hash: 783f593b9380cf72d0f7ebfd4a0d4bcd
@@ -691,7 +678,7 @@ ScriptsOnlyBuild:
     className: UserInputMobile
   - hash:
       serializedVersion: 2
-      Hash: b00503152f744fc2ae47f0dc79119034
+      Hash: 76b9a3918a09de50c9e77c8ae36baecf
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController

@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 valueToDecreace, valueToIncreace;
     
-    public bool isGrounded, confirmIfIsGrounded, walkingRight, walkingLeft, firstJump;
+    public bool isGrounded, walkingRight, walkingLeft, firstJump;
     public float groundCheckDistance;
     public LayerMask groundLayers;
     [HideInInspector] public float valueOfIncreace, fRemenberJumpTime, fRemenberJump;
@@ -211,11 +211,10 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position - valueToDecreace, Vector2.down, Color.green);
         Debug.DrawRay(transform.position + valueToIncreace, Vector2.down, Color.green);
 
-        if (hit1 | hit2)
+        if (hit1 || hit2)
         {
                 isGrounded = true;
-                playerAnimator.SetBool("InTheAir", false);        
-        
+                playerAnimator.SetBool("InTheAir", false);                
     
         }
         else 

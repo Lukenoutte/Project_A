@@ -2159,13 +2159,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  jumpForce: 11
+  jumpForce: 10
   rb: {fileID: 521889387}
   dust: {fileID: 1859239570}
   valueToDecreace: {x: 0.15, y: 0, z: 3}
   valueToIncreace: {x: 0.1, y: 0, z: 3}
   isGrounded: 1
-  confirmIfIsGrounded: 1
   walkingRight: 0
   walkingLeft: 0
   firstJump: 0
